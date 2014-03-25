@@ -1,0 +1,439 @@
+/******************************************************************************
+ * スタイルシート定義
+ ******************************************************************************/
+
+/******************************************************************************
+ * サイト全体の設定
+ ******************************************************************************/
+/* 行間の初期化 */
+h1,h2,h3,h4,h5,h6,p,ul,ol,dl
+{
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+body
+{
+	background-color : #ffffff;
+	font-size : 14px;
+}
+
+div.all
+{
+	margin-right: auto;
+	margin-left: auto;
+}
+
+h2,h3
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+/******************************************************************************
+ * box header
+ ******************************************************************************/
+/* IE以外 */
+div.boxheader
+{
+	height: 20px;
+	padding: 10px 10px 20px 10px;
+	margin: 0px 0px 0px 0px;
+}
+
+/* IE 6.0 */
+html div.boxheader
+{
+	height: 20px;
+	padding: 10px 6px 5px 11px;
+	margin: 0px 0px 0px 0px;
+}
+
+/******************************************************************************
+ * box global navi
+ ******************************************************************************/
+div.boxgnavi
+{
+	margin-top : 0px;
+	margin-bottom : 0px;
+	left : 0px;
+	height: 0px;
+	marging: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	background-color : #ffffff;
+}
+
+#globalnavilist
+{
+	margin-left: 0;
+	padding-left: 0;
+	list-style-type: none;
+	float: left;
+	background-color : #ffffff;
+}
+
+#globalnavilist li
+{
+	float: left;
+	width: 180px;
+	height: 10px;
+	font-weight: bold;
+}
+
+#globalnavilist a
+{
+	display: block;
+	padding-top :10px;
+	padding-bottom :10px;
+	background-color : #999999;
+	border: 2px solid #797979;
+	color: #eef5ef;
+	text-decoration: none;
+	text-align: center;
+}
+
+#globalnavilist2
+{
+	margin-left: 0;
+	padding-left: 0;
+	list-style-type: none;
+	float: left;
+	background-color : #ffffff;
+}
+
+#globalnavilist2 li
+{
+	float: left;
+	width: 180px;
+	height: 10px;
+	font-weight: bold;
+}
+
+#globalnavilist2 a
+{
+	display: block;
+	padding-top :10px;
+	padding-bottom :10px;
+	background-color : #999999;
+	color: #eef5ef;
+	text-decoration: none;
+	text-align: center;
+}
+
+/******************************************************************************
+ * box notice
+ ******************************************************************************/
+div.boxnotice
+{
+	margin-top:	5px;
+	left:		10px;
+	height:		35px;
+	marging:	0px 0px 0px 0px;
+	padding:	0px 0px 0px 0px;
+	background-color : #ffffff;
+}
+
+div.boxnotice p.userstatus 
+{
+    text-align: right;
+}
+
+/******************************************************************************
+ * box sub-navi
+ ******************************************************************************/
+div.boxsubnavi
+{
+	float: left;
+	width : 180px;
+	background-color: #ccffff;
+	margin: 5px 0px 0px 0px;
+	padding: 5px 0px 0px 0px;
+}
+
+#subnavilist
+{
+	margin-left: 0;
+	margin-bottom: 10px;
+	padding-left: 0;
+	list-style-type: none;
+	width:  175px;
+}
+
+#subnavilist li
+{
+    /*
+	display:			block;
+	border:				0px solid #797979;
+    */
+	padding-left:		10px;
+	padding-top:		5px;
+	padding-bottom:		5px;
+	font-weight:		bold;
+	text-align:			left;	
+	color:				black;
+    list-style:         none;
+}
+
+
+#subnavilist a
+{
+    /*
+	display:			block;
+	border:				1px solid #797979;
+    */
+	padding-left:		0px;
+	padding-top:		0px;
+	padding-bottom:		0px;
+	text-align:			left;
+	text-decoration:	none;
+}
+
+
+/******************************************************************************
+ * box main
+ ******************************************************************************/
+div.boxmain
+{
+	float : left;
+	width : 720px;
+	background-color: #ffffff;
+	margin: 10px 0px 0px 10px;
+	padding: 10px 10px 10px 10px;
+	line-height : 130%;
+}
+
+div.boxmain h2
+{
+	line-height : 150%;
+}
+
+div.boxmain pre.source
+{
+    color:       #ffffff;
+    background-color: #000000;
+    margin: 10px 0px 0px 10px;
+    padding: 10px 10px 10px 10px;
+    overflow: auto;
+}
+
+div.boxmain p.diaryone
+{
+    color:       #000000;
+    background-color: #ffffff;
+    margin: 10px 0px 0px 10px;
+    padding: 10px 10px 10px 10px;
+    border:     1px solid #000000;
+}
+
+div.boxmain textarea.diaryinput
+{
+    height: 200px;
+    width:  600px;
+}
+
+/******************************************************************************
+ * box booter
+ ******************************************************************************/
+div.boxfooter
+{
+	clear: both;
+	text-align: center;
+	vertical-align: middle;
+	background-color: #ffffff;
+	margin: 0px 0px 0px 0px;
+	padding: 10px 10px 10px 10px;
+}
+
+/******************************************************************************
+ * table 関連
+ ******************************************************************************/
+/*  更新履歴  */
+table.news
+{
+	border : 0px solid #000000;
+	empty-cells: show;
+	margin: 0px 0px 0px 0px;
+	border-collapse: collapse;
+}
+
+table.news caption
+{
+	text-align: left;
+}
+
+table.news th
+{
+	width: 100px;
+	vertical-align: top;
+}
+
+table.news td
+{
+	vertical-align: top;
+}
+
+/* コマンドライン */
+table.cmdlinetbl
+{
+	width : 550px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background:  black;
+	font-style: white;
+	color: white;
+	text-align: left;
+}
+
+/* スペック表       */
+table.pctbl
+{
+	width : 500px;
+	border : 1px solid #000000;
+	border-color : #000000;
+	background-color : #ffffff;
+	margin-left : auto;
+	margin-right : auto;
+}
+
+table.pctbl th
+{
+	width : 120px;
+	border : 1px solid #000000;
+}
+
+table.pctbl td
+{
+	border : 1px solid #000000;
+	padding: 0 0 0 10px;
+}
+
+/* ベンチマーク表       */
+table.pctblbench
+{
+	border : 1px solid #000000;
+	border-color : #000000;
+	background-color : #ffffff;
+	margin-left : auto;
+	margin-right : auto;
+}
+
+table.pctblbench th
+{
+	width : 100px;
+	border : 1px solid #000000;
+	text-align: center;
+}
+
+table.pctblbench td
+{
+	width : 100px;
+	border : 1px solid #000000;
+	padding: 0 0 0 10px;
+	text-align: center;
+}
+
+td.title
+{
+	text-align : left ;
+	font-weight : bold ;
+}
+
+td.date
+{
+	width : 100px;
+	text-align : center ;
+	vertical-align: middle ;
+}
+
+/* コンテンツ概要の説明用の表 */
+table.explain
+{
+	border:				1px solid #000000;
+	border-collapse:	collapse;
+	margin:				0px 0px 0px 0px;
+	background-color:	#ffffff;	
+}
+
+table.explain th
+{
+	width:		170px;
+	border:		1px solid #000000;
+	margin:		0px 0px 0px 0px;
+	padding:	2px 10px 2px 10px;
+}
+
+table.explain td
+{
+	width:		520px;
+	border:		1px solid #000000;
+	margin:		0px 0px 0px 0px;
+	padding:	2px 10px 2px 10px;
+}
+
+/* コンテンツ概要の説明用の表 */
+table.srcshow
+{
+	width:		650px;
+	border:				1px solid #000000;
+	border-collapse:	collapse;
+	margin:				0px 0px 0px 0px;
+	background-color:	#ffffff;
+}
+
+table.srcshow td
+{
+	border:		1px solid #000000;
+	margin:		0px 0px 0px 0px;
+	padding:	2px 10px 2px 10px;
+}
+
+/* レポート用の表 */
+table.report_list
+{
+	border:				1px solid #000000;
+	margin:				0px 0px 0px 0px;
+	border-collapse:	collapse;
+	text-align : center;
+}
+
+table.report_list th.studyname
+{
+	border:		1px solid #000000;
+	margin:		0px 0px 0px 0px;
+	padding:	2px 10px 2px 10px;
+	background-color:	#dddddd;
+    width:   200px;
+}
+
+table.report_list th
+{
+	border:		1px solid #000000;
+	margin:		0px 0px 0px 0px;
+	padding:	2px 10px 2px 10px;
+	background-color:	#dddddd;
+}
+
+table.report_list td
+{
+	border:		1px solid #000000;
+	margin:		0px 0px 0px 0px;
+	padding:	2px 10px 2px 10px;
+	background-color:	#ffffff;
+}
+
+
+/******************************************************************************
+ * 箇条書き関連
+ ******************************************************************************/
+
+/******************************************************************************
+ * その他
+ ******************************************************************************/
+h1
+{
+	text-align : center;
+}
+
+h2
+{
+

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block boxsubnavi %}
+{% endblock %}
+
+{% block boxmain %}
+<form action="#" method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+<br>
+<input type="submit" value="Login">
+</form>
+{% if 0 < error_reason %}
+<p><b>fail login.</b></p>
+{% endif %}
+{% endblock %}

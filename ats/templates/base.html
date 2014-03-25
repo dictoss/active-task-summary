@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>{% block title %}{% endblock %} | Active Task Summary</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/atsstyle.css' %}">
+</head>
+<body>
+<div class="all">
+<div class="boxheader">
+  <a href="/ats/top/">Active Task Summary</a>
+</div>
+{% if user.is_authenticated %}
+<div class="boxnotice">
+<p class="userstatus">login as : {{ user }} : <a href="/ats/logout/">logout</a></p>
+</div>
+{% endif %}
+<hr>
+<div class="boxgnavi">
+</div>
+<div class="boxsubnavi">
+  {% block boxsubnavi %}
+  {% endblock %}
+</div>
+<div class="boxmain">
+  {% block boxmain %}
+  {% endblock %}
+</div>
+<div class="boxfooter">
+  <hr>
+  Powered by Active Task Summary. &copy; 2014 dictoss.
+</div>
+</div>
+</body>
+</html>

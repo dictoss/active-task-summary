@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}TOP{% endblock %}
+
+{% block boxsubnavi %}
+  {% include "summary/subnavi_index.html" %}
+{% endblock %}
+
+{% block boxmain %}
+<h3>Choice Summary Rule (job)</h3>
+<form action="#" method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+<br>
+<input type="submit" value="Submit">
+</form>
+<hr>
+
+<h3>Job Summary</h3>
+{% if jobdata %}
+<table class="usedtasktime" border="1">
+ <tr>
+  <th>project id</th>
+  <th>project name</th>
+  <th>job id</th>
+  <th>job name</th>
+  <th>task time(hour)</th>
+ </tr>
+{% for r in jobdata %}
+ <tr>
+  <td>{{ r.project_id }}</td>
+  <td>{{ r.project__name }}</td>
+  <td>{{ r.task__job__id }}</td>
+  <td>{{ r.task__job__name }}</td>
+  <td>{{ r.total_tasktime }}</td>
+ </tr>
+{% endfor %}
+</table>
+{% else %}
+<p>no data.</p>
+{% endif %}
+
+<h3>Task Summary</h3>
+{% if taskdata %}
+<table class="usedtasktime" border="1">
+ <tr>
+  <th>project id</th>
+  <th>project name</th>
+  <th>job id</th>
+  <th>job name</th>
+  <th>task id</th>
+  <th>task name</th>
+  <th>task time(hour)</th>
+ </tr>
+{% for r in taskdata %}
+ <tr>
+  <td>{{ r.project_id }}</td>
+  <td>{{ r.project__name }}</td>
+  <td>{{ r.task__job__id }}</td>
+  <td>{{ r.task__job__name }}</td>
+  <td>{{ r.task_id }}</td>
+  <td>{{ r.task__name }}</td>
+  <td>{{ r.total_tasktime }}</td>
+ </tr>
+{% endfor %}
+</table>
+{% else %}
+<p>no data.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}TOP{% endblock %}
+
+{% block boxsubnavi %}
+  {% include "summary/subnavi_index.html" %}
+{% endblock %}
+
+{% block boxmain %}
+<h3>Choice Summary Rule</h3>
+<form action="#" method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+<br>
+<input type="submit" value="Submit">
+</form>
+<hr>
+
+{% if datalist %}
+<table class="usedtasktime" border=1>
+ <tr>
+  <th>project</th>
+  <th>date</th>
+  <th>username</th>
+  <th>task</th>
+  <th>task time</th>
+ </tr>
+{% for data in datalist %}
+ <tr>
+  <td>{{ data.project.name }}</td>
+  <td>{{ data.taskdate|date:"Y-m-d" }}</td>
+  <td>{{ data.user.username }}</td> 
+  <td>{{ data.task.name }}</td>
+  <td>{{ data.tasktime }}</td>
+ </tr>
+{% endfor %}
+</table>
+{% endif %}
+{% endblock %}

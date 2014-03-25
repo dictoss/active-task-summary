@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}select regist date{% endblock %}
+
+{% block boxsubnavi %}
+  {% include "regist/subnavi_index.html" %}
+{% endblock %}
+
+{% block boxmain %}
+<h3>Choice data input date</h3>
+<form action="#" method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+<br>
+<input type="submit" value="select" name="dateselect">
+<hr>
+
+{% if datalist %}
+<h3>date : {{ regist_date|date:"Y-m-d" }}</h3>
+<br>
+{% for proj in datalist %}
+<table class="usedtasktime" border="1">
+<cation>{{ proj.projectname }}</cation>
+ <tr>
+  <th>project</th>
+  <th>date</th>
+  <th>job</th>
+  <th>task</th>
+  <th>task time(hour)</th>
+ </tr>
+{% for t in proj.task %}
+ <tr>
+  <td>{{ t.project.name }}</td>
+  <td>{{ t.taskdate|date:"Y-m-d" }}</td>
+  <td>{{ t.task.job.name }}</td>
+  <td>{{ t.task.name }}</td>
+  <td>{{ t.tasktime|time:"H:i" }}</td>
+ </tr>
+{% endfor %}
+</table>
+<br>
+{% endfor %}
+{% else %}
+<p>no data.</p>
+{% endif %}
+<input type="submit" value="regist" name="regist">
+</form>
+{% endblock %}

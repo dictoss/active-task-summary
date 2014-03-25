@@ -1,0 +1,42 @@
+■日付設定画面
+/regist/
+
+[設定]
+- 表示する日数
+
+[初期画面]
+- システム日時を含めた過去n日間の情報を表示する
+  - n日間はsettingsで変更可能
+  - n日間は入力窓があって、fromとtoを指定できる。
+  - 表示は新しい日付が上にくる（降順）
+- 日ごとに登録ボタンがある
+  このボタンを押下すると、/regist/yyyymmdd/のurlへリダイレクトする
+
+
+[機能]
+-------------------------
+■登録画面
+/regist/yyyymmdd/
+
+[設定]
+- 入力欄の個数(default = 10)
+  - 登録済みのデータも含む
+
+[機能]
+- usedtasktimeを検索
+  - 日付、入力者でfilter 
+  - project id、task sortkeyでソートして出力
+- プロジェクトを一覧を検索
+- usedtasktimeの画面出力を行う
+  - project id でloop
+    - usedtasktimeのproject idと一致するか調べる
+    if 同じ
+      usedtasktimeのデータを出力するループ
+    else
+      入力用の空行を出力
+
+    カウントアップ
+    
+  - なければproject idのデータ数を
+
+ -------------------              
