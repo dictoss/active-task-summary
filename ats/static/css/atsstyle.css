@@ -1,11 +1,11 @@
 /******************************************************************************
- * スタイルシート定義
+ * defintion of stylesheet
  ******************************************************************************/
 
 /******************************************************************************
- * サイト全体の設定
+ * all site rayout
  ******************************************************************************/
-/* 行間の初期化 */
+/* initialize line span */
 h1,h2,h3,h4,h5,h6,p,ul,ol,dl
 {
 	margin-top: 0;
@@ -33,7 +33,7 @@ h2,h3
 /******************************************************************************
  * box header
  ******************************************************************************/
-/* IE以外 */
+/* not IE */
 div.boxheader
 {
 	height: 20px;
@@ -85,7 +85,7 @@ div.boxgnavi
 	display: block;
 	padding-top :10px;
 	padding-bottom :10px;
-	background-color : #999999;
+	background-color : #ffffff;
 	border: 2px solid #797979;
 	color: #eef5ef;
 	text-decoration: none;
@@ -114,7 +114,7 @@ div.boxgnavi
 	display: block;
 	padding-top :10px;
 	padding-bottom :10px;
-	background-color : #999999;
+	background-color : #ffffff;
 	color: #eef5ef;
 	text-decoration: none;
 	text-align: center;
@@ -145,7 +145,7 @@ div.boxsubnavi
 {
 	float: left;
 	width : 180px;
-	background-color: #ccffff;
+	background-color: #ffffff;
 	margin: 5px 0px 0px 0px;
 	padding: 5px 0px 0px 0px;
 }
@@ -245,9 +245,9 @@ div.boxfooter
 }
 
 /******************************************************************************
- * table 関連
+ * for table
  ******************************************************************************/
-/*  更新履歴  */
+/* history  */
 table.news
 {
 	border : 0px solid #000000;
@@ -272,29 +272,6 @@ table.news td
 	vertical-align: top;
 }
 
-/* コマンドライン */
-table.cmdlinetbl
-{
-	width : 550px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	background:  black;
-	font-style: white;
-	color: white;
-	text-align: left;
-}
-
-/* スペック表       */
-table.pctbl
-{
-	width : 500px;
-	border : 1px solid #000000;
-	border-color : #000000;
-	background-color : #ffffff;
-	margin-left : auto;
-	margin-right : auto;
-}
-
 table.pctbl th
 {
 	width : 120px;
@@ -305,16 +282,6 @@ table.pctbl td
 {
 	border : 1px solid #000000;
 	padding: 0 0 0 10px;
-}
-
-/* ベンチマーク表       */
-table.pctblbench
-{
-	border : 1px solid #000000;
-	border-color : #000000;
-	background-color : #ffffff;
-	margin-left : auto;
-	margin-right : auto;
 }
 
 table.pctblbench th
@@ -345,89 +312,12 @@ td.date
 	vertical-align: middle ;
 }
 
-/* コンテンツ概要の説明用の表 */
-table.explain
-{
-	border:				1px solid #000000;
-	border-collapse:	collapse;
-	margin:				0px 0px 0px 0px;
-	background-color:	#ffffff;	
-}
-
-table.explain th
-{
-	width:		170px;
-	border:		1px solid #000000;
-	margin:		0px 0px 0px 0px;
-	padding:	2px 10px 2px 10px;
-}
-
-table.explain td
-{
-	width:		520px;
-	border:		1px solid #000000;
-	margin:		0px 0px 0px 0px;
-	padding:	2px 10px 2px 10px;
-}
-
-/* コンテンツ概要の説明用の表 */
-table.srcshow
-{
-	width:		650px;
-	border:				1px solid #000000;
-	border-collapse:	collapse;
-	margin:				0px 0px 0px 0px;
-	background-color:	#ffffff;
-}
-
-table.srcshow td
-{
-	border:		1px solid #000000;
-	margin:		0px 0px 0px 0px;
-	padding:	2px 10px 2px 10px;
-}
-
-/* レポート用の表 */
-table.report_list
-{
-	border:				1px solid #000000;
-	margin:				0px 0px 0px 0px;
-	border-collapse:	collapse;
-	text-align : center;
-}
-
-table.report_list th.studyname
-{
-	border:		1px solid #000000;
-	margin:		0px 0px 0px 0px;
-	padding:	2px 10px 2px 10px;
-	background-color:	#dddddd;
-    width:   200px;
-}
-
-table.report_list th
-{
-	border:		1px solid #000000;
-	margin:		0px 0px 0px 0px;
-	padding:	2px 10px 2px 10px;
-	background-color:	#dddddd;
-}
-
-table.report_list td
-{
-	border:		1px solid #000000;
-	margin:		0px 0px 0px 0px;
-	padding:	2px 10px 2px 10px;
-	background-color:	#ffffff;
-}
-
-
 /******************************************************************************
- * 箇条書き関連
+ * list
  ******************************************************************************/
 
 /******************************************************************************
- * その他
+ * other
  ******************************************************************************/
 h1
 {
@@ -437,3 +327,4 @@ h1
 h2
 {
 
+}

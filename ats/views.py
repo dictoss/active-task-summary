@@ -114,50 +114,68 @@ def regist(request):
         form = RegistForm()
         regist_date = form['regist_date'].value
 
-    #画面にはその日の登録済みデータが表示される
-
     #select project
-    cursor1 = ProjectWorker.objects.select_related("project_name").filter(user=request.user)
-    cursor1 = cursor1.filter(project__end_dt__isnull=True)
-    cursor1 = cursor1.order_by("project")
-
-    maxtasks = 5
+    cursor_p = ProjectWorker.objects.select_related(
+        'project_name').filter(user=request.user)
+    cursor_p = cursor_p.filter(project__end_dt__isnull=True)
+    cursor_p = cursor_p.order_by('project')
 
     datalist = []
-    for p in cursor1:
+    for p in cursor_p:
+        # todo:
+        # select assign job only
+        cursor_j = Job.objects.all().order_by('id')
 
-        cursor = UsedTaskTime.objects.select_related("project__name").filter(user=request.user)
-        cursor = cursor.filter(taskdate=regist_date)
-        cursor = cursor.filter(project=p)
-        cursor = cursor.order_by("task__sortkey")
+        usedtasktimelist = []
+        for j in cursor_j:
+            # task
+            cursor_t = Task.objects.filter(job=j).order_by('sortkey')
 
-        #paramete
-        # 常に表示する行数を固定にする。
-        # データがないプロジェクトについては空データとして表示する
-        cnt = 0
+            cursor_u = UsedTaskTime.objects.filter(user=request.user)
+            cursor_u = cursor_u.filter(project=p)
+            cursor_u = cursor_u.filter(taskdate=regist_date)
+            #cursor_u = cursor_u.order_by('task__sortkey')
 
-        projtasklist = []
-        for r in cursor:
-            data = r
-            print(r)
-            projtasklist.append(data)
-            cnt = cnt + 1
+            #print(cursor_u)
 
-        for i in range(maxtasks - cnt):
-            data = {}
-            projtasklist.append(data)
-            cnt = cnt + 1
+            for t in cursor_t:
+                utt = {'job_id': t.job.id,
+                       'job_name': t.job.name,
+                       'task_id': t.id,
+                       'task_name': t.name}
 
-        print cnt
+                for u in cursor_u:
+                    if t.id == u.task_id:
+                        utt['tasktime_hour'] = u.tasktime.hour
+                        utt['tasktime_min'] = u.tasktime.minute
+                    else:
+                        utt['tasktime_hour'] = 0
+                        utt['tasktime_min'] = 0
 
-        d = {'projectname': p.project.name, 'task': projtasklist }
+
+                usedtasktimelist.append(utt)
+
+        d = {'project_id': p.project.id,
+             'project_name': p.project.name,
+             'usedtasktimelist': usedtasktimelist}
         datalist.append(d)
+
+    # enable select hour and minute.
+    hourlist = []
+    for i in range(24):
+        hourlist.append(i)
+
+    minutelist = []
+    for i in range(4):
+        minutelist.append(i * 15)
 
     return my_render_to_response(request,
                                  'regist/regist.html',
                                  {'form': form,
-                                  'regist_date' : regist_date,
-                                  'datalist': datalist})
+                                  'regist_date': regist_date,
+                                  'datalist': datalist,
+                                  'hourlist': hourlist,
+                                  'minutelist': minutelist})
 
 
 @login_required

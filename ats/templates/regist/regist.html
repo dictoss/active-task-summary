@@ -20,21 +20,38 @@
 <br>
 {% for proj in datalist %}
 <table class="usedtasktime" border="1">
-<cation>{{ proj.projectname }}</cation>
+<cation>{{ proj.project_name }}</cation>
  <tr>
-  <th>project</th>
-  <th>date</th>
+  <th></th>
   <th>job</th>
   <th>task</th>
-  <th>task time(hour)</th>
+  <th>task time</th>
  </tr>
-{% for t in proj.task %}
+{% for t in proj.usedtasktimelist %}
  <tr>
-  <td>{{ t.project.name }}</td>
-  <td>{{ t.taskdate|date:"Y-m-d" }}</td>
-  <td>{{ t.task.job.name }}</td>
-  <td>{{ t.task.name }}</td>
-  <td>{{ t.tasktime|time:"H:i" }}</td>
+  <td><input type="checkbox" name="chk_p{{ proj.project_id }}_j{{ t.job_id }}_t{{ t.task_id }}"></td>
+  <td>{{ t.job_name }}</td>
+  <td>{{ t.task_name }}</td>
+  <td><select name="tasktime_hour">
+   {% for hour in hourlist %}
+     {% if hour == t.tasktime_hour %}
+     <option value="{{ hour }}" selected>{{ hour }}</option>
+     {% else %}
+     <option value="{{ hour }}">0</option>
+     {% endif %}
+   {% endfor %}
+  </select>
+  hour 
+  <select name="tasktime_min">
+   {% for min in minutelist %}
+     {% if min == t.tasktime_min %}
+     <option value="{{ min }}" selected>{{ min }}</option>
+     {% else %}
+     <option value="{{ min }}">{{ min }}</option>
+     {% endif %}
+   {% endfor %}
+  </select>  
+  min</td>
  </tr>
 {% endfor %}
 </table>
