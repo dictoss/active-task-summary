@@ -1,4 +1,3 @@
-
 from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
@@ -19,6 +18,7 @@ class Project(models.Model):
     name = models.TextField(blank=False)
     start_dt = models.DateField(auto_now=False, auto_now_add=False, null=False, blank=False)
     end_dt = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    sortkey = models.IntegerField(null=False)
 
     def __unicode__(self):
         return self.name
@@ -29,6 +29,8 @@ admin.site.register(Project)
 class Job(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField(blank=False)
+    sortkey = models.IntegerField(null=False)
+    invalid = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name
@@ -40,7 +42,8 @@ class Task(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField(blank=False)
     job = models.ForeignKey('Job')
-    sortkey = models.IntegerField()
+    sortkey = models.IntegerField(null=False)
+    invalid = models.BooleanField(default=False)
 
     def __unicode__(self):
         return '%s - %s' % (self.job.name, self.name)
@@ -52,6 +55,7 @@ class ProjectWorker(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User)
     project = models.ForeignKey('Project')
+    invalid = models.BooleanField(default=False)
 
     def __unicode__(self):
         return '%s - %s' % (self.project.name, self.user.username)
