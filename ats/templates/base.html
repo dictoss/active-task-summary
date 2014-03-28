@@ -10,11 +10,11 @@
 <body>
 <div class="all">
 <div class="boxheader">
-  <a href="/ats/top/">Active Task Summary</a>
+  <a href="{{ url_prefix }}/top/">Active Task Summary</a>
 </div>
 {% if user.is_authenticated %}
 <div class="boxnotice">
-<p class="userstatus">login as : {{ user }} : <a href="/ats/logout/">logout</a></p>
+<p class="userstatus">login as : {{ user }} : <a href="{{ url_prefix }}/logout/">logout</a></p>
 </div>
 {% endif %}
 <hr>

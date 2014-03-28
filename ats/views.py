@@ -478,6 +478,9 @@ def my_render_to_response(request, template_file, paramdict):
     response = HttpResponse()
     #paramdict['sitecounter'] = do_counter(request, response)
 
+    paramdict['url_prefix'] = '%s/%s' % (
+        ats_settings.APP_MOUNTDIR, ats_settings.APP_NAME)
+
     t = loader.get_template(template_file)
     c = RequestContext(request, paramdict)
     response.write(t.render(c))
