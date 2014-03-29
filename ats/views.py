@@ -580,21 +580,27 @@ class RegistForm(forms.Form):
 
 class SummaryDateForm(forms.Form):
     projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all())
-    from_date = forms.DateField(label='from date', required=False)
-    to_date = forms.DateField(label='to date', required=False)
+    from_date = forms.DateField(label='from date', required=False,
+                                initial=datetime.datetime.now().replace(day=1))
+    to_date = forms.DateField(label='to date', required=False,
+                              initial=datetime.datetime.now())
 
 
 class SummaryJobForm(forms.Form):
     projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all())
-    from_date = forms.DateField(label='from date', required=False)
-    to_date = forms.DateField(label='to date', required=False)
+    from_date = forms.DateField(label='from date', required=False,
+                                initial=datetime.datetime.now().replace(day=1))
+    to_date = forms.DateField(label='to date', required=False,
+                              initial=datetime.datetime.now())
     joblist = forms.ModelMultipleChoiceField(label='job', required=True, queryset=Job.objects.all())
 
 
 class SummaryUserForm(forms.Form):
     projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all())
-    from_date = forms.DateField(label='from date', required=False)
-    to_date = forms.DateField(label='to date', required=False)
+    from_date = forms.DateField(label='from date', required=False,
+                                initial=datetime.datetime.now().replace(day=1))
+    to_date = forms.DateField(label='to date', required=False,
+                              initial=datetime.datetime.now())
     userlist = forms.ModelMultipleChoiceField(label='user', required=True, queryset=User.objects.all())
 
 
