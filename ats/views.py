@@ -6,6 +6,7 @@ import codecs
 import json
 import time
 import datetime
+import re
 from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -19,6 +20,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.context_processors import csrf
 from django.forms import ModelForm
 from django.db.models import Sum
+from django.db import transaction
 
 from ats.models import *
 from ats import ats_settings
@@ -103,55 +105,132 @@ def logout_view(request):
 
 
 @login_required
+@transaction.commit_manually
 def regist(request):
     if request.method == 'POST':
-        form = RegistForm(request.POST)
-        if form.is_valid():
-            regist_date = form.cleaned_data['regist_date']
+        regist_count = 0
+
+        ds_form = DateSelectForm(request.POST)
+        if ds_form.is_valid():
+            regist_date = ds_form.cleaned_data['regist_date']
         else:
-            form = RegistForm()
+            ds_form = DateSelectForm()
+
+        # todo:
+        # receive form data from django form.
+        if 'submit_dateselect' in request.POST:
+            print("push dateselect")
+            re_form = RegistForm()
+        else:
+            print("push regist")
+            re_form = RegistForm(request.POST)
+            if re_form.is_valid():
+                checkregist = request.POST.getlist('registcheck')
+                uttid = request.POST.getlist('uttid')
+                tasktime_hour = request.POST.getlist('tasktime_hour')
+                tasktime_min = request.POST.getlist('tasktime_min')
+
+                targetindexlist = []
+                # get index from form data
+                for i in range(len(uttid)):
+                    for c in checkregist:
+                        if uttid[i] == c:
+                            targetindexlist.append(i)
+                            break
+
+                # insert or update usedtasktime
+                id_re = re.compile(r'p([0-9]{1,})_t([0-9]){1,}')
+                for i in targetindexlist:
+                    m = id_re.search(uttid[i])
+                    pid, tid = m.group(1, 2)
+
+                    uttinst = None
+                    ud_ttime = datetime.time(hour=int(tasktime_hour[i]),
+                                             minute=int(tasktime_min[i]))
+                    try:
+                        uttinst = UsedTaskTime.objects.get(
+                            taskdate=regist_date,
+                            project=pid,
+                            task=tid)
+                        uttinst.tasktime = ud_ttime
+                    except UsedTaskTime.DoesNotExist:
+                        uttinst = UsedTaskTime(
+                            id=None,
+                            user=request.user,
+                            project=Project.objects.get(id=pid),
+                            task=Task.objects.get(id=tid),
+                            taskdate=regist_date,
+                            tasktime=ud_ttime)
+                    except:
+                        pass
+
+                    print(uttinst)
+                    try:
+                        if uttinst:
+                            uttinst.save()
+                            regist_count = regist_count + 1
+                        else:
+                            print("not save")
+                    except:
+                        pass
+
+                if 0 < len(targetindexlist):
+                    if regist_count == len(targetindexlist):
+                        transaction.commit()
+                        print("commit")
+                    else:
+                        transaction.rollback()
+                        print("rollback")
+                else:
+                    # no check.
+                    pass
+            else:
+                re_form = RegistForm()
     else:
-        form = RegistForm()
-        regist_date = form['regist_date'].value
+        ds_form = DateSelectForm()
+        re_form = RegistForm()
+
+        regist_date = ds_form['regist_date'].value
 
     #select project
     cursor_p = ProjectWorker.objects.select_related(
         'project_name').filter(user=request.user)
     cursor_p = cursor_p.filter(project__end_dt__isnull=True)
-    cursor_p = cursor_p.order_by('project')
+    cursor_p = cursor_p.filter(invalid=False)
+    cursor_p = cursor_p.order_by('project__sortkey')
 
     datalist = []
     for p in cursor_p:
         # todo:
         # select assign job only
-        cursor_j = Job.objects.all().order_by('id')
+        cursor_j = Job.objects.filter(invalid=False).order_by('sortkey')
 
         usedtasktimelist = []
         for j in cursor_j:
             # task
-            cursor_t = Task.objects.filter(job=j).order_by('sortkey')
-
+            cursor_t = Task.objects.filter(job=j)
+            cursor_t = cursor_t.filter(invalid=False)
+            cursor_t = cursor_t.order_by('sortkey')
+            # usedtasktime
             cursor_u = UsedTaskTime.objects.filter(user=request.user)
             cursor_u = cursor_u.filter(project=p)
             cursor_u = cursor_u.filter(taskdate=regist_date)
-            #cursor_u = cursor_u.order_by('task__sortkey')
-
+            cursor_u = cursor_u.order_by('task__sortkey')
             #print(cursor_u)
 
             for t in cursor_t:
                 utt = {'job_id': t.job.id,
                        'job_name': t.job.name,
                        'task_id': t.id,
-                       'task_name': t.name}
+                       'task_name': t.name,
+                       'tasktime_hour': 0,
+                       'tasktime_min': 0}
 
                 for u in cursor_u:
                     if t.id == u.task_id:
                         utt['tasktime_hour'] = u.tasktime.hour
                         utt['tasktime_min'] = u.tasktime.minute
-                    else:
-                        utt['tasktime_hour'] = 0
-                        utt['tasktime_min'] = 0
-
+                        break
 
                 usedtasktimelist.append(utt)
 
@@ -166,12 +245,15 @@ def regist(request):
         hourlist.append(i)
 
     minutelist = []
-    for i in range(4):
-        minutelist.append(i * 15)
+    for i in range((60 / ats_settings.ATS_REGIST_MIN_SPAN)):
+        minutelist.append(i * (ats_settings.ATS_REGIST_MIN_SPAN))
+
+    transaction.commit()
 
     return my_render_to_response(request,
                                  'regist/regist.html',
-                                 {'form': form,
+                                 {'form': ds_form,
+                                  'regist_form': re_form,
                                   'regist_date': regist_date,
                                   'datalist': datalist,
                                   'hourlist': hourlist,
@@ -487,9 +569,13 @@ def my_render_to_response(request, template_file, paramdict):
     return response
 
 
-class RegistForm(forms.Form):
+class DateSelectForm(forms.Form):
     regist_date = forms.DateField(label='regist_date', required=True,
                                   initial=datetime.datetime.now())
+
+
+class RegistForm(forms.Form):
+    registcheck = forms.BooleanField(required=False)
 
 
 class SummaryDateForm(forms.Form):

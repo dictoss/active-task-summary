@@ -8,16 +8,18 @@
 
 {% block boxmain %}
 <h3>Choice data input date</h3>
-<form action="#" method="POST">
+<form name="dateselect" action="#" method="POST">
 {% csrf_token %}
 {{ form.as_p }}
 <br>
-<input type="submit" value="select" name="dateselect">
+<input type="submit" value="dateselect" name="submit_dateselect">
 <hr>
 
 {% if datalist %}
 <h3>date : {{ regist_date|date:"Y-m-d" }}</h3>
 <br>
+<form name="regist" action="#" method="POST">
+{% csrf_token %}
 {% for proj in datalist %}
 <table class="usedtasktime" border="1">
 <cation>{{ proj.project_name }}</cation>
@@ -29,7 +31,8 @@
  </tr>
 {% for t in proj.usedtasktimelist %}
  <tr>
-  <td><input type="checkbox" name="chk_p{{ proj.project_id }}_j{{ t.job_id }}_t{{ t.task_id }}"></td>
+  <input type="hidden" name="uttid" value="p{{ proj.project_id }}_t{{ t.task_id }}">
+  <td><input type="checkbox" name="registcheck" value="p{{ proj.project_id }}_t{{ t.task_id }}"></td>
   <td>{{ t.job_name }}</td>
   <td>{{ t.task_name }}</td>
   <td><select name="tasktime_hour">
@@ -37,7 +40,7 @@
      {% if hour == t.tasktime_hour %}
      <option value="{{ hour }}" selected>{{ hour }}</option>
      {% else %}
-     <option value="{{ hour }}">0</option>
+     <option value="{{ hour }}">{{ hour }}</option>
      {% endif %}
    {% endfor %}
   </select>
@@ -60,6 +63,6 @@
 {% else %}
 <p>no data.</p>
 {% endif %}
-<input type="submit" value="regist" name="regist">
+<input type="submit" value="regist" name="submit_regist">
 </form>
 {% endblock %}
