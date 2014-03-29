@@ -36,7 +36,7 @@ h2,h3
 /* not IE */
 div.boxheader
 {
-	height: 20px;
+	height: 30px;
 	padding: 10px 10px 20px 10px;
 	margin: 0px 0px 0px 0px;
 }
@@ -44,10 +44,52 @@ div.boxheader
 /* IE 6.0 */
 html div.boxheader
 {
+	overflow: hidden;
+	height: 30px;
+	padding: 10px 6px 5px 11px;
+	margin: 0px 0px 0px 0px;
+}
+
+div.boxkeyvisual
+{
+	height: 20px;
+    width: 300px;
+	padding: 10px 10px 20px 10px;
+	margin: 0px 0px 0px 0px;
+}
+
+/*
+ * box keyvisual
+ */
+/* IE 6.0 */
+html div.boxkeyvisual
+{
+	float: left;
 	height: 20px;
 	padding: 10px 6px 5px 11px;
 	margin: 0px 0px 0px 0px;
 }
+
+/*
+ * box notice
+ */
+div.boxnotice
+{
+	float: right;
+    margin-top:	5px;
+	left:		10px;
+	height:		20px;
+	padding: 10px 10px 20px 10px;
+	marging:	0px 0px 0px 0px;
+	padding:	0px 0px 0px 0px;
+	background-color : #ffffff;
+}
+
+div.boxnotice p.userstatus 
+{
+    text-align: right;
+}
+
 
 /*
  * box global navi
@@ -118,24 +160,6 @@ div.boxgnavi
 	color: #eef5ef;
 	text-decoration: none;
 	text-align: center;
-}
-
-/*
- * box notice
- */
-div.boxnotice
-{
-	margin-top:	5px;
-	left:		10px;
-	height:		35px;
-	marging:	0px 0px 0px 0px;
-	padding:	0px 0px 0px 0px;
-	background-color : #ffffff;
-}
-
-div.boxnotice p.userstatus 
-{
-    text-align: right;
 }
 
 /*
