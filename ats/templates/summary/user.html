@@ -27,18 +27,18 @@
   <th>user id</th>
   <th>first name</th>
   <th>last name</th>
-  <th>task time(hour)</th>
+  <th>task time</th>
  </tr>
 {% for r in userdata %}
  <tr>
-  <td>{{ r.project_id }}</td>
+  <td class="num">{{ r.project_id }}</td>
   <td>{{ r.project__name }}</td>
-  <td>{{ r.task__job__id }}</td>
+  <td class="num">{{ r.task__job__id }}</td>
   <td>{{ r.task__job__name }}</td>
-  <td>{{ r.user__id }}</td>
+  <td class="num">{{ r.user__id }}</td>
   <td>{{ r.user__first_name }}</td>
   <td>{{ r.user__last_name }}</td>
-  <td>{{ r.total_tasktime }}</td>
+  <td class="num">{{ r.total_tasktime }}</td>
  </tr>
 {% endfor %}
 </table>
@@ -59,20 +59,20 @@
   <th>user id</th>
   <th>first name</th>
   <th>last name</th>
-  <th>task time(hour)</th>
+  <th>task time</th>
  </tr>
 {% for r in taskdata %}
  <tr>
-  <td>{{ r.project_id }}</td>
+  <td class="num">{{ r.project_id }}</td>
   <td>{{ r.project__name }}</td>
-  <td>{{ r.task__job__id }}</td>
+  <td class="num">{{ r.task__job__id }}</td>
   <td>{{ r.task__job__name }}</td>
-  <td>{{ r.task_id }}</td>
+  <td class="num">{{ r.task_id }}</td>
   <td>{{ r.task__name }}</td>
-  <td>{{ r.user__id }}</td>
+  <td class="num">{{ r.user__id }}</td>
   <td>{{ r.user__first_name }}</td>
   <td>{{ r.user__last_name }}</td>
-  <td>{{ r.total_tasktime }}</td>
+  <td class="num">{{ r.total_tasktime }}</td>
  </tr>
 {% endfor %}
 </table>

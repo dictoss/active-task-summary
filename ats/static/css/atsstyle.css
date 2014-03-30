@@ -264,6 +264,10 @@ div.boxfooter
 /*
  * table
  */
+td.num
+{
+    text-align: right;
+}
 
 /*
  * list

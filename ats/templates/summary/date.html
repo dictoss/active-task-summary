@@ -22,13 +22,13 @@
  <tr>
   <th>project id</th>
   <th>project name</th>
-  <th>task time(hour)</th>
+  <th>task time</th>
  </tr>
 {% for data in totallist %}
  <tr>
-  <td>{{ data.project_id }}</td>
+  <td class="num">{{ data.project_id }}</td>
   <td>{{ data.project__name }}</td>
-  <td>{{ data.total_tasktime }}</td>
+  <td class="num">{{ data.total_tasktime }}</td>
  </tr>
 {% endfor %}
 </table>
@@ -44,7 +44,7 @@
   <th>date</th>
   <th>job</th>
   <th>task</th>
-  <th>task time(hour)</th>
+  <th>task time</th>
  </tr>
 {% for data in datalist %}
  <tr>
@@ -52,7 +52,7 @@
   <td>{{ data.taskdate|date:"Y-m-d" }}</td>
   <td>{{ data.task.job.name }}</td>
   <td>{{ data.task.name }}</td>
-  <td>{{ data.tasktime|time:"H:i" }}</td>
+  <td class="num">{{ data.tasktime|time:"H:i" }}</td>
  </tr>
 {% endfor %}
 </table>
