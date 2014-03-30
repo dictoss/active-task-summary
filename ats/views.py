@@ -560,6 +560,7 @@ def my_render_to_response(request, template_file, paramdict):
     paramdict['url_prefix'] = get_url_prefix()
     paramdict['app_longname'] = ats_settings.APP_LONGNAME
     paramdict['app_auther'] = ats_settings.APP_AUTHER
+    paramdict['app_version'] = ats_settings.APP_VERSION
 
     t = loader.get_template(template_file)
     c = RequestContext(request, paramdict)
