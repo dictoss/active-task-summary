@@ -137,10 +137,8 @@ def regist(request):
         # todo:
         # receive form data from django form.
         if 'submit_dateselect' in request.POST:
-            print("push dateselect")
             re_form = RegistForm()
         else:
-            print("push regist")
             re_form = RegistForm(request.POST)
             if re_form.is_valid():
                 checkregist = request.POST.getlist('registcheck')
@@ -182,23 +180,20 @@ def regist(request):
                     except:
                         pass
 
-                    print(uttinst)
                     try:
                         if uttinst:
                             uttinst.save()
                             regist_count = regist_count + 1
                         else:
-                            print("not save")
+                            pass
                     except:
                         pass
 
                 if 0 < len(targetindexlist):
                     if regist_count == len(targetindexlist):
                         transaction.commit()
-                        print("commit")
                     else:
                         transaction.rollback()
-                        print("rollback")
                 else:
                     # no check.
                     pass
@@ -234,7 +229,6 @@ def regist(request):
             cursor_u = cursor_u.filter(project=p)
             cursor_u = cursor_u.filter(taskdate=regist_date)
             cursor_u = cursor_u.order_by('task__sortkey')
-            #print(cursor_u)
 
             for t in cursor_t:
                 utt = {'job_id': t.job.id,
