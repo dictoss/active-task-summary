@@ -34,11 +34,8 @@ def error404(request):
     return render_to_response('404.html', {})
 
 
-def get_appname():
-    if settings.DEBUG:
-        return ats_settings.APP_NAME
-    else:
-        return ""
+def get_url_prefix():
+    return '%s/%s' % (ats_settings.APP_MOUNTDIR, ats_settings.APP_NAME)
 
 
 def index(request):
@@ -48,7 +45,7 @@ def index(request):
     else:
         return HttpResponseRedirect('/login/')
     """
-    return HttpResponseRedirect('/%s/top' % get_appname())
+    return HttpResponseRedirect('%s/top' % get_url_prefix())
 
 
 @login_required
@@ -75,7 +72,7 @@ def login_view(request):
                     if 'next' in request.GET:
                         nextpage = request.GET.get('next')
                     else:
-                        nextpage = '/%s/top' % get_appname()
+                        nextpage = '%s/top' % get_url_prefix()
 
                     return HttpResponseRedirect(nextpage)
                 else:
@@ -88,7 +85,7 @@ def login_view(request):
             error_reason = 3
     else:
         if request.user.is_authenticated():
-            return HttpResponseRedirect('/%s/top' % get_appname())
+            return HttpResponseRedirect('%s/top' % get_url_prefix())
         else:
             form = LoginForm()
 
@@ -101,7 +98,7 @@ def login_view(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('/%s/login/' % get_appname())
+    return HttpResponseRedirect('%s/login/' % get_url_prefix())
 
 
 @login_required
@@ -560,8 +557,7 @@ def my_render_to_response(request, template_file, paramdict):
     response = HttpResponse()
     #paramdict['sitecounter'] = do_counter(request, response)
 
-    paramdict['url_prefix'] = '%s/%s' % (
-        ats_settings.APP_MOUNTDIR, ats_settings.APP_NAME)
+    paramdict['url_prefix'] = get_url_prefix()
 
     t = loader.get_template(template_file)
     c = RequestContext(request, paramdict)
