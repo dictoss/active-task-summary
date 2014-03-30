@@ -3,8 +3,6 @@
 import os
 from django.conf import settings
 
-APP_MOUNTDIR = '/'
-
 APP_NAME = 'ats'
 APP_LONGNAME = 'Active Task Summary'
 APP_VERSION = '0.1.0'

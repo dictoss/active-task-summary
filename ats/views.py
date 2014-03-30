@@ -35,7 +35,7 @@ def error404(request):
 
 
 def get_url_prefix():
-    return '%s/%s' % (ats_settings.APP_MOUNTDIR, ats_settings.APP_NAME)
+    return '%s/%s' % (settings.APP_MOUNTDIR, ats_settings.APP_NAME)
 
 
 def format_totaltime_delta(td):

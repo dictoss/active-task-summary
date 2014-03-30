@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+APP_MOUNTDIR = '/toolproj'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -89,6 +90,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
 )
 
-LOGIN_REDIRECT_URL = "/ats/top/"
-LOGIN_URL = "/ats/login/"
-LOGOUT_URL = "/ats/logout/"
+LOGIN_REDIRECT_URL = "%s/ats/top/" % APP_MOUNTDIR
+LOGIN_URL = "%s/ats/login/" % APP_MOUNTDIR
+LOGOUT_URL = "%s/ats/logout/" % APP_MOUNTDIR
+
+try:
+    from settings_devel import *
+except:
+    pass
