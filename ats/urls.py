@@ -67,3 +67,5 @@ urlpatterns = patterns('ats.views',
          #(r'^manage/notify/(?P<notify_id>\d+)/edit/$',
          # 'manage_notify_edit'),
          )
+
+urlpatterns += staticfiles_urlpatterns()
