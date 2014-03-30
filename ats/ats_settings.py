@@ -13,6 +13,8 @@ APP_AUTHER = 'dictoss'
 # valid range is between 1 and 30.
 ATS_REGIST_MIN_SPAN = 15
 
+ATS_IS_LASTNAME_FRONT = False
+
 try:
     from ats_settings_devel import *
 except:

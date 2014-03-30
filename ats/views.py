@@ -581,6 +581,7 @@ def my_render_to_response(request, template_file, paramdict):
     paramdict['app_longname'] = ats_settings.APP_LONGNAME
     paramdict['app_auther'] = ats_settings.APP_AUTHER
     paramdict['app_version'] = ats_settings.APP_VERSION
+    paramdict['is_lastname_front'] = ats_settings.ATS_IS_LASTNAME_FRONT
 
     t = loader.get_template(template_file)
     c = RequestContext(request, paramdict)

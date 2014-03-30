@@ -17,7 +17,11 @@
 </div>
 <div class="boxnotice">
 {% if user.is_authenticated %}
-<p class="userstatus">login as : {{ user }} : <a href="{{ url_prefix }}/logout/">logout</a></p>
+  {% if is_lastname_front %}
+<p class="userstatus">login as : {{ user }} ({{ user.last_name }} {{ user.first_name }}) : <a href="{{ url_prefix }}/logout/">logout</a></p>
+  {% else %}
+<p class="userstatus">login as : {{ user }} ({{ user.first_name }} {{ user.last_name }}) : <a href="{{ url_prefix }}/logout/">logout</a></p>
+  {% endif %}
 {% endif %}
 </div>
 </div>
