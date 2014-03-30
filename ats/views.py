@@ -128,11 +128,11 @@ def regist(request):
     if request.method == 'POST':
         regist_count = 0
 
-        ds_form = DateSelectForm(request.POST)
-        if ds_form.is_valid():
-            regist_date = ds_form.cleaned_data['regist_date']
+        rs_form = RegistSelectForm(request.POST)
+        if rs_form.is_valid():
+            regist_date = rs_form.cleaned_data['regist_date']
         else:
-            ds_form = DateSelectForm()
+            rs_form = RegistSelectForm()
 
         # todo:
         # receive form data from django form.
@@ -205,10 +205,10 @@ def regist(request):
             else:
                 re_form = RegistForm()
     else:
-        ds_form = DateSelectForm()
+        rs_form = RegistSelectForm()
         re_form = RegistForm()
 
-        regist_date = ds_form['regist_date'].value
+        regist_date = rs_form['regist_date'].value
 
     #select project
     cursor_p = ProjectWorker.objects.select_related(
@@ -270,7 +270,7 @@ def regist(request):
 
     return my_render_to_response(request,
                                  'regist/regist.html',
-                                 {'form': ds_form,
+                                 {'form': rs_form,
                                   'regist_form': re_form,
                                   'regist_date': regist_date,
                                   'datalist': datalist,
@@ -589,7 +589,7 @@ def my_render_to_response(request, template_file, paramdict):
     return response
 
 
-class DateSelectForm(forms.Form):
+class RegistSelectForm(forms.Form):
     regist_date = forms.DateField(label='regist_date', required=True,
                                   initial=datetime.datetime.now())
 
