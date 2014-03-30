@@ -615,13 +615,23 @@ class SummaryJobForm(forms.Form):
     joblist = forms.ModelMultipleChoiceField(label='job', required=True, queryset=Job.objects.all())
 
 
+class MyUserModelMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        if ats_settings.ATS_IS_LASTNAME_FRONT:
+            return "%s (%s %s) " % (
+                obj.username, obj.last_name, obj.first_name)
+        else:
+            return "%s (%s %s) " % (
+                obj.username, obj.first_name, obj.last_name)
+
+
 class SummaryUserForm(forms.Form):
     projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all())
     from_date = forms.DateField(label='from date', required=False,
                                 initial=datetime.datetime.now().replace(day=1))
     to_date = forms.DateField(label='to date', required=False,
                               initial=datetime.datetime.now())
-    userlist = forms.ModelMultipleChoiceField(label='user', required=True, queryset=User.objects.all())
+    userlist = MyUserModelMultipleChoiceField(label='user', required=True, queryset=User.objects.all())
 
 
 class LoginForm(forms.Form):
