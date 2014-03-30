@@ -38,6 +38,27 @@ def get_url_prefix():
     return '%s/%s' % (ats_settings.APP_MOUNTDIR, ats_settings.APP_NAME)
 
 
+def format_totaltime_delta(td):
+    return '%d:%02d' % (td.days * 24 + td.seconds / 3600,
+                        td.seconds % 60)
+
+
+def format_totaltime_int(f):
+    '''
+    paramter type is float.(return group by)
+
+    format:
+      12500 = 12000 + 500
+            = 12 hour + 30 min
+    '''
+    hour = int(f / 1000)
+
+    # convert from decimal to sexagesimal
+    minute = int((int(f) - (hour * 1000)) * 0.06)
+
+    return '%d:%02d' % (hour, minute)
+
+
 def index(request):
     """
     if request.:
@@ -291,8 +312,7 @@ def summary_d(request):
                 td = td + datetime.timedelta(
                     hours=r.tasktime.hour, minutes=r.tasktime.minute)
 
-            totaltime = '%d:%02d' % (td.days * 24 + td.seconds / 3600,
-                                     td.seconds % 60)
+            totaltime = format_totaltime_delta(td)
 
             totallist = [{'project_id': project.id,
                           'project__name': project.name,
@@ -344,7 +364,7 @@ def summary_j(request):
 
             # convert hour
             for r in jobdatalist:
-                r['total_tasktime'] = r['total_tasktime'] / 1000
+                r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
 
             #calc task
             cursor = UsedTaskTime.objects.filter(
@@ -370,7 +390,7 @@ def summary_j(request):
 
             # convert hour
             for r in taskdatalist:
-                r['total_tasktime'] = r['total_tasktime'] / 1000
+                r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
         else:
             form = SummaryJobForm()
     else:
@@ -421,7 +441,7 @@ def summary_u(request):
 
             # convert hour
             for r in userdatalist:
-                r['total_tasktime'] = r['total_tasktime'] / 1000
+                r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
 
             #calc task
             cursor = UsedTaskTime.objects.filter(
@@ -450,7 +470,7 @@ def summary_u(request):
 
             # convert hour
             for r in taskdatalist:
-                r['total_tasktime'] = r['total_tasktime'] / 1000
+                r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
         else:
             form = SummaryUserForm()
     else:
