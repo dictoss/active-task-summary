@@ -46,7 +46,7 @@ class Task(models.Model):
     invalid = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return '%s - %s' % (self.job.name, self.name)
+        return '%s' % (self.name)
 
 admin.site.register(Task)
 
