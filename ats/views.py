@@ -213,7 +213,7 @@ def regist(request):
     cursor_p = cursor_p.order_by('project__sortkey')
 
     datalist = []
-    for p in cursor_p:
+    for pjw in cursor_p:
         # todo:
         # select assign job only
         cursor_j = Job.objects.filter(invalid=False).order_by('sortkey')
@@ -226,7 +226,7 @@ def regist(request):
             cursor_t = cursor_t.order_by('sortkey')
             # usedtasktime
             cursor_u = UsedTaskTime.objects.filter(user=request.user)
-            cursor_u = cursor_u.filter(project=p)
+            cursor_u = cursor_u.filter(project=pjw.project)
             cursor_u = cursor_u.filter(taskdate=regist_date)
             cursor_u = cursor_u.order_by('task__sortkey')
 
@@ -246,8 +246,8 @@ def regist(request):
 
                 usedtasktimelist.append(utt)
 
-        d = {'project_id': p.project.id,
-             'project_name': p.project.name,
+        d = {'project_id': pjw.project.id,
+             'project_name': pjw.project.name,
              'usedtasktimelist': usedtasktimelist}
         datalist.append(d)
 
