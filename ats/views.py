@@ -210,6 +210,7 @@ def regist(request):
     #select project
     cursor_pjw = ProjectWorker.objects.select_related(
         'project_name').filter(user=request.user)
+    cursor_pjw = cursor_pjw.filter(project__start_dt__lte=regist_date)
     cursor_pjw = cursor_pjw.filter(project__end_dt__isnull=True)
     cursor_pjw = cursor_pjw.filter(invalid=False)
     cursor_pjw = cursor_pjw.order_by('project__sortkey')
