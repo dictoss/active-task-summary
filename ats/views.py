@@ -39,8 +39,10 @@ def get_url_prefix():
 
 
 def format_totaltime_delta(td):
-    return '%d:%02d' % (td.days * 24 + td.seconds / 3600,
-                        td.seconds % 60)
+    totalhour = (td.days * 24) + int(td.seconds / 3600)
+    minute = int(td.seconds / 60) - (int(td.seconds / 3600) * 60)
+
+    return '%d:%02d' % (totalhour, minute)
 
 
 def format_totaltime_int(f):
