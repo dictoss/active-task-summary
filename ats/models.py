@@ -55,6 +55,7 @@ class ProjectWorker(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User)
     project = models.ForeignKey('Project')
+    job = models.ForeignKey('Job')
     invalid = models.BooleanField(default=False)
 
     def __unicode__(self):
