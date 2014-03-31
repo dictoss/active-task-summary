@@ -339,9 +339,7 @@ def summary_j(request):
             joblist = form.cleaned_data['joblist']
 
             #calc job
-            cursor = UsedTaskTime.objects.filter(
-                project=project).order_by(
-                'taskdate', 'task__job', 'task__sortkey')
+            cursor = UsedTaskTime.objects.filter(project=project)
             cursor = cursor.filter(task__job__in=joblist)
 
             if from_date:
@@ -349,6 +347,8 @@ def summary_j(request):
 
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
+
+            cursor = cursor.order_by('task__job__sortkey')
 
             cursor = cursor.values('project_id',
                                    'project__name',
@@ -363,9 +363,7 @@ def summary_j(request):
                 r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
 
             #calc task
-            cursor = UsedTaskTime.objects.filter(
-                project=project).order_by(
-                'taskdate', 'task__job', 'task__sortkey')
+            cursor = UsedTaskTime.objects.filter(project=project)
             cursor = cursor.filter(task__job__in=joblist)
 
             if from_date:
@@ -373,6 +371,8 @@ def summary_j(request):
 
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
+
+            cursor = cursor.order_by('task__job__sortkey', 'task__sortkey')
 
             cursor = cursor.values('project_id',
                                    'project__name',
@@ -413,9 +413,7 @@ def summary_u(request):
             userlist = form.cleaned_data['userlist']
 
             #calc user
-            cursor = UsedTaskTime.objects.filter(
-                project=project).order_by(
-                'taskdate', 'task__job', 'task__sortkey')
+            cursor = UsedTaskTime.objects.filter(project=project)
             cursor = cursor.filter(user__in=userlist)
 
             if from_date:
@@ -423,6 +421,8 @@ def summary_u(request):
 
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
+
+            cursor = cursor.order_by('task__job__sortkey')
 
             cursor = cursor.values('project_id',
                                    'project__name',
@@ -440,10 +440,9 @@ def summary_u(request):
                 r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
 
             #calc task
-            cursor = UsedTaskTime.objects.filter(
-                project=project).order_by(
-                'taskdate', 'task__job', 'task__sortkey')
+            cursor = UsedTaskTime.objects.filter(project=project)
             cursor = cursor.filter(user__in=userlist)
+            cursor = cursor.order_by('task__job__sortkey', 'task__sortkey')
 
             if from_date:
                 cursor = cursor.filter(taskdate__gte=from_date)
