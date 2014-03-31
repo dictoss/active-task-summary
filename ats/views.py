@@ -213,7 +213,7 @@ def regist(request):
     cursor_pjw = cursor_pjw.filter(project__start_dt__lte=regist_date)
     cursor_pjw = cursor_pjw.filter(project__end_dt__isnull=True)
     cursor_pjw = cursor_pjw.filter(invalid=False)
-    cursor_pjw = cursor_pjw.order_by('project__sortkey')
+    cursor_pjw = cursor_pjw.order_by('project__sortkey', 'job__sortkey')
 
     datalist = []
     for pjw in cursor_pjw:
@@ -297,6 +297,8 @@ def summary_d(request):
 
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
+
+            cursor = cursor.order_by('taskdate')
 
             datalist = list(cursor)
 
