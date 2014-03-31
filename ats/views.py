@@ -208,14 +208,14 @@ def regist(request):
         regist_date = rs_form['regist_date'].value
 
     #select project
-    cursor_p = ProjectWorker.objects.select_related(
+    cursor_pjw = ProjectWorker.objects.select_related(
         'project_name').filter(user=request.user)
-    cursor_p = cursor_p.filter(project__end_dt__isnull=True)
-    cursor_p = cursor_p.filter(invalid=False)
-    cursor_p = cursor_p.order_by('project__sortkey')
+    cursor_pjw = cursor_pjw.filter(project__end_dt__isnull=True)
+    cursor_pjw = cursor_pjw.filter(invalid=False)
+    cursor_pjw = cursor_pjw.order_by('project__sortkey')
 
     datalist = []
-    for pjw in cursor_p:
+    for pjw in cursor_pjw:
         # todo:
         # select assign job only
         cursor_j = Job.objects.filter(invalid=False).order_by('sortkey')
