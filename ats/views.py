@@ -217,37 +217,34 @@ def regist(request):
 
     datalist = []
     for pjw in cursor_pjw:
-        # todo:
-        # select assign job only
-        cursor_j = Job.objects.filter(invalid=False).order_by('sortkey')
-
         usedtasktimelist = []
-        for j in cursor_j:
-            # task
-            cursor_t = Task.objects.filter(job=j)
-            cursor_t = cursor_t.filter(invalid=False)
-            cursor_t = cursor_t.order_by('sortkey')
-            # usedtasktime
-            cursor_u = UsedTaskTime.objects.filter(user=request.user)
-            cursor_u = cursor_u.filter(project=pjw.project)
-            cursor_u = cursor_u.filter(taskdate=regist_date)
-            cursor_u = cursor_u.order_by('task__sortkey')
 
-            for t in cursor_t:
-                utt = {'job_id': t.job.id,
-                       'job_name': t.job.name,
-                       'task_id': t.id,
-                       'task_name': t.name,
-                       'tasktime_hour': 0,
-                       'tasktime_min': 0}
+        # task
+        cursor_t = Task.objects.filter(job=pjw.job)
+        cursor_t = cursor_t.filter(invalid=False)
+        cursor_t = cursor_t.order_by('sortkey')
 
-                for u in cursor_u:
-                    if t.id == u.task_id:
-                        utt['tasktime_hour'] = u.tasktime.hour
-                        utt['tasktime_min'] = u.tasktime.minute
-                        break
+        # usedtasktime
+        cursor_u = UsedTaskTime.objects.filter(user=request.user)
+        cursor_u = cursor_u.filter(project=pjw.project)
+        cursor_u = cursor_u.filter(taskdate=regist_date)
+        cursor_u = cursor_u.order_by('task__sortkey')
 
-                usedtasktimelist.append(utt)
+        for t in cursor_t:
+            utt = {'job_id': t.job.id,
+                   'job_name': t.job.name,
+                   'task_id': t.id,
+                   'task_name': t.name,
+                   'tasktime_hour': 0,
+                   'tasktime_min': 0}
+
+            for u in cursor_u:
+                if t.id == u.task_id:
+                    utt['tasktime_hour'] = u.tasktime.hour
+                    utt['tasktime_min'] = u.tasktime.minute
+                    break
+
+            usedtasktimelist.append(utt)
 
         d = {'project_id': pjw.project.id,
              'project_name': pjw.project.name,
