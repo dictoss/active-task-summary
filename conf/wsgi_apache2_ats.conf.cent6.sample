@@ -1,0 +1,12 @@
+#
+# apache2 config for ats wsgi applicaion sample
+#
+WSGIScriptAlias /toolproj /var/www/wsgi_ats/ats.wsgi
+
+WSGIDaemonProcess ats user=apache group=apache processes=4 threads=32 home=/ python-path=/usr/lib/python2.6/site-packages python-eggs=/var/www/eggs display-name=%{GROUP}
+
+<Directory /var/www/wsgi_ats>
+    WSGIProcessGroup ats
+    Order deny,allow
+    Allow from all
+</Directory>
