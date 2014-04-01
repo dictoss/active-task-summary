@@ -218,6 +218,7 @@ def regist(request):
     cursor_pjw = cursor_pjw.order_by('project__sortkey', 'job__sortkey')
 
     datalist = []
+    existdatalist = []
     for pjw in cursor_pjw:
         usedtasktimelist = []
 
@@ -231,6 +232,14 @@ def regist(request):
         cursor_u = cursor_u.filter(project=pjw.project)
         cursor_u = cursor_u.filter(taskdate=regist_date)
         cursor_u = cursor_u.order_by('task__sortkey')
+
+        for u in cursor_u:
+            uttobj = {'projectname': u.project.name,
+                      'jobname': u.task.job.name,
+                      'taskname': u.task.name,
+                      'tasktime_hour': u.tasktime.hour,
+                      'tasktime_min': u.tasktime.minute}
+            existdatalist.append(uttobj)
 
         for t in cursor_t:
             utt = {'job_id': t.job.id,
@@ -269,6 +278,7 @@ def regist(request):
                                  {'form': rs_form,
                                   'regist_form': re_form,
                                   'regist_date': regist_date,
+                                  'existdatalist': existdatalist,
                                   'datalist': datalist,
                                   'hourlist': hourlist,
                                   'minutelist': minutelist})

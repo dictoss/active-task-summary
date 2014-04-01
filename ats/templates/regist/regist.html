@@ -13,6 +13,25 @@
 {{ form.as_p }}
 <br>
 <input type="submit" value="dateselect" name="submit_dateselect">
+<br><br>
+{% if existdatalist %}
+<table class="usedtasktime" border="1">
+<cation>already data this day </cation>
+<tr>
+<th>project</th><th>job</th><th>task</th><th>task time</th>
+</tr>
+{% for d in existdatalist %}
+<tr>
+<td>{{ d.projectname }}</td>
+<td>{{ d.jobname }}</td>
+<td>{{ d.taskname }}</td>
+<td>{{ d.tasktime_hour }} hour {{ d.tasktime_min }} min</td>
+</tr>
+{% endfor %}
+</table>
+{% else%}
+empty data this day.
+{% endif %}
 <hr>
 
 {% if datalist %}
