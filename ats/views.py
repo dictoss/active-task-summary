@@ -346,14 +346,12 @@ def summary_j(request):
     if request.method == 'POST':
         form = SummaryJobForm(request.POST)
         if form.is_valid():
-            project = form.cleaned_data['projectlist']
             from_date = form.cleaned_data['from_date']
             to_date = form.cleaned_data['to_date']
             joblist = form.cleaned_data['joblist']
 
             #calc job
-            cursor = UsedTaskTime.objects.filter(project=project)
-            cursor = cursor.filter(task__job__in=joblist)
+            cursor = UsedTaskTime.objects.filter(task__job__in=joblist)
 
             if from_date:
                 cursor = cursor.filter(taskdate__gte=from_date)
@@ -361,7 +359,7 @@ def summary_j(request):
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
 
-            cursor = cursor.order_by('task__job__sortkey')
+            cursor = cursor.order_by('project__sortkey', 'task__job__sortkey')
 
             cursor = cursor.values('project_id',
                                    'project__name',
@@ -376,8 +374,7 @@ def summary_j(request):
                 r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
 
             #calc task
-            cursor = UsedTaskTime.objects.filter(project=project)
-            cursor = cursor.filter(task__job__in=joblist)
+            cursor = UsedTaskTime.objects.filter(task__job__in=joblist)
 
             if from_date:
                 cursor = cursor.filter(taskdate__gte=from_date)
@@ -652,7 +649,6 @@ class SummaryDateForm(forms.Form):
 
 
 class SummaryJobForm(forms.Form):
-    projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all())
     from_date = forms.DateField(label='from date', required=False,
                                 initial=datetime.datetime.now().replace(day=1))
     to_date = forms.DateField(label='to date', required=False,
