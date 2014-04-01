@@ -167,9 +167,11 @@ def regist(request):
                                              minute=int(tasktime_min[i]))
                     try:
                         uttinst = UsedTaskTime.objects.get(
-                            taskdate=regist_date,
+                            user=request.user,
                             project=pid,
-                            task=tid)
+                            task=tid,
+                            taskdate=regist_date)
+
                         uttinst.tasktime = ud_ttime
                     except UsedTaskTime.DoesNotExist:
                         uttinst = UsedTaskTime(
