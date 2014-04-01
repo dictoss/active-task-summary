@@ -641,11 +641,11 @@ class RegistForm(forms.Form):
 
 
 class SummaryDateForm(forms.Form):
-    projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all())
     from_date = forms.DateField(label='from date', required=False,
                                 initial=datetime.datetime.now().replace(day=1))
     to_date = forms.DateField(label='to date', required=False,
                               initial=datetime.datetime.now())
+    projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all())
 
 
 class SummaryJobForm(forms.Form):
