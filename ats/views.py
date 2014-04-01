@@ -420,14 +420,12 @@ def summary_u(request):
     if request.method == 'POST':
         form = SummaryUserForm(request.POST)
         if form.is_valid():
-            project = form.cleaned_data['projectlist']
             from_date = form.cleaned_data['from_date']
             to_date = form.cleaned_data['to_date']
             userlist = form.cleaned_data['userlist']
 
             #calc user
-            cursor = UsedTaskTime.objects.filter(project=project)
-            cursor = cursor.filter(user__in=userlist)
+            cursor = UsedTaskTime.objects.filter(user__in=userlist)
 
             if from_date:
                 cursor = cursor.filter(taskdate__gte=from_date)
@@ -435,7 +433,9 @@ def summary_u(request):
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
 
-            cursor = cursor.order_by('task__job__sortkey')
+            cursor = cursor.order_by('project__sortkey',
+                                     'task__job__sortkey',
+                                     'task__sortkey')
 
             cursor = cursor.values('project_id',
                                    'project__name',
@@ -453,9 +453,10 @@ def summary_u(request):
                 r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
 
             #calc task
-            cursor = UsedTaskTime.objects.filter(project=project)
-            cursor = cursor.filter(user__in=userlist)
-            cursor = cursor.order_by('task__job__sortkey', 'task__sortkey')
+            cursor = UsedTaskTime.objects.filter(user__in=userlist)
+            cursor = cursor.order_by('project__sortkey',
+                                     'task__job__sortkey',
+                                     'task__sortkey')
 
             if from_date:
                 cursor = cursor.filter(taskdate__gte=from_date)
@@ -670,7 +671,6 @@ class MyUserModelMultipleChoiceField(forms.ModelMultipleChoiceField):
 
 
 class SummaryUserForm(forms.Form):
-    projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all())
     from_date = forms.DateField(label='from date', required=False,
                                 initial=datetime.datetime.now().replace(day=1))
     to_date = forms.DateField(label='to date', required=False,
