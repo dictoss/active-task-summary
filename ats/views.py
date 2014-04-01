@@ -11,6 +11,7 @@ from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render_to_response, get_object_or_404, render
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.forms.fields import ChoiceField
@@ -520,9 +521,39 @@ def manage(request):
                                  'manage/index.html', {})
 
 
+def validate_password(password):
+    if 6 <= len(password):
+        return True
+    else:
+        return False
+
+
 def manage_chpasswd(request):
+    message = ''
+
+    if 'POST' == request.method:
+        form = PasswordChangeForm(request.user, request.POST)
+
+        # If True is form.is_valid(),
+        # success to check old_password and
+        # it is same to password1 and password2.
+        if form.is_valid():
+            p = form.clean_new_password2()
+
+            if validate_password(p):
+                form.save()
+                message = 'success change password.'
+            else:
+                message = 'password is not good. not change password.'
+        else:
+            pass
+    else:
+        form = PasswordChangeForm(request.user)
+
     return my_render_to_response(request,
-                                 'manage/chpasswd.html', {})
+                                 'manage/chpasswd.html',
+                                 {'form': form,
+                                  'message': message})
 
 
 def manage_user_list(request):

@@ -7,5 +7,18 @@
 {% endblock %}
 
 {% block boxmain %}
-<p>chpasswd page.</p>
+<form method="POST" action="#">
+{% if form.errors %}
+<b><p>Your username and password didn't match. Please try again.</p></b>
+{% else %}
+<b>{{ message }}</b>
+{% endif %}
+<hr>
+
+{% csrf_token %}
+{{ form.as_p }}
+<br>
+<input type="submit" name="chpasswd" value="change password">
+<hr>
+</form>
 {% endblock %}
