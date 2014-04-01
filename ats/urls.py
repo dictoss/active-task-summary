@@ -32,6 +32,9 @@ urlpatterns = patterns('ats.views',
          #
          (r'^manage/$', 'manage'),
          #
+         (r'^manage/chpasswd/$',
+          'manage_chpasswd'),
+         #
          (r'^manage/user/$',
           'manage_user_list'),
          (r'^manage/user/(?P<user_id>\d+)/$',

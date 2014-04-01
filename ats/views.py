@@ -520,6 +520,11 @@ def manage(request):
                                  'manage/index.html', {})
 
 
+def manage_chpasswd(request):
+    return my_render_to_response(request,
+                                 'manage/chpasswd.html', {})
+
+
 def manage_user_list(request):
     return my_render_to_response(request,
                                  'manage/user_list.html', {})
