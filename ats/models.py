@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
@@ -16,12 +17,20 @@ admin.site.register(UserExtraAttr)
 class Project(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField(blank=False)
-    start_dt = models.DateField(auto_now=False, auto_now_add=False, null=False, blank=False)
-    end_dt = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    start_dt = models.DateField(auto_now=False, auto_now_add=False,
+                                null=False, blank=False)
+    end_dt = models.DateField(auto_now=False, auto_now_add=False,
+                              null=True, blank=True)
     sortkey = models.IntegerField(null=False)
 
     def __unicode__(self):
-        return self.name
+        if self.end_dt:
+            if self.end_dt < datetime.date.today():
+                return u'%d : %s [closed]' % (self.id, self.name)
+            else:
+                return u'%d : %s [opened]' % (self.id, self.name)
+        else:
+            return u'%d : %s [opened]' % (self.id, self.name)
 
 admin.site.register(Project)
 
@@ -33,7 +42,10 @@ class Job(models.Model):
     invalid = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.name
+        if self.invalid:
+            return u'%d : %s [invalid]' % (self.id, self.name)
+        else:
+            return u'%d : %s' % (self.id, self.name)
 
 admin.site.register(Job)
 
@@ -46,7 +58,12 @@ class Task(models.Model):
     invalid = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return '%s' % (self.name)
+        if self.invalid:
+            return u'%d : %s (%s) [invalid]' % (
+                self.id, self.name, self.job.name)
+        else:
+            return u'%d : %s (%s)' % (
+                self.id, self.name, self.job.name)
 
 admin.site.register(Task)
 
@@ -59,7 +76,12 @@ class ProjectWorker(models.Model):
     invalid = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return '%s - %s' % (self.project.name, self.user.username)
+        if self.invalid:
+            return u'%d : %s (%s - %s) [invalid]' % (
+                self.id, self.user.username, self.project.name, self.job.name)
+        else:
+            return u'%d : %s (%s - %s)' % (
+                self.id, self.user.username, self.project.name, self.job.name)
 
 admin.site.register(ProjectWorker)
 
@@ -73,6 +95,8 @@ class UsedTaskTime(models.Model):
     tasktime = models.TimeField(auto_now=False, auto_now_add=False, null=False)
 
     def __unicode__(self):
-        return '%s - %s -%s - %s' % (self.project.name, self.task.name, self.user.username, self.tasktime)
+        return u'%d : [%s - %s] %s - %s - %s' % (
+            self.id, self.taskdate, self.tasktime,
+            self.user.username, self.project.name, self.task.name)
 
 admin.site.register(UsedTaskTime)
