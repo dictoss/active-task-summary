@@ -235,12 +235,14 @@ def regist(request):
         cursor_u = cursor_u.order_by('task__sortkey')
 
         for u in cursor_u:
-            uttobj = {'projectname': u.project.name,
-                      'jobname': u.task.job.name,
-                      'taskname': u.task.name,
-                      'tasktime_hour': u.tasktime.hour,
-                      'tasktime_min': u.tasktime.minute}
-            existdatalist.append(uttobj)
+            if (u.project == pjw.project) and (u.task.job == pjw.job):
+                uttobj = {'projectname': u.project.name,
+                          'jobname': u.task.job.name,
+                          'taskname': u.task.name,
+                          'tasktime_hour': u.tasktime.hour,
+                          'tasktime_min': u.tasktime.minute}
+
+                existdatalist.append(uttobj)
 
         for t in cursor_t:
             utt = {'job_id': t.job.id,
