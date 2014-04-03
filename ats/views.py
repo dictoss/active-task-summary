@@ -131,11 +131,14 @@ def regist(request):
     if request.method == 'POST':
         regist_count = 0
 
-        rs_form = RegistSelectForm(request.POST)
+        rs_form = RegistSelectForm(request.POST, user=request.user)
         if rs_form.is_valid():
             regist_date = rs_form.cleaned_data['regist_date']
+            sel_project = rs_form.cleaned_data['projectlist']
         else:
-            rs_form = RegistSelectForm()
+            rs_form = RegistSelectForm(user=request.user)
+            regist_date = rs_form['regist_date'].value
+            sel_project = rs_form.fields['projectlist'].choices[0]
 
         # todo:
         # receive form data from django form.
@@ -205,21 +208,43 @@ def regist(request):
             else:
                 re_form = RegistForm()
     else:
-        rs_form = RegistSelectForm()
         re_form = RegistForm()
 
+        rs_form = RegistSelectForm(user=request.user)
         regist_date = rs_form['regist_date'].value
+        sel_project = rs_form.fields['projectlist'].choices[0]
 
-    #select project
-    cursor_pjw = ProjectWorker.objects.select_related(
-        'project_name').filter(user=request.user)
-    cursor_pjw = cursor_pjw.filter(project__start_dt__lte=regist_date)
-    cursor_pjw = cursor_pjw.filter(project__end_dt__isnull=True)
-    cursor_pjw = cursor_pjw.filter(invalid=False)
-    cursor_pjw = cursor_pjw.order_by('project__sortkey', 'job__sortkey')
+    # select project
+    project = Project.objects.filter(id=sel_project[0])
+
+    if project:
+        cursor_pjw = ProjectWorker.objects.filter(user=request.user)
+        cursor_pjw = cursor_pjw.filter(project=project)
+        cursor_pjw = cursor_pjw.filter(project__start_dt__lte=regist_date)
+        cursor_pjw = cursor_pjw.filter(project__end_dt__isnull=True)
+        cursor_pjw = cursor_pjw.filter(invalid=False)
+        cursor_pjw = cursor_pjw.order_by('project__sortkey', 'job__sortkey')
+    else:
+        cursor_pjw = []
 
     datalist = []
     existdatalist = []
+
+    # select exist usedtasktime
+    cursor_u = UsedTaskTime.objects.filter(user=request.user)
+    cursor_u = cursor_u.filter(taskdate=regist_date)
+    cursor_u = cursor_u.order_by('project__sortkey', 'task__sortkey')
+
+    for u in cursor_u:
+        uttobj = {'projectname': u.project.name,
+                  'jobname': u.task.job.name,
+                  'taskname': u.task.name,
+                  'tasktime_hour': u.tasktime.hour,
+                  'tasktime_min': u.tasktime.minute}
+
+        existdatalist.append(uttobj)
+
+    # create input form
     for pjw in cursor_pjw:
         usedtasktimelist = []
 
@@ -227,22 +252,6 @@ def regist(request):
         cursor_t = Task.objects.filter(job=pjw.job)
         cursor_t = cursor_t.filter(invalid=False)
         cursor_t = cursor_t.order_by('sortkey')
-
-        # usedtasktime
-        cursor_u = UsedTaskTime.objects.filter(user=request.user)
-        cursor_u = cursor_u.filter(project=pjw.project)
-        cursor_u = cursor_u.filter(taskdate=regist_date)
-        cursor_u = cursor_u.order_by('task__sortkey')
-
-        for u in cursor_u:
-            if (u.project == pjw.project) and (u.task.job == pjw.job):
-                uttobj = {'projectname': u.project.name,
-                          'jobname': u.task.job.name,
-                          'taskname': u.task.name,
-                          'tasktime_hour': u.tasktime.hour,
-                          'tasktime_min': u.tasktime.minute}
-
-                existdatalist.append(uttobj)
 
         for t in cursor_t:
             utt = {'job_id': t.job.id,
@@ -636,6 +645,23 @@ def my_render_to_response(request, template_file, paramdict):
 class RegistSelectForm(forms.Form):
     regist_date = forms.DateField(label='regist_date', required=True,
                                   initial=datetime.datetime.now())
+    projectlist = forms.ChoiceField(label='Project',
+                                    choices=[('-1', '------')])
+
+    def __init__(self, *args, **kwargs):
+        _user = kwargs.pop('user')
+        super(RegistSelectForm, self).__init__(*args, **kwargs)
+
+        cursor = ProjectWorker.objects.filter(user=_user).order_by(
+            'project').values('project__id', 'project__name').distinct()
+
+        pjlist = []
+        for r in cursor:
+            t = (r['project__id'], r['project__name'])
+            pjlist.append(t)
+
+        if 0 < len(pjlist):
+            self.fields['projectlist'].choices = pjlist
 
 
 class RegistForm(forms.Form):
