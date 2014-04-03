@@ -7,6 +7,7 @@ import json
 import time
 import datetime
 import re
+import logging
 from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -25,6 +26,15 @@ from django.db import transaction
 
 from ats.models import *
 from ats import ats_settings
+
+
+formatter = logging.Formatter(ats_settings.LOG_FORMAT)
+h = logging.FileHandler(ats_settings.LOG_PATH)
+h.setFormatter(formatter)
+
+logger = logging.getLogger(ats_settings.APP_NAME)
+logger.setLevel(ats_settings.LOG_LEVEL)
+logger.addHandler(h)
 
 
 def error500(request):
