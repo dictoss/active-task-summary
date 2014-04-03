@@ -276,7 +276,7 @@ def regist(request):
 
     # enable select hour and minute.
     hourlist = []
-    for i in range(24):
+    for i in range(ats_settings.ATS_REGIST_HOUR_MAX):
         hourlist.append(i)
 
     minutelist = []
