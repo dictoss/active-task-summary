@@ -23,16 +23,19 @@ from django.core.context_processors import csrf
 from django.forms import ModelForm
 from django.db.models import Sum
 from django.db import transaction
-
 from ats.models import *
 from ats import ats_settings
 
+APP_NAME = 'ats'
+APP_LONGNAME = 'Active Task Summary'
+APP_VERSION = '0.1.0'
+APP_AUTHER = 'dictoss'
 
 formatter = logging.Formatter(ats_settings.LOG_FORMAT)
 h = logging.FileHandler(ats_settings.LOG_PATH)
 h.setFormatter(formatter)
 
-logger = logging.getLogger(ats_settings.APP_NAME)
+logger = logging.getLogger(APP_NAME)
 logger.setLevel(ats_settings.LOG_LEVEL)
 logger.addHandler(h)
 
@@ -46,7 +49,7 @@ def error404(request):
 
 
 def get_url_prefix():
-    return '%s/%s' % (settings.APP_MOUNTDIR, ats_settings.APP_NAME)
+    return '%s/%s' % (settings.APP_MOUNTDIR, APP_NAME)
 
 
 def format_totaltime_delta(td):
@@ -640,10 +643,10 @@ def my_render_to_response(request, template_file, paramdict):
     #paramdict['sitecounter'] = do_counter(request, response)
 
     paramdict['url_prefix'] = get_url_prefix()
-    paramdict['app_name'] = ats_settings.APP_NAME
-    paramdict['app_longname'] = ats_settings.APP_LONGNAME
-    paramdict['app_auther'] = ats_settings.APP_AUTHER
-    paramdict['app_version'] = ats_settings.APP_VERSION
+    paramdict['app_name'] = APP_NAME
+    paramdict['app_longname'] = APP_LONGNAME
+    paramdict['app_auther'] = APP_AUTHER
+    paramdict['app_version'] = APP_VERSION
     paramdict['is_lastname_front'] = ats_settings.ATS_IS_LASTNAME_FRONT
 
     t = loader.get_template(template_file)

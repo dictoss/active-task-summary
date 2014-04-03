@@ -4,11 +4,6 @@ import os
 import logging
 from django.conf import settings
 
-APP_NAME = 'ats'
-APP_LONGNAME = 'Active Task Summary'
-APP_VERSION = '0.1.0'
-APP_AUTHER = 'dictoss'
-
 # valid range is between 1 and 24.
 ATS_REGIST_HOUR_MAX = 16
 
