@@ -13,7 +13,6 @@ urlpatterns = patterns('ats.views',
          (r'^login/$','login_view'),
          (r'^logout/$','logout_view'),
          (r'^regist/$', 'regist'),
-         (r'^regist/(?P<date>\d+)/$', 'regist_d'),
          #
          #(r'^summary/$', 'summary'),
          (r'^summary/date/$', 'summary_d'),

@@ -310,12 +310,6 @@ def regist(request):
 
 
 @login_required
-def regist_d(request, date):
-    return my_render_to_response(request,
-                                 'regist/regist_d.html', {})
-
-
-@login_required
 def summary_d(request):
     datalist = []
     totallist = []
