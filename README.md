@@ -18,7 +18,8 @@ mysql-server-5.5
 NOTICE
 ===================
 This web application used Django.
-But cannot to use sqlite3. (group by not work.)
+Must use postgresql.
+(If you use sqlite3 or mysql, it is not work to GROUP BY.)
 
 ToDo
 ===================
