@@ -383,7 +383,8 @@ def summary_j(request):
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
 
-            cursor = cursor.order_by('project__sortkey', 'task__job__sortkey')
+            cursor = cursor.order_by('project__sortkey',
+                                     'task__job__sortkey')
 
             cursor = cursor.values('project_id',
                                    'project__name',
@@ -406,7 +407,9 @@ def summary_j(request):
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
 
-            cursor = cursor.order_by('task__job__sortkey', 'task__sortkey')
+            cursor = cursor.order_by('project__sortkey',
+                                     'task__job__sortkey',
+                                     'task__sortkey')
 
             cursor = cursor.values('project_id',
                                    'project__name',
