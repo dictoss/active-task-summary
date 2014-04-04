@@ -364,9 +364,7 @@ def summary_j(request):
             cursor = cursor.order_by('project__sortkey',
                                      'task__job__sortkey')
 
-            cursor = cursor.values('project_id',
-                                   'project__name',
-                                   'task__job__id',
+            cursor = cursor.values('project__name',
                                    'task__job__name').annotate(
                 total_tasktime=Sum('tasktime'))
 
@@ -389,11 +387,8 @@ def summary_j(request):
                                      'task__job__sortkey',
                                      'task__sortkey')
 
-            cursor = cursor.values('project_id',
-                                   'project__name',
-                                   #'task__job__id',
+            cursor = cursor.values('project__name',
                                    'task__job__name',
-                                   'task_id',
                                    'task__name').annotate(
                 total_tasktime=Sum('tasktime'))
 
@@ -438,11 +433,8 @@ def summary_u(request):
             cursor = cursor.order_by('project__sortkey',
                                      'task__job__sortkey')
 
-            cursor = cursor.values('project_id',
-                                   'project__name',
-                                   'task__job__id',
+            cursor = cursor.values('project__name',
                                    'task__job__name',
-                                   'user__id',
                                    'user__last_name',
                                    'user__first_name').annotate(
                 total_tasktime=Sum('tasktime'))
@@ -465,13 +457,9 @@ def summary_u(request):
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
 
-            cursor = cursor.values('project_id',
-                                   'project__name',
-                                   'task__job__id',
+            cursor = cursor.values('project__name',
                                    'task__job__name',
-                                   'task_id',
                                    'task__name',
-                                   'user__id',
                                    'user__last_name',
                                    'user__first_name').annotate(
                 total_tasktime=Sum('tasktime'))

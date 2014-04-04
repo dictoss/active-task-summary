@@ -40,16 +40,16 @@
 {% if datalist %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>project</th>
   <th>date</th>
+  <th>project</th>
   <th>job</th>
   <th>task</th>
   <th>task time</th>
  </tr>
 {% for data in datalist %}
  <tr>
-  <td>{{ data.project.name }}</td>
   <td>{{ data.taskdate|date:"Y-m-d" }}</td>
+  <td>{{ data.project.name }}</td>
   <td>{{ data.task.job.name }}</td>
   <td>{{ data.task.name }}</td>
   <td class="num">{{ data.tasktime|time:"H:i" }}</td>

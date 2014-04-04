@@ -20,17 +20,13 @@
 {% if jobdata %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>project id</th>
   <th>project name</th>
-  <th>job id</th>
   <th>job name</th>
   <th>task time</th>
  </tr>
 {% for r in jobdata %}
  <tr>
-  <td class="num">{{ r.project_id }}</td>
   <td>{{ r.project__name }}</td>
-  <td class="num">{{ r.task__job__id }}</td>
   <td>{{ r.task__job__name }}</td>
   <td class="num">{{ r.total_tasktime }}</td>
  </tr>
@@ -44,21 +40,15 @@
 {% if taskdata %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>project id</th>
   <th>project name</th>
-  <th>job id</th>
   <th>job name</th>
-  <th>task id</th>
   <th>task name</th>
   <th>task time</th>
  </tr>
 {% for r in taskdata %}
  <tr>
-  <td class="num">{{ r.project_id }}</td>
   <td>{{ r.project__name }}</td>
-  <td class="num">{{ r.task__job__id }}</td>
   <td>{{ r.task__job__name }}</td>
-  <td class="num">{{ r.task_id }}</td>
   <td>{{ r.task__name }}</td>
   <td class="num">{{ r.total_tasktime }}</td>
  </tr>
