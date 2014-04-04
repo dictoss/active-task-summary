@@ -275,7 +275,7 @@ def regist(request):
                    'tasktime_min': 0}
 
             for u in cursor_u:
-                if t.id == u.task_id:
+                if (pjw.project == u.project) and (t.id == u.task_id):
                     utt['tasktime_hour'] = u.tasktime.hour
                     utt['tasktime_min'] = u.tasktime.minute
                     break
