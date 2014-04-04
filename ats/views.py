@@ -389,8 +389,9 @@ def summary_j(request):
             jobdatalist = list(cursor)
 
             # convert hour
-            for r in jobdatalist:
-                r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
+            #for r in jobdatalist:
+            #    print(r['total_tasktime'])
+            #    r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
 
             #calc task
             cursor = UsedTaskTime.objects.filter(task__job__in=joblist)
@@ -416,8 +417,8 @@ def summary_j(request):
             taskdatalist = list(cursor)
 
             # convert hour
-            for r in taskdatalist:
-                r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
+            #for r in taskdatalist:
+            #    r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
         else:
             form = SummaryJobForm()
     else:
@@ -467,8 +468,8 @@ def summary_u(request):
             userdatalist = list(cursor)
 
             # convert hour
-            for r in userdatalist:
-                r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
+            #for r in userdatalist:
+            #    r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
 
             #calc task
             cursor = UsedTaskTime.objects.filter(user__in=userlist)
@@ -496,8 +497,8 @@ def summary_u(request):
             taskdatalist = list(cursor)
 
             # convert hour
-            for r in taskdatalist:
-                r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
+            #for r in taskdatalist:
+            #    r['total_tasktime'] = format_totaltime_int(r['total_tasktime'])
         else:
             form = SummaryUserForm()
     else:
