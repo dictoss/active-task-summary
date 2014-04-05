@@ -325,8 +325,7 @@ def summary_d(request):
 
             totaltime = format_totaltime(td)
 
-            totallist = [{'project_id': project.id,
-                          'project__name': project.name,
+            totallist = [{'project__name': project.name,
                           'total_tasktime': totaltime}]
         else:
             form = SummaryDateForm()
