@@ -305,7 +305,7 @@ def summary_d(request):
             from_date = form.cleaned_data['from_date']
             to_date = form.cleaned_data['to_date']
 
-            # date
+            # calc date
             cursor = UsedTaskTime.objects.filter(project=project)
             if from_date:
                 cursor = cursor.filter(taskdate__gte=from_date)
@@ -313,20 +313,29 @@ def summary_d(request):
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
 
-            cursor = cursor.order_by('taskdate')
+            cursor = cursor.values('project__name').annotate(
+                total_tasktime=Sum('tasktime'))
+
+            totallist = list(cursor)
+
+            # convert hour
+            for r in totallist:
+                r['total_tasktime'] = format_totaltime(r['total_tasktime'])
+
+            #calc task
+            cursor = UsedTaskTime.objects.filter(project=project)
+
+            if from_date:
+                cursor = cursor.filter(taskdate__gte=from_date)
+
+            if to_date:
+                cursor = cursor.filter(taskdate__lte=to_date)
+
+            cursor = cursor.order_by('taskdate',
+                                     'task__job__sortkey',
+                                     'task__sortkey')
 
             datalist = list(cursor)
-
-            # sum total
-            td = datetime.timedelta()
-            for r in datalist:
-                td = td + datetime.timedelta(
-                    hours=r.tasktime.hour, minutes=r.tasktime.minute)
-
-            totaltime = format_totaltime(td)
-
-            totallist = [{'project__name': project.name,
-                          'total_tasktime': totaltime}]
         else:
             form = SummaryDateForm()
     else:
