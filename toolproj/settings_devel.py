@@ -10,3 +10,7 @@ DATABASES = {
         'PASSWORD': 'password'
     }
 }
+
+LOGIN_REDIRECT_URL = "%s/ats/top/" % APP_MOUNTDIR
+LOGIN_URL = "%s/ats/login/" % APP_MOUNTDIR
+LOGOUT_URL = "%s/ats/logout/" % APP_MOUNTDIR
