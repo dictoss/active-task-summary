@@ -633,7 +633,7 @@ def my_render_to_response(request, template_file, paramdict):
 
 class RegistSelectForm(forms.Form):
     regist_date = forms.DateField(label='regist_date', required=True,
-                                  initial=datetime.datetime.now())
+                                  initial=lambda: datetime.datetime.now())
     projectlist = forms.ChoiceField(label='Project',
                                     choices=[('-1', '------')])
 
@@ -659,17 +659,17 @@ class RegistForm(forms.Form):
 
 class SummaryDateForm(forms.Form):
     from_date = forms.DateField(label='from date', required=False,
-                                initial=datetime.datetime.now().replace(day=1))
+                                initial=lambda: datetime.datetime.now().replace(day=1))
     to_date = forms.DateField(label='to date', required=False,
-                              initial=datetime.datetime.now())
+                              initial=lambda: datetime.datetime.now())
     projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all())
 
 
 class SummaryJobForm(forms.Form):
     from_date = forms.DateField(label='from date', required=False,
-                                initial=datetime.datetime.now().replace(day=1))
+                                initial=lambda: datetime.datetime.now().replace(day=1))
     to_date = forms.DateField(label='to date', required=False,
-                              initial=datetime.datetime.now())
+                              initial=lambda: datetime.datetime.now())
     joblist = forms.ModelMultipleChoiceField(label='job', required=True, queryset=Job.objects.all())
 
 
@@ -685,9 +685,9 @@ class MyUserModelMultipleChoiceField(forms.ModelMultipleChoiceField):
 
 class SummaryUserForm(forms.Form):
     from_date = forms.DateField(label='from date', required=False,
-                                initial=datetime.datetime.now().replace(day=1))
+                                initial=lambda: datetime.datetime.now().replace(day=1))
     to_date = forms.DateField(label='to date', required=False,
-                              initial=datetime.datetime.now())
+                              initial=lambda: datetime.datetime.now())
     userlist = MyUserModelMultipleChoiceField(label='user', required=True, queryset=User.objects.all())
 
 
