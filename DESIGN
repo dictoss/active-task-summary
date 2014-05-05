@@ -213,3 +213,37 @@ job : task = 1:N
    * ブラウザはjavascriptにより、ユーザの要求をAPI単にに分割してリクエストを繰り返して順次画面を更新する
 
 ----
+
+== グループ機能の設計 ==
+ * 現在の実装ではグループ機能は以下がある
+   * projectworker : 作業目的によるグルーピング機能
+   * job : 職種によるグルーピング機能
+ * グルーピング機能はロールをプリセット機能とする
+   * そのため、グループ名に意味はない
+ * ただし、superuserは全ロール機能をもつこととする
+ * roleテーブルはない
+   * プログラムとして値を持つ必要があるため埋め込む
+   * プログラムの埋め込んだ値がroleidとなる
+ * テーブル構成
+   * auth_user
+   * Group
+   * BelongGroup
+     * id
+     * group_id
+     * user_id
+   * RoleGroup
+     * id
+     * group_id
+     * roleid
+   * Project
+   * ProjectWorker (=project worker)
+     * id
+     * project_id
+     * job_id
+     * user_id
+
+== ロール機能 ==
+ * パスワード変更
+ * マスタデータの追加
+ * マスタデータの変更・削除
+ * ロール設定の変更

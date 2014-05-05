@@ -100,3 +100,35 @@ class UsedTaskTime(models.Model):
             self.user.username, self.project.name, self.task.name)
 
 admin.site.register(UsedTaskTime)
+
+
+class Group(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.TextField(blank=False)
+
+    def __unicode__(self):
+        return u'%d : %s' % (self.id, self.name)
+
+admin.site.register(Group)
+
+
+class BelongGroup(models.Model):
+    id = models.AutoField(primary_key=True)
+    group = models.ForeignKey(Group)
+    user = models.ForeignKey(User)
+
+    def __unicode__(self):
+        return u'%d : %s - %s' % (self.id, self.group, self.user)
+
+admin.site.register(BelongGroup)
+
+
+class RoleGroup(models.Model):
+    id = models.AutoField(primary_key=True)
+    group = models.ForeignKey(Group)
+    roleid = models.IntegerField(null=False)
+
+    def __unicode__(self):
+        return u'%d : %s - %s' % (self.id, self.group, self.roleid)
+
+admin.site.register(RoleGroup)
