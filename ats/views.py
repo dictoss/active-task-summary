@@ -356,6 +356,8 @@ def regist(request):
     cursor_u = cursor_u.filter(taskdate=regist_date)
     cursor_u = cursor_u.order_by('project__sortkey', 'task__sortkey')
 
+    day_total = datetime.timedelta()
+
     for u in cursor_u:
         uttobj = {'projectname': u.project.name,
                   'jobname': u.task.job.name,
@@ -364,6 +366,9 @@ def regist(request):
                   'tasktime_min': u.tasktime.minute}
 
         existdatalist.append(uttobj)
+
+        day_total = day_total + datetime.timedelta(
+            hours=u.tasktime.hour, minutes=u.tasktime.minute)
 
     # create input form
     for pjw in cursor_pjw:
@@ -406,6 +411,9 @@ def regist(request):
 
     transaction.commit()
 
+    day_total_hour = int(day_total.seconds / 3600)
+    day_total_min = int((day_total.seconds - (day_total_hour * 3600)) / 60)
+
     return my_render_to_response(request,
                                  'regist/regist.html',
                                  {'form': rs_form,
@@ -414,7 +422,9 @@ def regist(request):
                                   'existdatalist': existdatalist,
                                   'datalist': datalist,
                                   'hourlist': hourlist,
-                                  'minutelist': minutelist})
+                                  'minutelist': minutelist,
+                                  'oneday_total_hour': day_total_hour,
+                                  'oneday_total_min': day_total_min})
 
 
 @login_required
