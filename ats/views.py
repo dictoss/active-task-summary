@@ -286,10 +286,6 @@ def regist(request):
                     ud_ttime = datetime.time(hour=int(tasktime_hour[i]),
                                              minute=int(tasktime_min[i]))
 
-                    if (ud_ttime.hour == 0) and (ud_ttime.minute == 0):
-                        logger.debug('zero time. pass regist.')
-                        continue
-
                     try:
                         uttinst = UsedTaskTime.objects.get(
                             user=request.user,
@@ -311,7 +307,11 @@ def regist(request):
 
                     try:
                         if uttinst:
-                            uttinst.save()
+                            if (ud_ttime.hour == 0) and (ud_ttime.minute == 0):
+                                uttinst.delete()
+                            else:
+                                uttinst.save()
+
                             regist_count = regist_count + 1
                         else:
                             pass
