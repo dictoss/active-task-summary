@@ -333,10 +333,10 @@ def regist(request):
 
         rs_form = RegistSelectForm(user=request.user)
         regist_date = rs_form['regist_date'].value
-        sel_project = rs_form.fields['projectlist'].choices[0]
+        sel_project = (rs_form.fields['projectlist'].choices[0])[0]
 
     # select project
-    project = Project.objects.filter(id=sel_project[0])
+    project = Project.objects.filter(id=sel_project)
 
     if project:
         cursor_pjw = ProjectWorker.objects.filter(user=request.user)
