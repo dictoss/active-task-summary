@@ -555,6 +555,7 @@ def summary_j(request):
 def summary_u(request):
     userdatalist = []
     taskdatalist = []
+    datedatalist = []
 
     if request.method == 'POST':
         form = SummaryUserForm(request.POST)
@@ -572,6 +573,19 @@ def summary_u(request):
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
 
+            # date data
+            cursor_date = cursor.order_by('taskdate')
+            cursor_date = cursor_date.values('project__name',
+                                             'taskdate',
+                                             'task__job__name',
+                                             'task__name',
+                                             'user__last_name',
+                                             'user__first_name',
+                                             'tasktime')
+
+            datedatalist = list(cursor_date)
+
+            # user summary
             cursor = cursor.order_by('project__sortkey',
                                      'task__job__sortkey')
 
@@ -620,7 +634,8 @@ def summary_u(request):
                                  'summary/user.html',
                                  {'form': form,
                                   'userdata': userdatalist,
-                                  'taskdata': taskdatalist})
+                                  'taskdata': taskdatalist,
+                                  'datedata': datedatalist})
 
 
 def summary_pd(request, project_id, from_date, to_date):

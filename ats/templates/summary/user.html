@@ -69,4 +69,34 @@
 {% else %}
 <p>no data.</p>
 {% endif %}
+
+<h3>Date Detail</h3>
+{% if datedata %}
+<table class="usedtasktime" border="1">
+ <tr>
+  <th>date</th>
+  <th>project</th>
+  <th>job</th>
+  <th>task</th>
+  <th>user</th>
+  <th>task time</th>
+ </tr>
+{% for r in datedata %}
+ <tr>
+  <td>{{ r.taskdate|date:"Y-m-d" }}</td>
+  <td>{{ r.project__name }}</td>
+  <td>{{ r.task__job__name }}</td>
+  <td>{{ r.task__name }}</td>
+  {% if is_lastname_front %}
+  <td>{{ r.user__last_name }} {{ r.user__first_name }}</td>
+  {% else %}
+  <td>{{ r.user__first_name }} {{ r.user__last_name }}</td>
+  {% endif %}
+  <td class="num">{{ r.tasktime|time:"H:i" }}</td>
+ </tr>
+{% endfor %}
+</table>
+{% else %}
+<p>no data.</p>
+{% endif %}
 {% endblock %}
