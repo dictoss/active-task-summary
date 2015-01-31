@@ -791,7 +791,8 @@ class RegistSelectForm(forms.Form):
         super(RegistSelectForm, self).__init__(*args, **kwargs)
 
         cursor = ProjectWorker.objects.filter(user=_user).order_by(
-            'project').values('project__id', 'project__name').distinct()
+            'project__sortkey').values(
+            'project__id', 'project__name').distinct()
 
         pjlist = []
         for r in cursor:
