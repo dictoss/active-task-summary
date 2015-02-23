@@ -735,7 +735,7 @@ def manage_task_detail(request, task_id):
 
 def manage_job_list(request):
     return my_render_to_response(request,
-                                 'manage/jpb_list.html', {})
+                                 'manage/job_list.html', {})
 
 
 def manage_job_detail(request, job_id):
