@@ -713,11 +713,6 @@ def manage_user_detail(request, user_id):
                                  'manage/user_detail.html', {})
 
 
-def manage_user_edit(request, user_id):
-    return my_render_to_response(request,
-                                 'manage/user_edit.html', {})
-
-
 def manage_project_list(request):
     return my_render_to_response(request,
                                  'manage/project_list.html', {})
@@ -726,11 +721,6 @@ def manage_project_list(request):
 def manage_project_detail(request, project_id):
     return my_render_to_response(request,
                                  'manage/project_detail.html', {})
-
-
-def manage_project_edit(request, project_id):
-    return my_render_to_response(request,
-                                 'manage/project_edit.html', {})
 
 
 def manage_task_list(request):
@@ -743,11 +733,6 @@ def manage_task_detail(request, task_id):
                                  'manage/task_detail.html', {})
 
 
-def manage_task_edit(request, task_id):
-    return my_render_to_response(request,
-                                 'manage/task_edit.html', {})
-
-
 def manage_job_list(request):
     return my_render_to_response(request,
                                  'manage/jpb_list.html', {})
@@ -756,11 +741,6 @@ def manage_job_list(request):
 def manage_job_detail(request, job_id):
     return my_render_to_response(request,
                                  'manage/job_detail.html', {})
-
-
-def manage_job_edit(request, user_id):
-    return my_render_to_response(request,
-                                 'manage/job_edit.html', {})
 
 
 def my_render_to_response(request, template_file, paramdict):
