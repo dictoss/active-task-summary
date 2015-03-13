@@ -792,7 +792,7 @@ class SummaryDateForm(forms.Form):
                                 initial=lambda: datetime.datetime.now().replace(day=1))
     to_date = forms.DateField(label='to date', required=False,
                               initial=lambda: datetime.datetime.now())
-    projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all())
+    projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all().order_by('sortkey'))
 
 
 class SummaryJobForm(forms.Form):
@@ -800,7 +800,7 @@ class SummaryJobForm(forms.Form):
                                 initial=lambda: datetime.datetime.now().replace(day=1))
     to_date = forms.DateField(label='to date', required=False,
                               initial=lambda: datetime.datetime.now())
-    joblist = forms.ModelMultipleChoiceField(label='job', required=True, queryset=Job.objects.all())
+    joblist = forms.ModelMultipleChoiceField(label='job', required=True, queryset=Job.objects.all().order_by('sortkey'))
 
 
 class MyUserModelMultipleChoiceField(forms.ModelMultipleChoiceField):
