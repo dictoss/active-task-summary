@@ -762,7 +762,8 @@ def my_render_to_response(request, template_file, paramdict):
 
 class RegistSelectForm(forms.Form):
     regist_date = forms.DateField(label='regist_date', required=True,
-                                  initial=lambda: datetime.datetime.now())
+                                  initial=lambda: datetime.datetime.now(),
+                                  widget=forms.DateInput(attrs={"type":"date"}))
     projectlist = forms.ChoiceField(label='Project',
                                     choices=[('-1', '------')])
 
