@@ -18,14 +18,14 @@
 <table class="usedtasktime" border="1">
 <cation>exist data this day (total : {{ oneday_total_hour }} hour {{ oneday_total_min }} min)</cation>
 <tr>
-<th>project</th><th>job</th><th>task</th><th>task time</th>
+<th>task time</th><th>project</th><th>job</th><th>task</th>
 </tr>
 {% for d in existdatalist %}
 <tr>
+<td>{{ d.tasktime_hour }} hour {{ d.tasktime_min }} min</td>
 <td>{{ d.projectname }}</td>
 <td>{{ d.jobname }}</td>
 <td>{{ d.taskname }}</td>
-<td>{{ d.tasktime_hour }} hour {{ d.tasktime_min }} min</td>
 </tr>
 {% endfor %}
 </table>
@@ -44,13 +44,13 @@ empty data this day.
 {% for proj in datalist %}
 <table class="usedtasktime" border="1">
 <tr>
-<th></th><th>project</th><th>job</th><th>task</th><th>task time</th>
+<th></th><th>task time</th><th>project</th><th>job</th><th>task</th>
 </tr>
 {% for t in proj.usedtasktimelist %}
 <tr>
 <td><input type="hidden" name="uttid" value="p{{ proj.project_id }}_t{{ t.task_id }}"><input type="checkbox" name="registcheck" value="p{{ proj.project_id }}_t{{ t.task_id }}"></td>
-<td>{{ proj.project_name }}</td><td>{{ t.job_name }}</td><td>{{ t.task_name }}</td>
 <td><select name="tasktime_hour">{% for hour in hourlist %}{% if hour == t.tasktime_hour %}<option value="{{ hour }}" selected>{{ hour }}</option>{% else %}<option value="{{ hour }}">{{ hour }}</option>{% endif %}{% endfor %}</select> hour <select name="tasktime_min">{% for min in minutelist %}{% if min == t.tasktime_min %}<option value="{{ min }}" selected>{{ min }}</option>{% else %}<option value="{{ min }}">{{ min }}</option>{% endif %}{% endfor %}</select> min </td>
+<td>{{ proj.project_name }}</td><td>{{ t.job_name }}</td><td>{{ t.task_name }}</td>
 </tr>
 {% endfor %}
 </table>
