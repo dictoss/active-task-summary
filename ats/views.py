@@ -21,7 +21,7 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.core.context_processors import csrf
 from django.forms import ModelForm
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.db import transaction
 from ats.models import *
 from ats import ats_settings
@@ -772,7 +772,14 @@ class RegistSelectForm(forms.Form):
         super(RegistSelectForm, self).__init__(*args, **kwargs)
 
         cursor = ProjectWorker.objects.filter(user=_user).order_by(
-            'project__sortkey').values(
+            'project__sortkey')
+
+        cmp_dt = self.fields['regist_date'].initial()
+        if args:
+            cmp_dt = args[0]['regist_date']
+
+        cursor = cursor.filter(Q(project__end_dt__isnull=True) | Q(project__end_dt__gte=cmp_dt))
+        cursor = cursor.values(
             'project__id', 'project__name').distinct()
 
         pjlist = []
