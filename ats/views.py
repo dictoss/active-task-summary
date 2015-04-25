@@ -778,6 +778,7 @@ class RegistSelectForm(forms.Form):
         if args:
             cmp_dt = args[0]['regist_date']
 
+        cursor = cursor.filter(Q(project__start_dt__isnull=True) | Q(project__start_dt__lte=cmp_dt))
         cursor = cursor.filter(Q(project__end_dt__isnull=True) | Q(project__end_dt__gte=cmp_dt))
         cursor = cursor.values(
             'project__id', 'project__name').distinct()
