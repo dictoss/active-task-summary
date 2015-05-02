@@ -242,9 +242,10 @@ def logout_view(request):
 
 
 @login_required
-@transaction.commit_manually
 def regist(request):
     if request.method == 'POST':
+        transaction.set_autocommit(False)
+
         regist_count = 0
 
         rs_form = RegistSelectForm(request.POST, user=request.user)
@@ -328,6 +329,8 @@ def regist(request):
                     pass
             else:
                 re_form = RegistForm()
+
+            transaction.set_autocommit(True)
     else:
         re_form = RegistForm()
 
@@ -408,8 +411,6 @@ def regist(request):
     minutelist = []
     for i in range((60 / ats_settings.ATS_REGIST_MIN_SPAN)):
         minutelist.append(i * (ats_settings.ATS_REGIST_MIN_SPAN))
-
-    transaction.commit()
 
     day_total_hour = int(day_total.seconds / 3600)
     day_total_min = int((day_total.seconds - (day_total_hour * 3600)) / 60)

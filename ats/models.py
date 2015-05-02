@@ -7,8 +7,7 @@ import bigint_patch
 
 class UserExtraAttr(models.Model):
     user = models.ForeignKey(User)
-    expire_dt = models.DateField(auto_now=False,
-                                 auto_now_add=False, null=False)
+    expire_dt = models.DateField(null=False)
     accounttype = models.IntegerField()
 
 admin.site.register(UserExtraAttr)
@@ -17,10 +16,8 @@ admin.site.register(UserExtraAttr)
 class Project(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField(blank=False)
-    start_dt = models.DateField(auto_now=False, auto_now_add=False,
-                                null=False, blank=False)
-    end_dt = models.DateField(auto_now=False, auto_now_add=False,
-                              null=True, blank=True)
+    start_dt = models.DateField(null=False, blank=False)
+    end_dt = models.DateField(null=True, blank=True)
     sortkey = models.IntegerField(null=False)
 
     def __unicode__(self):
@@ -91,8 +88,8 @@ class UsedTaskTime(models.Model):
     user = models.ForeignKey(User)
     project = models.ForeignKey('Project')
     task = models.ForeignKey('Task')
-    taskdate = models.DateField(auto_now=False, auto_now_add=False, null=False)
-    tasktime = models.TimeField(auto_now=False, auto_now_add=False, null=False)
+    taskdate = models.DateField(null=False)
+    tasktime = models.TimeField(null=False)
 
     def __unicode__(self):
         return u'%d : [%s - %s] %s - %s - %s' % (
