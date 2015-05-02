@@ -124,8 +124,8 @@ def create_role_string(request, user):
     '''
     roleset = set()
     groupqs = BelongGroup.objects.filter(user=user)
-    for group in groupqs:
-        roleqs = RoleGroup.objects.filter(group=group)
+    for g in groupqs:
+        roleqs = RoleGroup.objects.filter(group=g.group)
 
         roles = []
         for r in roleqs:
