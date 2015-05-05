@@ -317,7 +317,6 @@ def regist(request):
                                 sys.exc_info()[1], sys.exc_info()[2])
                             logger.error(msg)
                             logger.error("do rollback")
-                            transaction.rollback()
                             # add notify message on template.
                             raise Exception(msg)
             else:
