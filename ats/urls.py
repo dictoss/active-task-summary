@@ -33,33 +33,6 @@ urlpatterns = patterns('ats.views',
          #
          (r'^manage/chpasswd/$',
           'manage_chpasswd'),
-         #
-         (r'^manage/user/$',
-          'manage_user_list'),
-         (r'^manage/user/(?P<user_id>\d+)/$',
-          'manage_user_detail'),
-         #
-         (r'^manage/project/$',
-          'manage_project_list'),
-         (r'^manage/project/(?P<project_id>\d+)/$',
-          'manage_project_detail'),
-         #
-         (r'^manage/task/$',
-          'manage_task_list'),
-         (r'^manage/task/(?P<task_id>\d+)/$',
-          'manage_task_detail'),
-         #
-         (r'^manage/job/$',
-          'manage_job_list'),
-         (r'^manage/job/(?P<job_id>\d+)/$',
-          'manage_job_detail'),
-         #
-         #(r'^manage/notify/$',
-         # 'manage_notify_list'),
-         #(r'^manage/notify/(?P<notify_id>\d+)/$',
-         # 'manage_notify_detail'),
-         #(r'^manage/notify/(?P<notify_id>\d+)/edit/$',
-         # 'manage_notify_edit'),
          )
 
 urlpatterns += staticfiles_urlpatterns()
