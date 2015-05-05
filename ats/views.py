@@ -297,26 +297,20 @@ def regist(request):
                                 taskdate=regist_date)
 
                             uttinst.tasktime = ud_ttime
-                        except UsedTaskTime.DoesNotExist:
-                            uttinst = UsedTaskTime(
-                                id=None,
-                                user=request.user,
-                                project=Project.objects.get(id=pid),
-                                task=Task.objects.get(id=tid),
-                                taskdate=regist_date,
-                                tasktime=ud_ttime)
-                        except:
-                            msg = "EXCEPT: do rollback(no UsedTaslTime data)"
-                            logger.error(msg)
-                            transaction.rollback()
-                            # add notify message on template.
-                            raise Exception(msg)
 
-                        # do save.
-                        try:
-                            if (ud_ttime.hour == 0) and (ud_ttime.minute == 0):
+                            if (0 == ud_ttime.hour) and (0 == ud_ttime.minute):
                                 uttinst.delete()
                             else:
+                                uttinst.save()
+                        except UsedTaskTime.DoesNotExist:
+                            if (0 < ud_ttime.hour) or (0 < ud_ttime.minute):
+                                uttinst = UsedTaskTime.objects.create(
+                                    user=request.user,
+                                    project=Project.objects.get(id=pid),
+                                    task=Task.objects.get(id=tid),
+                                    taskdate=regist_date,
+                                    tasktime=ud_ttime)
+
                                 uttinst.save()
                         except:
                             msg = "EXCEPT: fail save or delete. msg=%s,%s" % (
