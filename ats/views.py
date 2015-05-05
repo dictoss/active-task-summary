@@ -244,8 +244,6 @@ def logout_view(request):
 @login_required
 def regist(request):
     if request.method == 'POST':
-        transaction.set_autocommit(False)
-
         regist_count = 0
 
         rs_form = RegistSelectForm(request.POST, user=request.user)
@@ -279,58 +277,57 @@ def regist(request):
 
                 # insert or update usedtasktime
                 id_re = re.compile(r'p([0-9]{1,})_t([0-9]{1,})')
-                for i in targetindexlist:
-                    m = id_re.search(uttid[i])
-                    pid, tid = m.group(1, 2)
 
-                    uttinst = None
-                    ud_ttime = datetime.time(hour=int(tasktime_hour[i]),
-                                             minute=int(tasktime_min[i]))
+                with transaction.atomic():
+                    for i in targetindexlist:
+                        m = id_re.search(uttid[i])
+                        pid, tid = m.group(1, 2)
 
-                    try:
-                        uttinst = UsedTaskTime.objects.get(
-                            user=request.user,
-                            project=pid,
-                            task=tid,
-                            taskdate=regist_date)
+                        uttinst = None
+                        ud_ttime = datetime.time(
+                            hour=int(tasktime_hour[i]),
+                            minute=int(tasktime_min[i]))
 
-                        uttinst.tasktime = ud_ttime
-                    except UsedTaskTime.DoesNotExist:
-                        uttinst = UsedTaskTime(
-                            id=None,
-                            user=request.user,
-                            project=Project.objects.get(id=pid),
-                            task=Task.objects.get(id=tid),
-                            taskdate=regist_date,
-                            tasktime=ud_ttime)
-                    except:
-                        pass
+                        # search exist data.
+                        try:
+                            uttinst = UsedTaskTime.objects.get(
+                                user=request.user,
+                                project=pid,
+                                task=tid,
+                                taskdate=regist_date)
 
-                    try:
-                        if uttinst:
+                            uttinst.tasktime = ud_ttime
+                        except UsedTaskTime.DoesNotExist:
+                            uttinst = UsedTaskTime(
+                                id=None,
+                                user=request.user,
+                                project=Project.objects.get(id=pid),
+                                task=Task.objects.get(id=tid),
+                                taskdate=regist_date,
+                                tasktime=ud_ttime)
+                        except:
+                            msg = "EXCEPT: do rollback(no UsedTaslTime data)"
+                            logger.error(msg)
+                            transaction.rollback()
+                            # add notify message on template.
+                            raise Exception(msg)
+
+                        # do save.
+                        try:
                             if (ud_ttime.hour == 0) and (ud_ttime.minute == 0):
                                 uttinst.delete()
                             else:
                                 uttinst.save()
-
-                            regist_count = regist_count + 1
-                        else:
-                            pass
-                    except:
-                        pass
-
-                if 0 < len(targetindexlist):
-                    if regist_count == len(targetindexlist):
-                        transaction.commit()
-                    else:
-                        transaction.rollback()
-                else:
-                    # no check.
-                    pass
+                        except:
+                            msg = "EXCEPT: fail save or delete. msg=%s,%s" % (
+                                sys.exc_info()[1], sys.exc_info()[2])
+                            logger.error(msg)
+                            logger.error("do rollback")
+                            transaction.rollback()
+                            # add notify message on template.
+                            raise Exception(msg)
             else:
                 re_form = RegistForm()
-
-            transaction.set_autocommit(True)
     else:
         re_form = RegistForm()
 
