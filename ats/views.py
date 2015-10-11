@@ -342,18 +342,22 @@ def regist(request):
                             raise Exception(msg)
             else:
                 logger.warn('RegistForm.is_valid = False')
-                re_form = RegistForm()
 
                 rs_form = RegistSelectForm(user=request.user)
-                regist_date = rs_form['regist_date'].value
+                regist_date = get_today_str()
                 sel_project = (rs_form.fields['projectlist'].choices[0])[0]
+
+                re_form = RegistForm(initial={'regist_date': regist_date,
+                                              'project_id': sel_project})
     else:
         logger.info('regist : method=GET')
-        re_form = RegistForm()
 
         rs_form = RegistSelectForm(user=request.user)
-        regist_date = rs_form['regist_date'].value
+        regist_date = get_today_str()
         sel_project = (rs_form.fields['projectlist'].choices[0])[0]
+
+        re_form = RegistForm(initial={'regist_date': regist_date,
+                                      'project_id': sel_project})
 
     # select project
     project = Project.objects.filter(id=sel_project)
@@ -811,8 +815,14 @@ class RegistSelectForm(forms.Form):
             self.fields['projectlist'].choices = pjlist
 
 
+def get_today_str():
+    nowdt = datetime.datetime.now()
+    return nowdt.strftime('%Y-%m-%d')
+
+
 class RegistForm(forms.Form):
-    regist_date = forms.DateField(widget=forms.HiddenInput())
+    regist_date = forms.DateField(required=True,
+                                  widget=forms.HiddenInput())
     project_id = forms.IntegerField(widget=forms.HiddenInput())
 
 
