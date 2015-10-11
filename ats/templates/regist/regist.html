@@ -32,6 +32,7 @@
 {% else%}
 empty data this day.
 {% endif %}
+</form>
 <hr>
 
 {% if datalist %}
@@ -40,6 +41,7 @@ empty data this day.
 <br>
 <br>
 <form name="regist" action="#" method="POST">
+{{ regist_form.as_p }}
 {% csrf_token %}
 {% for proj in datalist %}
 <table class="usedtasktime" border="1">

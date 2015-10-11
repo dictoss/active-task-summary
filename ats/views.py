@@ -246,22 +246,38 @@ def regist(request):
     if request.method == 'POST':
         regist_count = 0
 
-        rs_form = RegistSelectForm(request.POST, user=request.user)
-        if rs_form.is_valid():
-            regist_date = rs_form.cleaned_data['regist_date']
-            sel_project = rs_form.cleaned_data['projectlist']
-        else:
-            rs_form = RegistSelectForm(user=request.user)
-            regist_date = rs_form['regist_date'].value
-            sel_project = rs_form.fields['projectlist'].choices[0]
-
-        # todo:
-        # receive form data from django form.
         if 'submit_dateselect' in request.POST:
-            re_form = RegistForm()
-        else:
+            logger.info('IN submit_dateselect')
+
+            # rs_form
+            rs_form = RegistSelectForm(request.POST, user=request.user)
+            if rs_form.is_valid():
+                regist_date = rs_form.cleaned_data['regist_date']
+                sel_project = rs_form.cleaned_data['projectlist']
+            else:
+                logger.warn('RegistSelectForm.is_valid = False')
+
+                rs_form = RegistSelectForm(user=request.user)
+                regist_date = rs_form['regist_date'].value
+                sel_project = (rs_form.fields['projectlist'].choices[0])[0]
+
+            # re_form
+            re_form = RegistForm(initial={'regist_date': regist_date,
+                                          'project_id': sel_project})
+        elif 'submit_regist' in request.POST:
+            logger.info('IN submit_regist')
+
             re_form = RegistForm(request.POST)
             if re_form.is_valid():
+                regist_date = re_form.cleaned_data['regist_date']
+                sel_project = re_form.cleaned_data['project_id']
+
+                # RegistSelect form
+                rs_form = RegistSelectForm(user=request.user,
+                                           initial={'regist_date': regist_date,
+                                                    'projectlist': sel_project})
+
+                # Regist form
                 checkregist = request.POST.getlist('registcheck')
                 uttid = request.POST.getlist('uttid')
                 tasktime_hour = request.POST.getlist('tasktime_hour')
@@ -274,6 +290,11 @@ def regist(request):
                         if uttid[i] == c:
                             targetindexlist.append(i)
                             break
+
+                if 0 < len(targetindexlist):
+                    logger.info('check count = %s' % (len(targetindexlist)))
+                else:
+                    logger.info('no check.')
 
                 # insert or update usedtasktime
                 id_re = re.compile(r'p([0-9]{1,})_t([0-9]{1,})')
@@ -320,8 +341,14 @@ def regist(request):
                             # add notify message on template.
                             raise Exception(msg)
             else:
+                logger.warn('RegistForm.is_valid = False')
                 re_form = RegistForm()
+
+                rs_form = RegistSelectForm(user=request.user)
+                regist_date = rs_form['regist_date'].value
+                sel_project = (rs_form.fields['projectlist'].choices[0])[0]
     else:
+        logger.info('regist : method=GET')
         re_form = RegistForm()
 
         rs_form = RegistSelectForm(user=request.user)
@@ -410,6 +437,7 @@ def regist(request):
                                  {'form': rs_form,
                                   'regist_form': re_form,
                                   'regist_date': regist_date,
+                                  'projectid': sel_project,
                                   'existdatalist': existdatalist,
                                   'datalist': datalist,
                                   'hourlist': hourlist,
@@ -784,7 +812,8 @@ class RegistSelectForm(forms.Form):
 
 
 class RegistForm(forms.Form):
-    registcheck = forms.BooleanField(required=False)
+    regist_date = forms.DateField(widget=forms.HiddenInput())
+    project_id = forms.IntegerField(widget=forms.HiddenInput())
 
 
 class SummaryDateForm(forms.Form):
