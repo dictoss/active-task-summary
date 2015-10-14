@@ -8,6 +8,7 @@ import time
 import datetime
 import re
 import logging
+from datetime import date
 from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -344,7 +345,7 @@ def regist(request):
                 logger.warn('RegistForm.is_valid = False')
 
                 rs_form = RegistSelectForm(user=request.user)
-                regist_date = get_today_str()
+                regist_date = datetime.date.today()
                 sel_project = (rs_form.fields['projectlist'].choices[0])[0]
 
                 re_form = RegistForm(initial={'regist_date': regist_date,
@@ -353,7 +354,7 @@ def regist(request):
         logger.info('regist : method=GET')
 
         rs_form = RegistSelectForm(user=request.user)
-        regist_date = get_today_str()
+        regist_date = datetime.date.today()
         sel_project = (rs_form.fields['projectlist'].choices[0])[0]
 
         re_form = RegistForm(initial={'regist_date': regist_date,
@@ -813,11 +814,6 @@ class RegistSelectForm(forms.Form):
 
         if 0 < len(pjlist):
             self.fields['projectlist'].choices = pjlist
-
-
-def get_today_str():
-    nowdt = datetime.datetime.now()
-    return nowdt.strftime('%Y-%m-%d')
 
 
 class RegistForm(forms.Form):
