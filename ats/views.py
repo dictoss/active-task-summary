@@ -853,7 +853,7 @@ class SummaryUserForm(forms.Form):
                                 initial=lambda: datetime.datetime.now().replace(day=1))
     to_date = forms.DateField(label='to date', required=False,
                               initial=lambda: datetime.datetime.now())
-    userlist = MyUserModelMultipleChoiceField(label='user', required=True, queryset=User.objects.all())
+    userlist = MyUserModelMultipleChoiceField(label='user', required=True, queryset=User.objects.filter(is_active=True).order_by('id'))
 
 
 class LoginForm(forms.Form):
