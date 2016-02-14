@@ -107,6 +107,6 @@ LOGIN_URL = "%s/ats/login/" % APP_MOUNTDIR
 LOGOUT_URL = "%s/ats/logout/" % APP_MOUNTDIR
 
 try:
-    from settings_devel import *
+    from .settings_devel import *
 except:
     pass

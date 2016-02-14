@@ -431,8 +431,8 @@ def regist(request):
         hourlist.append(i)
 
     minutelist = []
-    for i in range((60 / ats_settings.ATS_REGIST_MIN_SPAN)):
-        minutelist.append(i * (ats_settings.ATS_REGIST_MIN_SPAN))
+    for i in ats_settings.ATS_REGIST_MIN_SPAN:
+        minutelist.append(i)
 
     day_total_hour = int(day_total.seconds / 3600)
     day_total_min = int((day_total.seconds - (day_total_hour * 3600)) / 60)

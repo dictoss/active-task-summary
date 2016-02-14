@@ -8,7 +8,7 @@ from django.conf import settings
 ATS_REGIST_HOUR_MAX = 16
 
 # valid range is between 1 and 30.
-ATS_REGIST_MIN_SPAN = 15
+ATS_REGIST_MIN_SPAN = [0, 15, 30, 45]
 
 ATS_IS_LASTNAME_FRONT = False
 
@@ -17,6 +17,6 @@ LOG_FORMAT = '%(asctime)s,%(levelname)-8s,%(message)s'
 LOG_PATH = '%s/ats.log' % '/var/log/apache2'
 
 try:
-    from ats_settings_devel import *
+    from .ats_settings_devel import *
 except:
     pass

@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import datetime
 from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
-import bigint_patch
+from django.utils.encoding import python_2_unicode_compatible
+from . import bigint_patch
 
 
 class UserExtraAttr(models.Model):
@@ -13,6 +16,7 @@ class UserExtraAttr(models.Model):
 admin.site.register(UserExtraAttr)
 
 
+@python_2_unicode_compatible
 class Project(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField(blank=False)
@@ -20,33 +24,35 @@ class Project(models.Model):
     end_dt = models.DateField(null=True, blank=True)
     sortkey = models.IntegerField(null=False)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.end_dt:
             if self.end_dt < datetime.date.today():
-                return u'%d : %s [closed]' % (self.id, self.name)
+                return '%d : %s [closed]' % (self.id, self.name)
             else:
-                return u'%d : %s [opened]' % (self.id, self.name)
+                return '%d : %s [opened]' % (self.id, self.name)
         else:
-            return u'%d : %s [opened]' % (self.id, self.name)
+            return '%d : %s [opened]' % (self.id, self.name)
 
 admin.site.register(Project)
 
 
+@python_2_unicode_compatible
 class Job(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField(blank=False)
     sortkey = models.IntegerField(null=False)
     invalid = models.BooleanField(default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.invalid:
-            return u'%d : %s [invalid]' % (self.id, self.name)
+            return '%d : %s [invalid]' % (self.id, self.name)
         else:
-            return u'%d : %s' % (self.id, self.name)
+            return '%d : %s' % (self.id, self.name)
 
 admin.site.register(Job)
 
 
+@python_2_unicode_compatible
 class Task(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField(blank=False)
@@ -54,17 +60,18 @@ class Task(models.Model):
     sortkey = models.IntegerField(null=False)
     invalid = models.BooleanField(default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.invalid:
-            return u'%d : %s (%s) [invalid]' % (
+            return '%d : %s (%s) [invalid]' % (
                 self.id, self.name, self.job.name)
         else:
-            return u'%d : %s (%s)' % (
+            return '%d : %s (%s)' % (
                 self.id, self.name, self.job.name)
 
 admin.site.register(Task)
 
 
+@python_2_unicode_compatible
 class ProjectWorker(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User)
@@ -72,17 +79,18 @@ class ProjectWorker(models.Model):
     job = models.ForeignKey('Job')
     invalid = models.BooleanField(default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.invalid:
-            return u'%d : %s (%s - %s) [invalid]' % (
+            return '%d : %s (%s - %s) [invalid]' % (
                 self.id, self.user.username, self.project.name, self.job.name)
         else:
-            return u'%d : %s (%s - %s)' % (
+            return '%d : %s (%s - %s)' % (
                 self.id, self.user.username, self.project.name, self.job.name)
 
 admin.site.register(ProjectWorker)
 
 
+@python_2_unicode_compatible
 class UsedTaskTime(models.Model):
     id = bigint_patch.BigAutoField(primary_key=True)
     user = models.ForeignKey(User)
@@ -91,41 +99,44 @@ class UsedTaskTime(models.Model):
     taskdate = models.DateField(null=False)
     tasktime = models.TimeField(null=False)
 
-    def __unicode__(self):
-        return u'%d : [%s - %s] %s - %s - %s' % (
+    def __str__(self):
+        return '%d : [%s - %s] %s - %s - %s' % (
             self.id, self.taskdate, self.tasktime,
             self.user.username, self.project.name, self.task.name)
 
 admin.site.register(UsedTaskTime)
 
 
+@python_2_unicode_compatible
 class Group(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField(blank=False)
 
-    def __unicode__(self):
-        return u'%d : %s' % (self.id, self.name)
+    def __str__(self):
+        return '%d : %s' % (self.id, self.name)
 
 admin.site.register(Group)
 
 
+@python_2_unicode_compatible
 class BelongGroup(models.Model):
     id = models.AutoField(primary_key=True)
     group = models.ForeignKey(Group)
     user = models.ForeignKey(User)
 
-    def __unicode__(self):
-        return u'%d : %s - %s' % (self.id, self.group, self.user)
+    def __str__(self):
+        return '%d : %s - %s' % (self.id, self.group, self.user)
 
 admin.site.register(BelongGroup)
 
 
+@python_2_unicode_compatible
 class RoleGroup(models.Model):
     id = models.AutoField(primary_key=True)
     group = models.ForeignKey(Group)
     roleid = models.IntegerField(null=False)
 
-    def __unicode__(self):
-        return u'%d : %s - %s' % (self.id, self.group, self.roleid)
+    def __str__(self):
+        return '%d : %s - %s' % (self.id, self.group, self.roleid)
 
 admin.site.register(RoleGroup)
