@@ -580,6 +580,7 @@ def summary_u(request):
     userdatalist = []
     taskdatalist = []
     datedatalist = []
+    datesummarylist = []
 
     if request.method == 'POST':
         form = SummaryUserForm(request.POST)
@@ -608,6 +609,25 @@ def summary_u(request):
                                              'tasktime')
 
             datedatalist = list(cursor_date)
+
+            # date data summary
+            cursor_datesammary = cursor.order_by('taskdate')
+            cursor_datesammary = cursor_datesammary.values(
+                'taskdate',
+                'user__last_name',
+                'user__first_name',
+                'tasktime')
+
+            cursor_datesammary = cursor_datesammary.values(
+                'taskdate',
+                'user__last_name',
+                'user__first_name').annotate(
+                total_tasktime=Sum('tasktime'))
+            datesummarylist = list(cursor_datesammary)
+
+            # convert hour
+            for r in datesummarylist:
+                r['total_tasktime'] = format_totaltime(r['total_tasktime'])
 
             # user summary
             cursor = cursor.order_by('project__sortkey',
@@ -659,7 +679,8 @@ def summary_u(request):
                                  {'form': form,
                                   'userdata': userdatalist,
                                   'taskdata': taskdatalist,
-                                  'datedata': datedatalist})
+                                  'datesummarydata': datesummarylist,
+                                  'datedetaildata': datedatalist})
 
 
 def summary_pd(request, project_id, from_date, to_date):

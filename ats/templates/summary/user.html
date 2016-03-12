@@ -16,7 +16,7 @@
 </form>
 <hr>
 
-<h3>User Summary</h3>
+<h3>Project Summary</h3>
 {% if userdata %}
 <table class="usedtasktime" border="1">
  <tr>
@@ -70,8 +70,32 @@
 <p>no data.</p>
 {% endif %}
 
+<h3>Date Summray</h3>
+{% if datesummarydata %}
+<table class="usedtasktime" border="1">
+ <tr>
+  <th>date</th>
+  <th>user</th>
+  <th>task time</th>
+ </tr>
+{% for r in datesummarydata %}
+ <tr>
+  <td>{{ r.taskdate|date:"Y-m-d" }}</td>
+  {% if is_lastname_front %}
+  <td>{{ r.user__last_name }} {{ r.user__first_name }}</td>
+  {% else %}
+  <td>{{ r.user__first_name }} {{ r.user__last_name }}</td>
+  {% endif %}
+  <td class="num">{{ r.total_tasktime }}</td>
+ </tr>
+{% endfor %}
+</table>
+{% else %}
+<p>no data.</p>
+{% endif %}
+
 <h3>Date Detail</h3>
-{% if datedata %}
+{% if datedetaildata %}
 <table class="usedtasktime" border="1">
  <tr>
   <th>date</th>
@@ -81,7 +105,7 @@
   <th>user</th>
   <th>task time</th>
  </tr>
-{% for r in datedata %}
+{% for r in datedetaildata %}
  <tr>
   <td>{{ r.taskdate|date:"Y-m-d" }}</td>
   <td>{{ r.project__name }}</td>
