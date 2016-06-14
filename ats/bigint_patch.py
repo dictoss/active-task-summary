@@ -7,7 +7,7 @@ Create and link to auto-incrementing primary keys of type bigint without
 having to reload the model instance after saving it to get the ID set in
 the instance.
 """
-
+import sys
 from django.core import exceptions
 from django.conf import settings
 from django.db import connection
