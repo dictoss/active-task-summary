@@ -33,75 +33,6 @@ APP_VERSION = '0.3.0'
 APP_AUTHER = 'dictoss'
 
 
-'''
-role define
-
-caution:
-Do not change role value because value is stored database.
-If change, missing compatibility.
-'''
-# password
-ATS_ROLE_MOD_PASS_SELF = 10000
-ATS_ROLE_MOD_PASS_GROUP = 10100
-ATS_ROLE_MOD_PASS_ALL = 10200
-# user manage
-ATS_ROLE_ADD_USER_SELF = 11000
-ATS_ROLE_ADD_USER_GROUP = 11100
-ATS_ROLE_ADD_USER_ALL = 11200
-ATS_ROLE_MOD_USER_SELF = 11300
-ATS_ROLE_MOD_USER_GROUP = 11400
-ATS_ROLE_MOD_USER_ALL = 11500
-# data manager
-ATS_ROLE_ADD_MANAGE_SELF = 12000
-ATS_ROLE_ADD_MANAGE_GROUP = 12100
-ATS_ROLE_ADD_MANAGE_ALL = 12200
-ATS_ROLE_MOD_MANAGE_SELF = 12300
-ATS_ROLE_MOD_MANAGE_GROUP = 12400
-ATS_ROLE_MOD_MANAGE_ALL = 12500
-# role manager
-ATS_ROLE_ADD_ROLE_SELF = 13000
-ATS_ROLE_ADD_ROLE_GROUP = 13100
-ATS_ROLE_ADD_ROLE_ALL = 13200
-ATS_ROLE_MOD_ROLE_SELF = 13300
-ATS_ROLE_MOD_ROLE_GROUP = 13400
-ATS_ROLE_MOD_ROLE_ALL = 13500
-
-# all role preset
-ATS_ROLEDICT = {
-    # password
-    ATS_ROLE_MOD_PASS_SELF: {'name': 'modify-password-self'},
-    ATS_ROLE_MOD_PASS_GROUP: {'name': 'modify-password-group'},
-    ATS_ROLE_MOD_PASS_ALL: {'name': 'modify-password-all'},
-    # user manage
-    ATS_ROLE_ADD_USER_SELF: {'name': 'add-user-self'},
-    ATS_ROLE_ADD_USER_GROUP: {'name': 'add-user-group'},
-    ATS_ROLE_ADD_USER_ALL: {'name': 'add-user-all'},
-    ATS_ROLE_MOD_USER_SELF: {'name': 'modify-user-self'},
-    ATS_ROLE_MOD_USER_GROUP: {'name': 'modify-user-group'},
-    ATS_ROLE_MOD_USER_ALL: {'name': 'modify-user-all'},
-    # data manager
-    ATS_ROLE_ADD_MANAGE_SELF: {'name': 'add-manage-self'},
-    ATS_ROLE_ADD_MANAGE_GROUP: {'name': 'add-manage-group'},
-    ATS_ROLE_ADD_MANAGE_ALL: {'name': 'add-manage-all'},
-    ATS_ROLE_MOD_MANAGE_SELF: {'name': 'modify-manage-self'},
-    ATS_ROLE_MOD_MANAGE_GROUP: {'name': 'modify-manage-group'},
-    ATS_ROLE_MOD_MANAGE_ALL: {'name': 'modify-manage-all'},
-    # role manager
-    ATS_ROLE_ADD_ROLE_SELF: {'name': 'add-role-self'},
-    ATS_ROLE_ADD_ROLE_GROUP: {'name': 'add-role-group'},
-    ATS_ROLE_ADD_ROLE_ALL: {'name': 'add-role-all'},
-    ATS_ROLE_MOD_ROLE_SELF: {'name': 'modify-role-self'},
-    ATS_ROLE_MOD_ROLE_GROUP: {'name': 'modify-role-group'},
-    ATS_ROLE_MOD_ROLE_ALL: {'name': 'modify-role-all'},
-}
-
-
-'''
-session name
-'''
-ATS_SESSION_ROLESET = 'roleset'
-
-
 formatter = logging.Formatter(ats_settings.LOG_FORMAT)
 h = logging.FileHandler(ats_settings.LOG_PATH)
 h.setFormatter(formatter)
@@ -117,46 +48,6 @@ def error500(request):
 
 def error404(request):
     return render_to_response('404.html', {})
-
-
-def create_role_string(request, user):
-    '''
-    for JSONSerializer support, convert csv string.
-    '''
-    roleset = set()
-    groupqs = BelongGroup.objects.filter(user=user)
-    for g in groupqs:
-        roleqs = RoleGroup.objects.filter(group=g.group)
-
-        roles = []
-        for r in roleqs:
-            roles.append(r.roleid)
-            roleset = roleset.union(set(roles))
-
-    result = ''
-    for s in roleset:
-        if result:
-            result = result + ',' + str(s)
-        else:
-            result = str(s)
-
-    return result
-
-
-def has_role(request, roleid):
-    if 'roleset' in request.session:
-        roleset = request.session[ATS_SESSION_ROLESET]
-        rolecol = roleset.split(',')
-
-        if [s for s in rolecol if (s == str(roleid))]:
-            logger.debug('has role [%s:%s]' % (request.user, roleid))
-            return True
-        else:
-            logger.debug('not has role [%s:%s]' % (request.user, roleid))
-            return False
-    else:
-        logger.debug('not has roleset [%s]' % (request.user))
-        return False
 
 
 def get_url_prefix():
@@ -201,10 +92,6 @@ def login_view(request):
                 if user.is_active:
                     login(request, user)
 
-                    rolecsv = create_role_string(request, user)
-                    request.session[ATS_SESSION_ROLESET] = rolecsv
-                    logger.debug('user = %s :rolecsv = %s' % (user, rolecsv))
-
                     if 'next' in request.GET:
                         nextpage = request.GET.get('next')
                     else:
@@ -233,11 +120,6 @@ def login_view(request):
 
 @login_required
 def logout_view(request):
-    try:
-        del request.session[ATS_SESSION_ROLESET]
-    except KeyError:
-        pass
-
     logout(request)
     return HttpResponseRedirect('%s/login/' % get_url_prefix())
 

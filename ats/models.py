@@ -128,15 +128,3 @@ class BelongGroup(models.Model):
         return '%d : %s - %s' % (self.id, self.group, self.user)
 
 admin.site.register(BelongGroup)
-
-
-@python_2_unicode_compatible
-class RoleGroup(models.Model):
-    id = models.AutoField(primary_key=True)
-    group = models.ForeignKey(Group)
-    roleid = models.IntegerField(null=False)
-
-    def __str__(self):
-        return '%d : %s - %s' % (self.id, self.group, self.roleid)
-
-admin.site.register(RoleGroup)
