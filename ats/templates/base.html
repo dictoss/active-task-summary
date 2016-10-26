@@ -32,8 +32,17 @@
 <div class="boxgnavi">
 </div>
 <div class="boxsubnavi">
-  {% block boxsubnavi %}
-  {% endblock %}
+  <ul id="subnavilist">
+    <li><u><a href="{{ url_prefix }}/top/">TOP</a></u></li>
+    <li><u><a href="{{ url_prefix }}/regist/">regist</a></u></li>
+    <li>summary</li>
+    <ul>
+      <li><u><a href="{{ url_prefix }}/summary/project/">project</a></u></li>
+      <li><u><a href="{{ url_prefix }}/summary/job/">job</a></u></li>
+      <li><u><a href="{{ url_prefix }}/summary/user/">user</a></u></li>
+    </ul>
+    <li><u><a href="{{ url_prefix }}/manage/">manage</a></u></li>
+  </ul>
 </div>
 <div class="boxmain">
   {% block boxmain %}

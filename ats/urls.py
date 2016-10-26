@@ -15,7 +15,7 @@ urlpatterns = patterns('ats.views',
          (r'^regist/$', 'regist'),
          #
          #(r'^summary/$', 'summary'),
-         (r'^summary/date/$', 'summary_d'),
+         (r'^summary/project/$', 'summary_p'),
          (r'^summary/job/$', 'summary_j'),
          (r'^summary/user/$', 'summary_u'),
          # 

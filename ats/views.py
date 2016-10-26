@@ -334,7 +334,7 @@ def regist(request):
 
 
 @login_required
-def summary_d(request):
+def summary_p(request):
     datalist = []
     totallist = []
 
@@ -382,7 +382,7 @@ def summary_d(request):
         form = SummaryDateForm()
 
     return my_render_to_response(request,
-                                 'summary/date.html',
+                                 'summary/project.html',
                                  {'form': form,
                                   'totallist': totallist,
                                   'datalist': datalist})
