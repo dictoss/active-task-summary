@@ -32,6 +32,7 @@
 <div class="boxgnavi">
 </div>
 <div class="boxsubnavi">
+  {% if user.is_authenticated %}
   <ul id="subnavilist">
     <li><u><a href="{{ url_prefix }}/top/">TOP</a></u></li>
     <li><u><a href="{{ url_prefix }}/regist/">regist</a></u></li>
@@ -43,6 +44,7 @@
     </ul>
     <li><u><a href="{{ url_prefix }}/manage/">manage</a></u></li>
   </ul>
+  {% endif %}
 </div>
 <div class="boxmain">
   {% block boxmain %}
