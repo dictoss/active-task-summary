@@ -156,3 +156,34 @@ ORDER BY year, month;
  2015 |     7 | 00:00:00
  2015 |     8 | 00:00:00
 
+- SQL (INTERVAL型を浮動小数で出力)
+
+SELECT
+DATE_PART('year', tdate) AS year,
+DATE_PART('month', tdate) AS month,
+(DATE_PART('hour', COALESCE(SUM(tasktime), INTERVAL '00:00:00')) + (DATE_PART('minute', COALESCE(SUM(tasktime), INTERVAL '00:00:00')) / 60)) AS sum_taskdate
+FROM (
+  SELECT CAST(DATE_TRUNC('day', (DATE('2016-03-31') - offs)) as DATE) AS tdate
+  FROM GENERATE_SERIES(0, DATE('2016-03-31') - DATE('2014-01-01'), 1) AS offs ORDER BY tdate ASC
+) AS series_table
+LEFT OUTER JOIN ats_usedtasktime
+ON ats_usedtasktime.taskdate = series_table.tdate
+GROUP BY year, month
+ORDER BY year, month;
+
+ year | month | sum_taskdate
+------+-------+--------------
+ 2014 |     1 |         50.5
+ 2014 |     2 |        22.25
+ 2014 |     3 |         63.5
+ 2014 |     4 |        86.25
+ 2014 |     5 |            0
+ 2014 |     6 |            0
+ 2014 |     7 |            0
+ 2014 |     8 |          0.5
+ 2014 |     9 |            0
+ 2014 |    10 |            0
+ 2014 |    11 |            0
+ 2014 |    12 |            0
+ 2015 |     1 |            0
+
