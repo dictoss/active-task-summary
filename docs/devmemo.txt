@@ -119,17 +119,17 @@ from (
  2014-01-13 | 16:30:00
  2014-01-14 | 00:00:00
 
--
-select
-date_part('year', tdate) as year,
-date_part('month', tdate) as month,
-coalesce(sum(tasktime), INTERVAL '00:00:00') as sum_taskdate
-from (
-  select CAST(date_trunc('day', (date('2016-03-31') - offs)) as DATE) AS tdate, TIME '00:00:00' AS tt
-  FROM generate_series(0, date('2016-03-31') - date('2014-01-01'), 1) AS offs ORDER BY tdate ASC
+- SQL (group byでyear, monthで集計、歯抜けもうめた)
+SELECT
+DATE_PART('year', tdate) AS year,
+DATE_PART('month', tdate) AS month,
+COALESCE(SUM(tasktime), INTERVAL '00:00:00') AS sum_taskdate
+FROM (
+  SELECT CAST(DATE_TRUNC('day', (DATE('2016-03-31') - offs)) as DATE) AS tdate
+  FROM GENERATE_SERIES(0, DATE('2016-03-31') - DATE('2014-01-01'), 1) AS offs ORDER BY tdate ASC
 ) AS series_table
-LEFT OUTER JOIN  ats_usedtasktime
-ON  ats_usedtasktime.taskdate = series_table.tdate
+LEFT OUTER JOIN ats_usedtasktime
+ON ats_usedtasktime.taskdate = series_table.tdate
 GROUP BY year, month
 ORDER BY year, month;
 
