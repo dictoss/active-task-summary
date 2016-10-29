@@ -40,3 +40,119 @@
   - なければproject idのデータ数を
 
  -------------------              
+
+# windows 集計
+- SQL each month
+ ats=# select date_part('year', taskdate) as year, date_part('month', taskdate) as month, sum(tasktime) as sum_taskdate from ats_usedtasktime GROUP BY year, month ORDER BY year, month;
+ year | month | sum_taskdate
+ ------+-------+--------------
+ 2014 |     1 | 50:30:00
+ 2014 |     2 | 22:15:00
+ 2014 |     3 | 63:30:00
+ 2014 |     4 | 86:15:00
+ 2014 |     8 | 00:30:00
+ 2015 |     4 | 04:00:00
+ 2015 |     5 | 13:45:00
+ 2015 |    10 | 12:15:00
+ 2016 |     2 | 01:30:00
+ 2016 |     3 | 01:00:00
+ (10 行)
+
+- SQL each week
+ ats=# select date_part('year', taskdate) as year, date_part('month', taskdate) as month, date_part('week', taskdate) as week, sum(tasktime) as sum_taskdate from ats_usedtasktime GROUP BY year, month, week ORDER BY year, month, week;
+  year | month | week | sum_taskdate
+ ------+-------+------+--------------
+ 2014 |     1 |    2 | 04:00:00
+ 2014 |     1 |    3 | 16:30:00
+ 2014 |     1 |    4 | 16:30:00
+ 2014 |     1 |    5 | 13:30:00
+ 2014 |     2 |    8 | 22:15:00
+ 2014 |     3 |   13 | 61:15:00
+ 2014 |     3 |   14 | 02:15:00
+ 2014 |     4 |   14 | 86:15:00
+ 2014 |     8 |   32 | 00:30:00
+ 2015 |     4 |   14 | 02:00:00
+ 2015 |     4 |   18 | 02:00:00
+ 2015 |     5 |   18 | 02:45:00
+ 2015 |     5 |   19 | 11:00:00
+ 2015 |    10 |   40 | 05:15:00
+ 2015 |    10 |   41 | 07:00:00
+ 2016 |     2 |    6 | 01:30:00
+ 2016 |     3 |   10 | 01:00:00
+ (17 行)
+
+- SQL join date
+ select to_char(date_trunc('day', (date('2015-03-31') - offs)), 'YYYY-MM-DD') AS date
+ FROM generate_series(0, date('2015-03-31') - date('2015-01-01'), 1) AS offs ORDER BY date ASC;
+
+    date
+------------
+ 2015-01-01
+ 2015-01-02
+ |
+ 2015-03-31
+(90 行)
+
+- SQL (group by しない状態でゼロデータが行としてでてきた）
+select
+tdate,
+coalesce((SELECT sum(tasktime) FROM ats_usedtasktime WHERE ats_usedtasktime.taskdate = series_table.tdate), INTERVAL '00:00:00') as sum_taskdate
+from (
+  select CAST(date_trunc('day', (date('2016-03-31') - offs)) as DATE) AS tdate, TIME '00:00:00' AS tt
+  FROM generate_series(0, date('2016-03-31') - date('2014-01-01'), 1) AS offs ORDER BY tdate ASC
+) AS series_table;
+
+   tdate    | sum_taskdate
+------------+--------------
+ 2014-01-01 | 00:00:00
+ 2014-01-02 | 00:00:00
+ 2014-01-03 | 00:00:00
+ 2014-01-04 | 00:00:00
+ 2014-01-05 | 00:00:00
+ 2014-01-06 | 00:00:00
+ 2014-01-07 | 00:00:00
+ 2014-01-08 | 00:00:00
+ 2014-01-09 | 00:00:00
+ 2014-01-10 | 00:00:00
+ 2014-01-11 | 00:00:00
+ 2014-01-12 | 04:00:00
+ 2014-01-13 | 16:30:00
+ 2014-01-14 | 00:00:00
+
+-
+select
+date_part('year', tdate) as year,
+date_part('month', tdate) as month,
+coalesce(sum(tasktime), INTERVAL '00:00:00') as sum_taskdate
+from (
+  select CAST(date_trunc('day', (date('2016-03-31') - offs)) as DATE) AS tdate, TIME '00:00:00' AS tt
+  FROM generate_series(0, date('2016-03-31') - date('2014-01-01'), 1) AS offs ORDER BY tdate ASC
+) AS series_table
+LEFT OUTER JOIN  ats_usedtasktime
+ON  ats_usedtasktime.taskdate = series_table.tdate
+GROUP BY year, month
+ORDER BY year, month;
+
+ year | month | sum_taskdate
+------+-------+--------------
+ 2014 |     1 | 50:30:00
+ 2014 |     2 | 22:15:00
+ 2014 |     3 | 63:30:00
+ 2014 |     4 | 86:15:00
+ 2014 |     5 | 00:00:00
+ 2014 |     6 | 00:00:00
+ 2014 |     7 | 00:00:00
+ 2014 |     8 | 00:30:00
+ 2014 |     9 | 00:00:00
+ 2014 |    10 | 00:00:00
+ 2014 |    11 | 00:00:00
+ 2014 |    12 | 00:00:00
+ 2015 |     1 | 00:00:00
+ 2015 |     2 | 00:00:00
+ 2015 |     3 | 00:00:00
+ 2015 |     4 | 04:00:00
+ 2015 |     5 | 13:45:00
+ 2015 |     6 | 00:00:00
+ 2015 |     7 | 00:00:00
+ 2015 |     8 | 00:00:00
+
