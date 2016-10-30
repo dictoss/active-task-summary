@@ -337,6 +337,7 @@ def regist(request):
 def summary_p(request):
     datalist = []
     totallist = []
+    monthlist = []
 
     if request.method == 'POST':
         form = SummaryDateForm(request.POST)
@@ -376,6 +377,30 @@ def summary_p(request):
                                      'task__sortkey')
 
             datalist = list(cursor)
+
+            # get month list
+            cursor = UsedTaskTime.objects.filter(project=project)
+
+            if from_date:
+                cursor = cursor.filter(taskdate__gte=from_date)
+
+            if to_date:
+                cursor = cursor.filter(taskdate__lte=to_date)
+
+            cursor = cursor.extra({
+                'year': '''date_part('year', taskdate)''',
+                'month': '''date_part('month', taskdate)'''}).\
+                values('project__name', 'year', 'month').\
+                annotate(month_tasktime=Sum('tasktime')).\
+                order_by('year', 'month')
+
+            monthlist = list(cursor)
+            for r in monthlist:
+                # year and month return double, so cast integer.
+                r['year'] = int(r['year'])
+                r['month'] = int(r['month'])
+                # convert timedelta to HHH:MM
+                r['month_tasktime'] = format_totaltime(r['month_tasktime'])
         else:
             form = SummaryDateForm()
     else:
@@ -385,6 +410,7 @@ def summary_p(request):
                                  'summary/project.html',
                                  {'form': form,
                                   'totallist': totallist,
+                                  'monthlist': monthlist,
                                   'datalist': datalist})
 
 
