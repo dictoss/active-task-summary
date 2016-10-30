@@ -335,7 +335,7 @@ def regist(request):
 
 @login_required
 def summary_p(request):
-    datalist = []
+    datelist = []
     totallist = []
     monthlist = []
 
@@ -376,7 +376,7 @@ def summary_p(request):
                                      'task__job__sortkey',
                                      'task__sortkey')
 
-            datalist = list(cursor)
+            datelist = list(cursor)
 
             # get month list
             cursor = UsedTaskTime.objects.filter(project=project)
@@ -411,7 +411,7 @@ def summary_p(request):
                                  {'form': form,
                                   'totallist': totallist,
                                   'monthlist': monthlist,
-                                  'datalist': datalist})
+                                  'datelist': datelist})
 
 
 @login_required

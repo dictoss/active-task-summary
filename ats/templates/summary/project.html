@@ -57,7 +57,7 @@
 {% endif %}
 
 <h3>Date Summary</h3>
-{% if datalist %}
+{% if datelist %}
 <table class="usedtasktime" border="1">
  <tr>
   <th>date</th>
@@ -66,7 +66,7 @@
   <th>task</th>
   <th>task time</th>
  </tr>
-{% for data in datalist %}
+{% for data in datelist %}
  <tr>
   <td>{{ data.taskdate|date:"Y-m-d" }}</td>
   <td>{{ data.project.name }}</td>
