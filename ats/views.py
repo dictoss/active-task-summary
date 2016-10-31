@@ -350,6 +350,7 @@ def summary_p(request):
             _starttime = datetime.datetime.now()
             logger.debug('starttime: %s' % (_starttime))
 
+            """
             # calc date
             cursor = UsedTaskTime.objects.filter(project=project)
             if from_date:
@@ -362,6 +363,7 @@ def summary_p(request):
                 total_tasktime=Sum('tasktime'))
 
             totallist = list(cursor)
+            """
 
             # convert hour
             for r in totallist:
@@ -398,13 +400,21 @@ def summary_p(request):
                 annotate(month_tasktime=Sum('tasktime')).\
                 order_by('year', 'month')
 
+            total_delta = datetime.timedelta()
             monthlist = list(cursor)
             for r in monthlist:
                 # year and month return double, so cast integer.
                 r['year'] = int(r['year'])
                 r['month'] = int(r['month'])
+
+                # calc total
+                total_delta += r['month_tasktime']
+
                 # convert timedelta to HHH:MM
                 r['month_tasktime'] = format_totaltime(r['month_tasktime'])
+            else:
+                totallist = [{'project__name': r['project__name'],
+                              'total_tasktime': format_totaltime(total_delta)}]
 
             _endtime = datetime.datetime.now()
             logger.debug('endtime: %s' % (_endtime))
