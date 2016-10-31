@@ -346,6 +346,10 @@ def summary_p(request):
             from_date = form.cleaned_data['from_date']
             to_date = form.cleaned_data['to_date']
 
+            logger.debug('IN summary_p')
+            _starttime = datetime.datetime.now()
+            logger.debug('starttime: %s' % (_starttime))
+
             # calc date
             cursor = UsedTaskTime.objects.filter(project=project)
             if from_date:
@@ -401,6 +405,10 @@ def summary_p(request):
                 r['month'] = int(r['month'])
                 # convert timedelta to HHH:MM
                 r['month_tasktime'] = format_totaltime(r['month_tasktime'])
+
+            _endtime = datetime.datetime.now()
+            logger.debug('endtime: %s' % (_endtime))
+            logger.debug('dur: %s' % (_endtime - _starttime))
         else:
             form = SummaryDateForm()
     else:
