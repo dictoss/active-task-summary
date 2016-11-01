@@ -335,12 +335,13 @@ def regist(request):
 
 @login_required
 def summary_p(request):
-    datelist = []
     totallist = []
     monthlist = []
+    datelist = []
+    tasklist = []
 
     if request.method == 'POST':
-        form = SummaryDateForm(request.POST)
+        form = SummaryProjectForm(request.POST)
         if form.is_valid():
             project = form.cleaned_data['projectlist']
             from_date = form.cleaned_data['from_date']
@@ -367,7 +368,7 @@ def summary_p(request):
             for r in totallist:
                 r['total_tasktime'] = format_totaltime(r['total_tasktime'])
 
-            #calc task
+            # calc task
             cursor = UsedTaskTime.objects.filter(project=project)
 
             if from_date:
@@ -380,7 +381,24 @@ def summary_p(request):
                                      'task__job__sortkey',
                                      'task__sortkey')
 
+            tasklist = list(cursor)
+
+            # calc date
+            cursor = UsedTaskTime.objects.filter(project=project)
+
+            if from_date:
+                cursor = cursor.filter(taskdate__gte=from_date)
+
+            if to_date:
+                cursor = cursor.filter(taskdate__lte=to_date)
+
+            cursor = cursor.values('project__name', 'taskdate').annotate(
+                date_tasktime=Sum('tasktime'))
+            cursor = cursor.order_by('taskdate')
             datelist = list(cursor)
+            # convert hour
+            for r in datelist:
+                r['date_tasktime'] = format_totaltime(r['date_tasktime'])
 
             # get month list
             cursor = UsedTaskTime.objects.filter(project=project)
@@ -410,16 +428,17 @@ def summary_p(request):
             logger.debug('endtime: %s' % (_endtime))
             logger.debug('dur: %s' % (_endtime - _starttime))
         else:
-            form = SummaryDateForm()
+            form = SummaryProjectForm()
     else:
-        form = SummaryDateForm()
+        form = SummaryProjectForm()
 
     return my_render_to_response(request,
                                  'summary/project.html',
                                  {'form': form,
                                   'totallist': totallist,
                                   'monthlist': monthlist,
-                                  'datelist': datelist})
+                                  'datelist': datelist,
+                                  'tasklist': tasklist})
 
 
 @login_required
@@ -759,7 +778,7 @@ class RegistForm(forms.Form):
     project_id = forms.IntegerField(widget=forms.HiddenInput())
 
 
-class SummaryDateForm(forms.Form):
+class SummaryProjectForm(forms.Form):
     from_date = forms.DateField(label='from date', required=False,
                                 initial=lambda: datetime.datetime.now().replace(day=1))
     to_date = forms.DateField(label='to date', required=False,
