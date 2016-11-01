@@ -62,11 +62,31 @@
  <tr>
   <th>date</th>
   <th>project</th>
+  <th>task time</th>
+ </tr>
+{% for data in datelist %}
+ <tr>
+  <td>{{ data.taskdate|date:"Y-m-d" }}</td>
+  <td>{{ data.project__name }}</td>
+  <td class="num">{{ data.date_tasktime }}</td>
+ </tr>
+{% endfor %}
+</table>
+{% else %}
+<p>no data.</p>
+{% endif %}
+
+<h3>Task Detail</h3>
+{% if tasklist %}
+<table class="usedtasktime" border="1">
+ <tr>
+  <th>date</th>
+  <th>project</th>
   <th>job</th>
   <th>task</th>
   <th>task time</th>
  </tr>
-{% for data in datelist %}
+{% for data in tasklist %}
  <tr>
   <td>{{ data.taskdate|date:"Y-m-d" }}</td>
   <td>{{ data.project.name }}</td>
