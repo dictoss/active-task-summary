@@ -346,8 +346,10 @@ def summary_p(request):
             project = form.cleaned_data['projectlist']
             from_date = form.cleaned_data['from_date']
             to_date = form.cleaned_data['to_date']
+            is_show_taskdetail = form.cleaned_data['is_show_taskdetail']
 
-            logger.debug('IN summary_p')
+            logger.debug('IN summary_p : is_show_taskdetail(%s)' % (
+                is_show_taskdetail))
             _starttime = datetime.datetime.now()
             logger.debug('starttime: %s' % (_starttime))
 
@@ -369,19 +371,20 @@ def summary_p(request):
                 r['total_tasktime'] = format_totaltime(r['total_tasktime'])
 
             # calc task
-            cursor = UsedTaskTime.objects.filter(project=project)
+            if is_show_taskdetail:
+                cursor = UsedTaskTime.objects.filter(project=project)
 
-            if from_date:
-                cursor = cursor.filter(taskdate__gte=from_date)
+                if from_date:
+                    cursor = cursor.filter(taskdate__gte=from_date)
 
-            if to_date:
-                cursor = cursor.filter(taskdate__lte=to_date)
+                if to_date:
+                    cursor = cursor.filter(taskdate__lte=to_date)
 
-            cursor = cursor.order_by('taskdate',
-                                     'task__job__sortkey',
-                                     'task__sortkey')
+                cursor = cursor.order_by('taskdate',
+                                         'task__job__sortkey',
+                                         'task__sortkey')
 
-            tasklist = list(cursor)
+                tasklist = list(cursor)
 
             # calc date
             cursor = UsedTaskTime.objects.filter(project=project)
@@ -438,7 +441,8 @@ def summary_p(request):
                                   'totallist': totallist,
                                   'monthlist': monthlist,
                                   'datelist': datelist,
-                                  'tasklist': tasklist})
+                                  'tasklist': tasklist,
+                                  'is_show_taskdetail': is_show_taskdetail})
 
 
 @login_required
@@ -784,6 +788,8 @@ class SummaryProjectForm(forms.Form):
     to_date = forms.DateField(label='to date', required=False,
                               initial=lambda: datetime.datetime.now())
     projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all().order_by('sortkey'))
+    is_show_taskdetail = forms.BooleanField(label="show Task Detail",
+                                            required=False)
 
 
 class SummaryJobForm(forms.Form):

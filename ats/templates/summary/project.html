@@ -77,6 +77,7 @@
 {% endif %}
 
 <h3>Task Detail</h3>
+{% if is_show_taskdetail %}
 {% if tasklist %}
 <table class="usedtasktime" border="1">
  <tr>
@@ -98,5 +99,8 @@
 </table>
 {% else %}
 <p>no data.</p>
+{% endif %}
+{% else %}
+<p>no show.</p>
 {% endif %}
 {% endblock %}
