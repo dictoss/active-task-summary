@@ -339,6 +339,7 @@ def summary_p(request):
     monthlist = []
     datelist = []
     tasklist = []
+    is_show_taskdetail = False
 
     if request.method == 'POST':
         form = SummaryProjectForm(request.POST)
