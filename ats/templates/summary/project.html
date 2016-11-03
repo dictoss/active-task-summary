@@ -52,6 +52,7 @@
  </tr>
 {% endfor %}
 </table>
+<div id="chart_month" style="height:300px; width:600px;"></div>
 {% else %}
 <p>no data.</p>
 {% endif %}
@@ -103,4 +104,38 @@
 {% else %}
 <p>no show.</p>
 {% endif %}
+
+{# create graph #}
+{% if monthlist %}
+<script type="text/javascript">
+$(document).ready(function(){
+$.jqplot.config.enablePlugins = true;
+
+var plots = [];
+
+{% for data in monthlist %}
+plots.push(["{{ data.year }}" + "-" + "{{ data.month }}", {{ data.month_tasktime_float }}]);
+{% endfor %}
+
+plot1 = $.jqplot('chart_month', [plots], {
+  title: "Month Summary Graph",
+  axes: {
+    xaxis: {
+      renderer: $.jqplot.DateAxisRenderer,
+      label: "month",
+      tickInterval: "1 months",
+      tickOptions:{ formatString: "'%y\n-%m" },
+      rendererOptions: {},
+      min: "{{ from_date|date:"Y-m-d" }}",
+      max: "{{ to_date|date:"Y-m-d" }}",
+    },
+    yaxis: {
+      label: "hours"
+    }
+  },
+});
+});
+</script>
+{% endif %}
+
 {% endblock %}

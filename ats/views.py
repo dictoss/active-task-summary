@@ -61,6 +61,10 @@ def format_totaltime(td):
     return '%d:%02d' % (totalhour, minute)
 
 
+def format_hours_float(td):
+    return (td.days * 24) + (td.seconds / 3600.0)
+
+
 def index(request):
     """
     if request.:
@@ -340,6 +344,8 @@ def summary_p(request):
     datelist = []
     tasklist = []
     is_show_taskdetail = False
+    from_date = ''
+    to_date = ''
 
     if request.method == 'POST':
         form = SummaryProjectForm(request.POST)
@@ -426,6 +432,8 @@ def summary_p(request):
                 r['year'] = int(r['year'])
                 r['month'] = int(r['month'])
                 # convert timedelta to HHH:MM
+                r['month_tasktime_float'] = format_hours_float(
+                    r['month_tasktime'])
                 r['month_tasktime'] = format_totaltime(r['month_tasktime'])
 
             _endtime = datetime.datetime.now()
@@ -443,7 +451,9 @@ def summary_p(request):
                                   'monthlist': monthlist,
                                   'datelist': datelist,
                                   'tasklist': tasklist,
-                                  'is_show_taskdetail': is_show_taskdetail})
+                                  'is_show_taskdetail': is_show_taskdetail,
+                                  'from_date': from_date,
+                                  'to_date': to_date})
 
 
 @login_required
