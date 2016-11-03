@@ -1,7 +1,8 @@
 changelog
 
 # version 0.3.0
-  - show month detail in project summary.
+  - show month summary in summary project.
+  - show month summary graph in summary project.
   - add checkbox 'show task detail' in project summary.
     - improve performance.
   - adjust word.
