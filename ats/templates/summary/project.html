@@ -114,7 +114,7 @@ $.jqplot.config.enablePlugins = true;
 var plots = [];
 
 {% for data in monthlist %}
-plots.push(["{{ data.year }}" + "-" + "{{ data.month }}", {{ data.month_tasktime_float }}]);
+plots.push(["{{ data.year }}" + "-" + "{{ data.month|stringformat:"02d" }}", {{ data.month_tasktime_float }}]);
 {% endfor %}
 
 plot1 = $.jqplot('chart_month', [plots], {
