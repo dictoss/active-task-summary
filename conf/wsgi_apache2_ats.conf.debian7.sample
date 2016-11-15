@@ -3,7 +3,7 @@
 #
 WSGIScriptAlias /toolproj /var/www/wsgi_ats/ats.wsgi
 
-WSGIDaemonProcess ats user=www-data group=www-data processes=4 threads=32 home=/ python-path=/usr/local/lib/python2.7/dist-packages python-eggs=/var/www/eggs display-name=%{GROUP}
+WSGIDaemonProcess ats user=www-data group=www-data processes=1 threads=32 home=/ python-path=/usr/local/lib/python2.7/dist-packages python-eggs=/var/www/eggs display-name=%{GROUP}
 
 <Directory /var/www/wsgi_ats>
     WSGIProcessGroup ats
