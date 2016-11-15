@@ -14,7 +14,7 @@ ATS_IS_LASTNAME_FRONT = False
 
 LOG_LEVEL = logging.INFO
 LOG_FORMAT = '%(asctime)s,%(levelname)-8s,%(message)s'
-LOG_PATH = '%s/ats.log' % '/var/log/apache2'
+LOG_PATH = '%s/ats.log' % '/var/log/ats'
 
 try:
     from .ats_settings_devel import *
