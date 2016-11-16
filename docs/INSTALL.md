@@ -43,6 +43,7 @@ ats=# \q
 
 
 ### install modules and librairies
+
 - for use python-2.7
 
 <pre>
@@ -123,10 +124,20 @@ $ sudo mkdir /var/www/html/static
 $ cd /var/www/html/static
 $ sudo ln -sf /var/www/wsgi_apps/active-task-summary/ats/static ats
 
+</pre>
+
 - for use python-2.7
+
+<pre>
+
 $ sudo ln -sf /usr/local/lib/python2.7/dist-packages/django/contrib/admin/static/admin admin
 
+</pre>
+
 - for use python-3.4
+
+<pre>
+
 $ sudo ln -sf /usr/local/lib/python3.4/dist-packages/django/contrib/admin/static/admin admin
 
 </pre>
@@ -134,16 +145,22 @@ $ sudo ln -sf /usr/local/lib/python3.4/dist-packages/django/contrib/admin/static
 
 ### create database schema for web application
 
+- for use python-2.7
+
 <pre>
 
-- for use python-2.7
 $ cd /var/www/wsgi_apps/active-task-summary
 $ sudo -u www-data python2.7 manage.py makemigrations
 $ sudo -u www-data python2.7 manage.py migrate auth
 $ sudo -u www-data python2.7 manage.py migrate
 $ sudo -u www-data python2.7 manage.py createsuperuser
 
+</pre>
+
 - for use python-3.4
+
+</pre>
+
 $ cd /var/www/wsgi_apps/active-task-summary
 $ sudo -u www-data python3.4 manage.py makemigrations
 $ sudo -u www-data python3.4 manage.py migrate auth
@@ -224,8 +241,8 @@ $ sudo yum install httpd mod_ssl
 $ sudo yum install gcc make
 $ sudo yum install --enablerepo=ius python27 python27-pip python27-mod_wsgi python27-devel
 $ sudo -s
-\# export PATH="/usr/pgsql-9.4/bin:$PATH"
-\# pip2.7 install -r requirements.txt
+# export PATH="/usr/pgsql-9.4/bin:$PATH"
+# pip2.7 install -r requirements.txt
 
 </pre>
 
@@ -238,8 +255,8 @@ $ sudo yum install httpd mod_ssl
 $ sudo yum install gcc make
 $ sudo yum install --enablerepo=ius python35u python35u-pip python35u-mod_wsgi python35u-devel
 $ sudo -s
-\# export PATH="/usr/pgsql-9.4/bin:$PATH"
-\# pip3.5 install -r requirements.txt
+# export PATH="/usr/pgsql-9.4/bin:$PATH"
+# pip3.5 install -r requirements.txt
 
 </pre>
 
@@ -291,7 +308,12 @@ $ cd ~/work/active-task-summary
 $ cd conf
 $ sudo cp wsgi_apache2_ats.conf.cent6.sample /etc/httpd/conf.d/wsgi_ats.conf
 
+</pre>
+
 - for use python-2.7
+
+<pre>
+
 $ sudo vi /etc/httpd/conf.d/python27-mod_wsgi.conf
 
 <IfModule !python_module>
@@ -302,7 +324,12 @@ $ sudo vi /etc/httpd/conf.d/python27-mod_wsgi.conf
     </IfModule>
 </IfModule>
 
+</pre>
+
 - for use python-3.5
+
+<pre>
+
 $ sudo vi /etc/httpd/conf.d/wsgi-python3.5.conf
 <IfModule !wsgi_module>
     LoadModule wsgi_module modules/mod_wsgi_python3.5.so
@@ -310,10 +337,13 @@ $ sudo vi /etc/httpd/conf.d/wsgi-python3.5.conf
     WSGIScriptReloading On
 </IfModule>
 
+</pre>
+
+<pre>
+
 $ sudo service httpd restart
 
 </pre>
-
 
 ### link static file in webapplication.
 
@@ -323,10 +353,20 @@ $ sudo mkdir /var/www/html/static
 $ cd /var/www/html/static
 $ sudo ln -sf /var/www/wsgi_apps/active-task-summary/ats/static ats
 
+<pre>
+
 - for use python-2.7
+
+<pre>
+
 $ sudo ln -sf /usr/lib/python2.7/site-packages/django/contrib/admin/static/admin admin
 
+<pre>
+
 - for use python-3.5
+
+<pre>
+
 $ sudo ln -sf /usr/lib/python3.5/site-packages/django/contrib/admin/static/admin admin
 
 </pre>
@@ -334,16 +374,23 @@ $ sudo ln -sf /usr/lib/python3.5/site-packages/django/contrib/admin/static/admin
 
 ### create database schema for web application
 
-<pre>
 
 - for use python-2.7
+
+<pre>
+
 $ cd /var/www/wsgi_apps/active-task-summary
 $ sudo -u apache python2.7 manage.py makemigrations
 $ sudo -u apache python2.7 manage.py migrate auth
 $ sudo -u apache python2.7 manage.py migrate
 $ sudo -u apache python2.7 manage.py createsuperuser
 
+</pre>
+
 - for use python-3.5
+
+<pre>
+
 $ cd /var/www/wsgi_apps/active-task-summary
 $ sudo -u apache python3.5 manage.py makemigrations
 $ sudo -u apache python3.5 manage.py migrate auth
