@@ -271,7 +271,7 @@ $ pwd
 $ cd ..
 $ sudo cp -rf active-task-summary /var/www/wsgi_apps/
 $ cd /var/www/wsgi_apps
-$ sudo chown -fR www-data:www-data active-task-summary
+$ sudo chown -fR apache:apache active-task-summary
 $ cd active-task-summary
 $ sudo find . -name "*.pyc" -delete
 $ sudo find . -name "*_devel.py" -delete
