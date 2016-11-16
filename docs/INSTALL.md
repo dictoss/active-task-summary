@@ -70,11 +70,14 @@ $ pwd
 ~/work/active-task-summary
 $ cd ..
 $ sudo cp -rf active-task-summary /var/www/wsgi_apps/
-$ cd /var/www/wsgi_apps/active-task-summary
+$ cd /var/www/wsgi_apps
+$ sudo chown -fR www-data:www-data active-task-summary
+$ cd active-task-summary
 $ sudo find . -name "*.pyc" -delete
 $ sudo find . -name "*_devel.py" -delete
 
 </pre>
+
 
 ### modify config
 
@@ -84,6 +87,7 @@ $ sudo vi toolproj/settings.py
 $ sudo vi ats/ats_settings.py
 
 </pre>
+
 
 ### create log and eggs directory
 
@@ -95,6 +99,7 @@ $ sudo mkdir /var/www/eggs
 $ sudo chown -fR www-data:www-data /var/www/eggs
 
 </pre>
+
 
 ### setup wsgi deamon used apache2.
 
@@ -122,6 +127,27 @@ $ sudo ln -sf /usr/local/lib/python2.7/dist-packages/django/contrib/admin/static
 
 - for use python-3.4
 $ sudo ln -sf /usr/local/lib/python3.4/dist-packages/django/contrib/admin/static/admin admin
+
+</pre>
+
+
+### create database schema for web application
+
+<pre>
+
+- for use python-2.7
+$ cd /var/www/wsgi_apps/active-task-summary
+$ sudo -u www-data python2.7 manage.py makemigrations
+$ sudo -u www-data python2.7 manage.py migrate auth
+$ sudo -u www-data python2.7 manage.py migrate
+$ sudo -u www-data python2.7 manage.py createsuperuser
+
+- for use python-3.4
+$ cd /var/www/wsgi_apps/active-task-summary
+$ sudo -u www-data python3.4 manage.py makemigrations
+$ sudo -u www-data python3.4 manage.py migrate auth
+$ sudo -u www-data python3.4 manage.py migrate
+$ sudo -u www-data python3.4 manage.py createsuperuser
 
 </pre>
 
@@ -226,7 +252,9 @@ $ pwd
 ~/work/active-task-summary
 $ cd ..
 $ sudo cp -rf active-task-summary /var/www/wsgi_apps/
-$ cd /var/www/wsgi_apps/active-task-summary
+$ cd /var/www/wsgi_apps
+$ sudo chown -fR www-data:www-data active-task-summary
+$ cd active-task-summary
 $ sudo find . -name "*.pyc" -delete
 $ sudo find . -name "*_devel.py" -delete
 
@@ -299,6 +327,27 @@ $ sudo ln -sf /usr/lib/python2.7/site-packages/django/contrib/admin/static/admin
 
 - for use python-3.5
 $ sudo ln -sf /usr/lib/python3.5/site-packages/django/contrib/admin/static/admin admin
+
+</pre>
+
+
+### create database schema for web application
+
+<pre>
+
+- for use python-2.7
+$ cd /var/www/wsgi_apps/active-task-summary
+$ sudo -u apache python2.7 manage.py makemigrations
+$ sudo -u apache python2.7 manage.py migrate auth
+$ sudo -u apache python2.7 manage.py migrate
+$ sudo -u apache python2.7 manage.py createsuperuser
+
+- for use python-3.5
+$ cd /var/www/wsgi_apps/active-task-summary
+$ sudo -u apache python3.5 manage.py makemigrations
+$ sudo -u apache python3.5 manage.py migrate auth
+$ sudo -u apache python3.5 manage.py migrate
+$ sudo -u apache python3.5 manage.py createsuperuser
 
 </pre>
 
