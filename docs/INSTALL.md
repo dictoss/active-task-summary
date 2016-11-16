@@ -108,6 +108,24 @@ $ sudo service apache2 reload
 
 </pre>
 
+
+### link static file in webapplication.
+
+<pre>
+
+$ sudo mkdir /var/www/html/static
+$ cd /var/www/html/static
+$ sudo ln -sf /var/www/wsgi_apps/active-task-summary/ats/static ats
+
+- for use python-2.7
+$ sudo ln -sf /usr/local/lib/python2.7/dist-packages/django/contrib/admin/static/admin admin
+
+- for use python-3.4
+$ sudo ln -sf /usr/local/lib/python3.4/dist-packages/django/contrib/admin/static/admin admin
+
+</pre>
+
+
 ### check exec application
 
 <pre>
@@ -266,6 +284,24 @@ $ sudo vi /etc/httpd/conf.d/wsgi-python3.5.conf
 $ sudo service httpd restart
 
 </pre>
+
+
+### link static file in webapplication.
+
+<pre>
+
+$ sudo mkdir /var/www/html/static
+$ cd /var/www/html/static
+$ sudo ln -sf /var/www/wsgi_apps/active-task-summary/ats/static ats
+
+- for use python-2.7
+$ sudo ln -sf /usr/lib/python2.7/site-packages/django/contrib/admin/static/admin admin
+
+- for use python-3.5
+$ sudo ln -sf /usr/lib/python3.5/site-packages/django/contrib/admin/static/admin admin
+
+</pre>
+
 
 ### check exec application
 
