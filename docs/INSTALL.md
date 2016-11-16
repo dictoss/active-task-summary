@@ -5,8 +5,9 @@
 - apache-2.2+
 - postgresql-9+
 - python-2.7 or python-3.4+
-- wsgi-4.3+
 - psycopg2
+- wsgi-4.3+
+- django-1.8
 
 
 ## install for debian-8 (jessie)
