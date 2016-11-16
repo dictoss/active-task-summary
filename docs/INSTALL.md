@@ -243,6 +243,19 @@ $ sudo chown -fR apache:apache /var/www/eggs
 $ cd ~/work/active-task-summary
 $ cd conf
 $ sudo cp wsgi_apache2_ats.conf.cent6.sample /etc/httpd/conf.d/wsgi_ats.conf
+
+- for use python-2.7
+$ sudo vi /etc/httpd/conf.d/python27-mod_wsgi.conf
+
+<IfModule !python_module>
+    <IfModule !wsgi_module>
+        LoadModule wsgi_module modules/python27-mod_wsgi.so
+        WSGISocketPrefix run/wsgi
+        WSGIScriptReloading On
+    </IfModule>
+</IfModule>
+
+- for use python-3.5
 $ sudo vi /etc/httpd/conf.d/wsgi-python3.5.conf
 <IfModule !wsgi_module>
     LoadModule wsgi_module modules/mod_wsgi_python3.5.so
