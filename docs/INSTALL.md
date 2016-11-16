@@ -353,7 +353,7 @@ $ sudo mkdir /var/www/html/static
 $ cd /var/www/html/static
 $ sudo ln -sf /var/www/wsgi_apps/active-task-summary/ats/static ats
 
-<pre>
+</pre>
 
 - for use python-2.7
 
@@ -361,7 +361,7 @@ $ sudo ln -sf /var/www/wsgi_apps/active-task-summary/ats/static ats
 
 $ sudo ln -sf /usr/lib/python2.7/site-packages/django/contrib/admin/static/admin admin
 
-<pre>
+</pre>
 
 - for use python-3.5
 
