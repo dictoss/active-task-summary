@@ -415,3 +415,228 @@ $ ps ax | grep wsgi | grep -v grep
 - curl -v http://localhost/toolproj/ats/login/
 
 ---
+
+## install for CentOS-7
+
+### install external repo
+
+<pre>
+
+$ sudo yum check-update
+$ sudo yum install epel-release
+$ sudo rpm -ivh https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/ius-release-1.0-14.ius.centos7.noarch.rpm
+$ sudo rpm -ivh http://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-3.noarch.rpm
+$ sudo yum check-update
+
+</pre>
+
+
+### get source code
+
+<pre>
+
+$ sudo yum install --enablerepo=ius git2u
+$ cd ~/
+$ mkdir work
+$ cd work
+$ git clone https://github.com/dictoss/active-task-summary.git
+$ cd active-task-summary
+
+</pre>
+
+
+### install database
+
+<pre>
+
+$ sudo yum install --enablerepo=pgdg94 postgresql94-server postgresql94-devel
+$ sudo /usr/pgsql-9.4/bin/postgresql94-setup initdb
+$ sudo vi /var/lib/pgsql/9.4/data/pg_hba.conf
+host    all             all             127.0.0.1/32            md5
+$ sudo systemctl restart postgresql-9.4
+$ sudo -u postgres /usr/pgsql-9.4/bin/createuser --createdb --pwprompt --superuser webapp
+Password:
+$ sudo -u postgres /usr/pgsql-9.4/bin/createdb --encoding=UTF8 --owner=webapp ats
+$ psql -h 127.0.0.1 -U webapp -W ats
+Password:
+ats=# \q
+
+</pre>
+
+
+### install modules and librairies
+
+- for use python-2.7
+
+<pre>
+
+$ sudo yum install httpd mod_ssl python mod_wsgi python-devel gcc make
+$ sudo yum install --enablerepo=epel python-pip
+$ sudo -s
+# export PATH="/usr/pgsql-9.4/bin:$PATH"
+# pip2.7 install -r requirements.txt
+
+</pre>
+
+- for use python-3.5
+
+<pre>
+
+$ sudo yum install httpd mod_ssl gcc make
+$ sudo yum install --enablerepo=ius python35u python35u-pip python35u-mod_wsgi python35u-devel
+$ sudo -s
+# export PATH="/usr/pgsql-9.4/bin:$PATH"
+# pip3.5 install -r requirements.txt
+
+</pre>
+
+
+### deploy app
+
+<pre>
+
+$ sudo mkdir -p /var/www/wsgi_apps
+$ pwd
+~/work/active-task-summary
+$ cd ..
+$ sudo cp -rf active-task-summary /var/www/wsgi_apps/
+$ cd /var/www/wsgi_apps
+$ sudo chown -fR apache:apache active-task-summary
+$ cd active-task-summary
+$ sudo find . -name "*.pyc" -delete
+$ sudo find . -name "*_devel.py" -delete
+
+</pre>
+
+### modify config
+
+<pre>
+
+$ sudo vi toolproj/settings.py
+$ sudo vi ats/ats_settings.py
+
+</pre>
+
+
+### create log and eggs directory
+
+<pre>
+
+$ sudo mkdir /var/log/ats
+$ sudo chown -fR apache:apache /var/log/ats
+$ sudo mkdir /var/www/eggs
+$ sudo chown -fR apache:apache /var/www/eggs
+
+</pre>
+
+
+### setup wsgi deamon used apache2.
+
+<pre>
+
+$ cd ~/work/active-task-summary
+$ cd conf
+$ sudo cp wsgi_apache2_ats.conf.cent7.sample /etc/httpd/conf.d/wsgi_ats.conf
+
+</pre>
+
+- for use python-2.7
+
+<pre>
+
+$ sudo vi /etc/httpd/conf.modules.d/10-wsgi.conf
+
+LoadModule wsgi_module modules/mod_wsgi.so
+WSGISocketPrefix run/wsgi
+WSGIScriptReloading On
+
+</pre>
+
+- for use python-3.5
+
+<pre>
+
+$ sudo vi /etc/httpd/conf.modules.d/10-wsgi-python3.5.conf
+
+<IfModule !wsgi_module>
+    LoadModule wsgi_module modules/mod_wsgi_python3.5.so
+    WSGISocketPrefix run/wsgi
+    WSGIScriptReloading On
+</IfModule>
+
+</pre>
+
+<pre>
+
+$ sudo systemctl restart httpd
+
+</pre>
+
+### link static file in webapplication.
+
+<pre>
+
+$ sudo mkdir /var/www/html/static
+$ cd /var/www/html/static
+$ sudo ln -sf /var/www/wsgi_apps/active-task-summary/ats/static ats
+
+</pre>
+
+- for use python-2.7
+
+<pre>
+
+$ sudo ln -sf /usr/lib/python2.7/site-packages/django/contrib/admin/static/admin admin
+
+</pre>
+
+- for use python-3.5
+
+<pre>
+
+$ sudo ln -sf /usr/lib/python3.5/site-packages/django/contrib/admin/static/admin admin
+
+</pre>
+
+
+### create database schema for web application
+
+
+- for use python-2.7
+
+<pre>
+
+$ cd /var/www/wsgi_apps/active-task-summary
+$ sudo -u apache python2.7 manage.py makemigrations
+$ sudo -u apache python2.7 manage.py migrate auth
+$ sudo -u apache python2.7 manage.py migrate
+$ sudo -u apache python2.7 manage.py createsuperuser
+
+</pre>
+
+- for use python-3.5
+
+<pre>
+
+$ cd /var/www/wsgi_apps/active-task-summary
+$ sudo -u apache python3.5 manage.py makemigrations
+$ sudo -u apache python3.5 manage.py migrate auth
+$ sudo -u apache python3.5 manage.py migrate
+$ sudo -u apache python3.5 manage.py createsuperuser
+
+</pre>
+
+
+### check exec application
+
+<pre>
+
+$ ps ax | grep wsgi | grep -v grep
+16247 ?        Sl     0:00 (wsgi:ats)      -DFOREGROUND
+
+</pre>
+
+
+### try login
+
+- curl -v http://localhost/toolproj/ats/login/
