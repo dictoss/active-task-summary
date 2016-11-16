@@ -116,15 +116,3 @@ class Group(models.Model):
         return '%d : %s' % (self.id, self.name)
 
 admin.site.register(Group)
-
-
-@python_2_unicode_compatible
-class BelongGroup(models.Model):
-    id = models.AutoField(primary_key=True)
-    group = models.ForeignKey(Group)
-    user = models.ForeignKey(User)
-
-    def __str__(self):
-        return '%d : %s - %s' % (self.id, self.group, self.user)
-
-admin.site.register(BelongGroup)
