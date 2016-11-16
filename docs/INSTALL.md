@@ -10,6 +10,13 @@
 - django-1.8
 
 
+## install target
+
+- [Debian GNU/Linux 8](#install-for-debian-8-jessie)
+- [CentOS 6](#install-for-centos-6)
+- [CentOS 7](#install-for-centos-7)
+
+
 ## install for debian-8 (jessie)
 
 ### get source code
