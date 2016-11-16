@@ -6,6 +6,7 @@
   - add checkbox 'show task detail' in project summary.
     - improve performance.
   - adjust word.
+  - add installation guide. see INSTALL.md
 
 ## version 0.2.0
   - implement regist and summary.
