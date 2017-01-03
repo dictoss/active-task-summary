@@ -36,6 +36,31 @@
 <p>no data.</p>
 {% endif %}
 
+<h3>Month Summary</h3>
+{% if monthlist %}
+<table class="usedtasktime" border="1">
+  <tr>
+    <th>job</th>
+    <th>year</th>
+    <th>month</th>
+    <th>task time</th>
+  </tr>
+  {% for data in monthlist %}
+  <tr>
+    <td>{{ data.task__job__name }}</td>
+    <td>{{ data.year }}</td>
+    <td>{{ data.month }}</td>
+    <td class="num">{{ data.month_tasktime }}</td>
+  </tr>
+  {% endfor %}
+</table>
+<!--
+<div id="chart_month" style="height:300px; width:600px;"></div>
+-->
+{% else %}
+<p>no data.</p>
+{% endif %}
+
 <h3>Task Detail</h3>
 {% if taskdata %}
 <table class="usedtasktime" border="1">

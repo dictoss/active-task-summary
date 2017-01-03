@@ -459,6 +459,7 @@ def summary_p(request):
 @login_required
 def summary_j(request):
     jobdatalist = []
+    monthlist = []
     taskdatalist = []
 
     if request.method == 'POST':
@@ -513,6 +514,32 @@ def summary_j(request):
             # convert hour
             for r in taskdatalist:
                 r['total_tasktime'] = format_totaltime(r['total_tasktime'])
+
+            # get month list
+            cursor = UsedTaskTime.objects.filter(task__job__in=joblist)
+
+            if from_date:
+                cursor = cursor.filter(taskdate__gte=from_date)
+
+            if to_date:
+                cursor = cursor.filter(taskdate__lte=to_date)
+
+            cursor = cursor.extra({
+                'year': '''date_part('year', taskdate)''',
+                'month': '''date_part('month', taskdate)'''}).\
+                values('task__job__name', 'year', 'month').\
+                annotate(month_tasktime=Sum('tasktime')).\
+                order_by('year', 'month')
+
+            monthlist = list(cursor)
+            for r in monthlist:
+                # year and month return double, so cast integer.
+                r['year'] = int(r['year'])
+                r['month'] = int(r['month'])
+                # convert timedelta to HHH:MM
+                r['month_tasktime_float'] = format_hours_float(
+                    r['month_tasktime'])
+                r['month_tasktime'] = format_totaltime(r['month_tasktime'])
         else:
             form = SummaryJobForm()
     else:
@@ -522,6 +549,7 @@ def summary_j(request):
                                  'summary/job.html',
                                  {'form': form,
                                   'jobdata': jobdatalist,
+                                  'monthlist': monthlist,
                                   'taskdata': taskdatalist})
 
 
@@ -531,6 +559,7 @@ def summary_u(request):
     taskdatalist = []
     datedatalist = []
     datesummarylist = []
+    monthlist = []
 
     if request.method == 'POST':
         form = SummaryUserForm(request.POST)
@@ -619,6 +648,33 @@ def summary_u(request):
             # convert hour
             for r in taskdatalist:
                 r['total_tasktime'] = format_totaltime(r['total_tasktime'])
+
+            # get month list
+            cursor = UsedTaskTime.objects.filter(user__in=userlist)
+
+            if from_date:
+                cursor = cursor.filter(taskdate__gte=from_date)
+
+            if to_date:
+                cursor = cursor.filter(taskdate__lte=to_date)
+
+            cursor = cursor.extra({
+                'year': '''date_part('year', taskdate)''',
+                'month': '''date_part('month', taskdate)'''}).\
+                values('user__username', 'year', 'month').\
+                annotate(month_tasktime=Sum('tasktime')).\
+                order_by('year', 'month')
+
+            monthlist = list(cursor)
+            for r in monthlist:
+                # year and month return double, so cast integer.
+                r['year'] = int(r['year'])
+                r['month'] = int(r['month'])
+                # convert timedelta to HHH:MM
+                r['month_tasktime_float'] = format_hours_float(
+                    r['month_tasktime'])
+                r['month_tasktime'] = format_totaltime(r['month_tasktime'])
+                print(r)
         else:
             form = SummaryUserForm()
     else:
@@ -630,6 +686,7 @@ def summary_u(request):
                                   'userdata': userdatalist,
                                   'taskdata': taskdatalist,
                                   'datesummarydata': datesummarylist,
+                                  'monthlist': monthlist,
                                   'datedetaildata': datedatalist})
 
 

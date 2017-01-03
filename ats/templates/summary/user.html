@@ -42,30 +42,27 @@
 <p>no data.</p>
 {% endif %}
 
-<h3>Task Summary</h3>
-{% if taskdata %}
+<h3>Month Summary</h3>
+{% if monthlist %}
 <table class="usedtasktime" border="1">
- <tr>
-  <th>project</th>
-  <th>job</th>
-  <th>task</th>
-  <th>user</th>
-  <th>task time</th>
- </tr>
-{% for r in taskdata %}
- <tr>
-  <td>{{ r.project__name }}</td>
-  <td>{{ r.task__job__name }}</td>
-  <td>{{ r.task__name }}</td>
-  {% if is_lastname_front %}
-  <td>{{ r.user__last_name }} {{ r.user__first_name }}</td>
-  {% else %}
-  <td>{{ r.user__first_name }} {{ r.user__last_name }}</td>
-  {% endif %}
-  <td class="num">{{ r.total_tasktime }}</td>
- </tr>
-{% endfor %}
+  <tr>
+    <th>username</th>
+    <th>year</th>
+    <th>month</th>
+    <th>task time</th>
+  </tr>
+  {% for data in monthlist %}
+  <tr>
+    <td>{{ data.user__username }}</td>
+    <td>{{ data.year }}</td>
+    <td>{{ data.month }}</td>
+    <td class="num">{{ data.month_tasktime }}</td>
+  </tr>
+  {% endfor %}
 </table>
+<!--
+<div id="chart_month" style="height:300px; width:600px;"></div>
+-->
 {% else %}
 <p>no data.</p>
 {% endif %}
@@ -81,6 +78,34 @@
 {% for r in datesummarydata %}
  <tr>
   <td>{{ r.taskdate|date:"Y-m-d" }}</td>
+  {% if is_lastname_front %}
+  <td>{{ r.user__last_name }} {{ r.user__first_name }}</td>
+  {% else %}
+  <td>{{ r.user__first_name }} {{ r.user__last_name }}</td>
+  {% endif %}
+  <td class="num">{{ r.total_tasktime }}</td>
+ </tr>
+{% endfor %}
+</table>
+{% else %}
+<p>no data.</p>
+{% endif %}
+
+<h3>Task Summary</h3>
+{% if taskdata %}
+<table class="usedtasktime" border="1">
+ <tr>
+  <th>project</th>
+  <th>job</th>
+  <th>task</th>
+  <th>user</th>
+  <th>task time</th>
+ </tr>
+{% for r in taskdata %}
+ <tr>
+  <td>{{ r.project__name }}</td>
+  <td>{{ r.task__job__name }}</td>
+  <td>{{ r.task__name }}</td>
   {% if is_lastname_front %}
   <td>{{ r.user__last_name }} {{ r.user__first_name }}</td>
   {% else %}
