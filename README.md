@@ -28,4 +28,4 @@ ToDo
 
 Install
 ===================
-see INSTALL file.
+see docs/INSTALL.md file.
