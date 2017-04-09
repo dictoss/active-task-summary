@@ -18,6 +18,7 @@ from django.shortcuts import render_to_response, get_object_or_404, render
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.forms.fields import ChoiceField
 from django.template import loader, Context, RequestContext
+from django.template.loader import render_to_string
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.forms import ModelForm
@@ -42,11 +43,11 @@ logger.addHandler(h)
 
 
 def error500(request):
-    return render_to_response('500.html', {})
+    return my_render_to_response(request, '500.html', {})
 
 
 def error404(request):
-    return render_to_response('404.html', {})
+    return my_render_to_response(request, '404.html', {})
 
 
 def get_url_prefix():
@@ -805,9 +806,10 @@ def my_render_to_response(request, template_file, paramdict):
     paramdict['app_version'] = APP_VERSION
     paramdict['is_lastname_front'] = ats_settings.ATS_IS_LASTNAME_FRONT
 
-    t = loader.get_template(template_file)
-    c = RequestContext(request, paramdict)
-    response.write(t.render(c))
+    _gen_html = render_to_string(template_file,
+                                 context=paramdict,
+                                 request=request)
+    response.write(_gen_html)
     return response
 
 
