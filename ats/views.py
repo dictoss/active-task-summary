@@ -9,6 +9,8 @@ import datetime
 import re
 import logging
 from datetime import date
+
+import django
 from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -805,9 +807,14 @@ def my_render_to_response(request, template_file, paramdict):
     paramdict['app_version'] = APP_VERSION
     paramdict['is_lastname_front'] = ats_settings.ATS_IS_LASTNAME_FRONT
 
-    _gen_html = render_to_string(template_file,
-                                 context=paramdict,
-                                 request=request)
+    if django.VERSION[0] == 1 and django.VERSION[1] < 8:
+        t = loader.get_template(template_file)
+        c = RequestContext(request, paramdict)
+        _gen_html = t.render(c)
+    else:
+        _gen_html = render_to_string(template_file,
+                                     context=paramdict,
+                                     request=request)
     response.write(_gen_html)
     return response
 
