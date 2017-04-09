@@ -23,8 +23,6 @@ SECRET_KEY = '^&t%al0n+!$zvywh5gi89ak0*xo(duo$8^k8&=s)%c2z6!f(1m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -50,6 +48,23 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'toolproj.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+            'debug': DEBUG,
+        },
+    },
+]
 
 WSGI_APPLICATION = 'toolproj.wsgi.application'
 
@@ -96,10 +111,6 @@ STATICFILES_FINDERS = (
 
 STATICFILES_DIRS = (
     ("ats", '%s/ats/static' % BASE_DIR),
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
 )
 
 LOGIN_REDIRECT_URL = "%s/ats/top/" % APP_MOUNTDIR
