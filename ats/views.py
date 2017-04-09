@@ -674,7 +674,6 @@ def summary_u(request):
                 r['month_tasktime_float'] = format_hours_float(
                     r['month_tasktime'])
                 r['month_tasktime'] = format_totaltime(r['month_tasktime'])
-                print(r)
         else:
             form = SummaryUserForm()
     else:
