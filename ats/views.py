@@ -20,7 +20,6 @@ from django.forms.fields import ChoiceField
 from django.template import loader, Context, RequestContext
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from django.core.context_processors import csrf
 from django.forms import ModelForm
 from django.db.models import Sum, Q
 from django.db import transaction
