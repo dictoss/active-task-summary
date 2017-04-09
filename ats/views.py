@@ -29,7 +29,7 @@ from ats import ats_settings
 
 APP_NAME = 'ats'
 APP_LONGNAME = 'Active Task Summary'
-APP_VERSION = '0.3.0'
+APP_VERSION = '0.3.990'
 APP_AUTHER = 'dictoss'
 
 
