@@ -226,15 +226,6 @@ job : task = 1:N
    * プログラムの埋め込んだ値がroleidとなる
  * テーブル構成
    * auth_user
-   * Group
-   * BelongGroup
-     * id
-     * group_id
-     * user_id
-   * RoleGroup
-     * id
-     * group_id
-     * roleid
    * Project
    * ProjectWorker (=project worker)
      * id
