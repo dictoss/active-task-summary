@@ -105,14 +105,3 @@ class UsedTaskTime(models.Model):
             self.user.username, self.project.name, self.task.name)
 
 admin.site.register(UsedTaskTime)
-
-
-@python_2_unicode_compatible
-class Group(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.TextField(blank=False)
-
-    def __str__(self):
-        return '%d : %s' % (self.id, self.name)
-
-admin.site.register(Group)
