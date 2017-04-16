@@ -8,14 +8,6 @@ from django.utils.encoding import python_2_unicode_compatible
 from . import bigint_patch
 
 
-class UserExtraAttr(models.Model):
-    user = models.ForeignKey(User)
-    expire_dt = models.DateField(null=False)
-    accounttype = models.IntegerField()
-
-admin.site.register(UserExtraAttr)
-
-
 @python_2_unicode_compatible
 class Project(models.Model):
     id = models.AutoField(primary_key=True)
