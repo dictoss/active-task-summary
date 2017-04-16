@@ -1,4 +1,4 @@
-# How to install
+# How to install for ver 4.0
 
 ## require application
 
@@ -7,7 +7,7 @@
 - python-2.7 or python-3.4+
 - psycopg2
 - wsgi-4.3+
-- django-1.8
+- django-1.11
 
 
 ## install target
@@ -196,11 +196,13 @@ $ ps ax | grep wsgi
 
 ### instsall external repo
 
+ - use postgresql-9.4, so same version on debian-8's official package.
+
 <pre>
 
 $ sudo yum check-update
 $ sudo yum install epel-release
-$ sudo rpm -ivh https://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-14.ius.centos6.noarch.rpm
+$ sudo rpm -ivh https://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-15.ius.centos6.noarch.rpm
 $ sudo rpm -ivh https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-3.noarch.rpm
 $ sudo yum check-update
 
@@ -431,7 +433,7 @@ $ ps ax | grep wsgi | grep -v grep
 
 $ sudo yum check-update
 $ sudo yum install epel-release
-$ sudo rpm -ivh https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/ius-release-1.0-14.ius.centos7.noarch.rpm
+$ sudo rpm -ivh https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/ius-release-1.0-15.ius.centos7.noarch.rpm
 $ sudo rpm -ivh http://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-3.noarch.rpm
 $ sudo yum check-update
 
