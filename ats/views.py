@@ -188,7 +188,7 @@ def regist(request):
                 # insert or update usedtasktime
                 id_re = re.compile(r'p([0-9]{1,})_t([0-9]{1,})')
 
-                with transaction.atomic():
+                with transaction.atomic(using='serial'):
                     for i in targetindexlist:
                         m = id_re.search(uttid[i])
                         pid, tid = m.group(1, 2)

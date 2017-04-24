@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import psycopg2.extensions
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 APP_MOUNTDIR = '/toolproj'
@@ -80,6 +81,17 @@ DATABASES = {
         'NAME': 'ats',
         'USER': 'webapp',
         'PASSWORD': 'password'
+    },
+    'serial': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+        'NAME': 'ats',
+        'USER': 'webapp',
+        'PASSWORD': 'password',
+        'OPTIONS': {
+            'isolation_level': psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE
+        }
     }
 }
 
