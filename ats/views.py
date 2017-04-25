@@ -268,6 +268,7 @@ def regist(request):
     # select exist usedtasktime
     cursor_u = UsedTaskTime.objects.filter(user=request.user)
     cursor_u = cursor_u.filter(taskdate=regist_date)
+    cursor_u = cursor_u.select_related('project', 'task', 'task__job')
     cursor_u = cursor_u.order_by('project__sortkey',
                                  'task__job__sortkey', 'task__sortkey')
 
