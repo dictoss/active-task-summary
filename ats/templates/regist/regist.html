@@ -12,7 +12,7 @@
 {% csrf_token %}
 {{ form.as_p }}
 <br>
-<input type="submit" value="dateselect" name="submit_dateselect">
+<input id="submit_dateselect" type="submit" value="dateselect" name="submit_dateselect">
 <br><br>
 {% if existdatalist %}
 <table class="usedtasktime" border="1">
@@ -40,7 +40,7 @@ empty data this day.
 <u>please input tasktime.</u>
 <br>
 <br>
-<form name="regist" action="#" method="POST">
+<form name="regist" action="#" method="POST" onsubmit="defence_double_post('#submit_regist', 500);">
 {{ regist_form.as_p }}
 {% csrf_token %}
 {% for proj in datalist %}
@@ -61,6 +61,6 @@ empty data this day.
 {% else %}
 <p>no data.</p>
 {% endif %}
-<input type="submit" value="regist" name="submit_regist">
+<input id="submit_regist" type="submit" value="regist" name="submit_regist">
 </form>
 {% endblock %}

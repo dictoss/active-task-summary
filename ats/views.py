@@ -132,10 +132,11 @@ def logout_view(request):
 
 @login_required
 def regist(request):
-    if request.method == 'POST':
+    if (request.method == 'POST') and ('submit_type' in request.POST):
         regist_count = 0
 
-        if 'submit_dateselect' in request.POST:
+        logger.info(request.POST)
+        if 'dateselect' in request.POST['submit_type']:
             logger.info('IN submit_dateselect')
 
             # rs_form
@@ -153,7 +154,7 @@ def regist(request):
             # re_form
             re_form = RegistForm(initial={'regist_date': regist_date,
                                           'project_id': sel_project})
-        elif 'submit_regist' in request.POST:
+        elif 'regist' in request.POST['submit_type']:
             logger.info('IN submit_regist')
 
             re_form = RegistForm(request.POST)
@@ -825,6 +826,8 @@ class RegistSelectForm(forms.Form):
                                   widget=forms.DateInput(attrs={"type":"date"}))
     projectlist = forms.ChoiceField(label='Project',
                                     choices=[('-1', '------')])
+    submit_type = forms.CharField(initial='dateselect',
+                                  widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
         _user = kwargs.pop('user')
@@ -855,6 +858,8 @@ class RegistForm(forms.Form):
     regist_date = forms.DateField(required=True,
                                   widget=forms.HiddenInput())
     project_id = forms.IntegerField(widget=forms.HiddenInput())
+    submit_type = forms.CharField(initial='regist',
+                                  widget=forms.HiddenInput())
 
 
 class SummaryProjectForm(forms.Form):

@@ -22,3 +22,11 @@ function enable_regist_checkbox(v)
         }
     }
 }
+
+function defence_double_post(id, timeout_ms)
+{
+    $(id).prop('disabled', true);
+    setTimeout(function(){
+        $(target).prop('disabled', false);
+    }, timeout_ms);
+}
