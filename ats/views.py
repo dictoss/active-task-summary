@@ -293,6 +293,7 @@ def regist(request):
         # task
         cursor_t = Task.objects.filter(job=pjw.job)
         cursor_t = cursor_t.filter(invalid=False)
+        cursor_t = cursor_t.select_related('job')
         cursor_t = cursor_t.order_by('sortkey')
 
         for t in cursor_t:
