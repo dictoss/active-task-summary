@@ -189,47 +189,47 @@ def regist(request):
                 # insert or update usedtasktime
                 id_re = re.compile(r'p([0-9]{1,})_t([0-9]{1,})')
 
+                # parse post data to adjust database model.
+                _inputdatas = []
+                for i in targetindexlist:
+                    _o = {}
+                    m = id_re.search(uttid[i])
+                    _o['pid'], _o['tid'] = m.group(1, 2)
+
+                    _o['ud_ttime'] = datetime.time(
+                        hour=int(tasktime_hour[i]),
+                        minute=int(tasktime_min[i]))
+
+                    _inputdatas.append(_o)
+
                 with transaction.atomic(using='serial'):
-                    for i in targetindexlist:
-                        m = id_re.search(uttid[i])
-                        pid, tid = m.group(1, 2)
-
-                        uttinst = None
-                        ud_ttime = datetime.time(
-                            hour=int(tasktime_hour[i]),
-                            minute=int(tasktime_min[i]))
-
-                        # search exist data.
-                        try:
-                            uttinst = UsedTaskTime.objects.get(
-                                user=request.user,
-                                project=pid,
-                                task=tid,
-                                taskdate=regist_date)
-
-                            uttinst.tasktime = ud_ttime
-
-                            if (0 == ud_ttime.hour) and (0 == ud_ttime.minute):
-                                uttinst.delete()
-                            else:
-                                uttinst.save()
-                        except UsedTaskTime.DoesNotExist:
-                            if (0 < ud_ttime.hour) or (0 < ud_ttime.minute):
-                                uttinst = UsedTaskTime.objects.create(
+                    try:
+                        for i in _inputdatas:
+                            if (0 == i['ud_ttime'].hour) and \
+                               (0 == i['ud_ttime'].minute):
+                                UsedTaskTime.objects.filter(
                                     user=request.user,
-                                    project=Project.objects.get(id=pid),
-                                    task=Task.objects.get(id=tid),
-                                    taskdate=regist_date,
-                                    tasktime=ud_ttime)
-
-                                uttinst.save()
-                        except:
-                            msg = "EXCEPT: fail save or delete. msg=%s,%s" % (
-                                sys.exc_info()[1], sys.exc_info()[2])
-                            logger.error(msg)
-                            logger.error("do rollback")
-                            # add notify message on template.
-                            raise Exception(msg)
+                                    project=Project.objects.get(pk=i['pid']),
+                                    task=Task.objects.get(pk=i['tid']),
+                                    taskdate=regist_date).delete()
+                            else:
+                                uttinst, \
+                                    _created = UsedTaskTime.objects.get_or_create(
+                                        user=request.user,
+                                        project=Project.objects.get(pk=i['pid']),
+                                        task=Task.objects.get(pk=i['tid']),
+                                        taskdate=regist_date,
+                                        defaults={'tasktime': i['ud_ttime']})
+                                if not _created:
+                                    uttinst.tasktime = i['ud_ttime']
+                                    uttinst.save()
+                    except:
+                        msg = "EXCEPT: fail save or delete. msg=%s,%s" % (
+                            sys.exc_info()[1], sys.exc_info()[2])
+                        logger.error(msg)
+                        logger.error("do rollback")
+                        # add notify message on template.
+                        raise Exception(msg)
             else:
                 logger.warn('RegistForm.is_valid = False')
 
