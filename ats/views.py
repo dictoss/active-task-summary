@@ -135,7 +135,6 @@ def regist(request):
     if (request.method == 'POST') and ('submit_type' in request.POST):
         regist_count = 0
 
-        logger.info(request.POST)
         if 'dateselect' in request.POST['submit_type']:
             logger.info('IN submit_dateselect')
 
