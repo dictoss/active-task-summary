@@ -2,10 +2,17 @@
 
 ## version 0.4.0
 
-- change supported django version
+- change supported django version.
   - supported django-1.8 and django-1.11.
   - drop support django-1.6.
 
+- detail for update and fix.
+  - fix #5  double post when quick double press regist button at /regist
+  - fix #6  reverse sort order on job-sortkey in exist data this day table at /regist
+  - fix #7  want to improve select speed "exist data this day"
+  - fix #8  add repoert [project,job,year,month] at /summary/job
+  - fix #9  add repoert [project,job,year,month] at /summary/project
+  - fix #10 support django-1.11
 
 ## version 0.3.0
 

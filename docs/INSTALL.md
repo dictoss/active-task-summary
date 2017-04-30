@@ -1,4 +1,4 @@
-# How to install for ver 4.0
+# How to install for ver 0.4.0
 
 ## require application
 
