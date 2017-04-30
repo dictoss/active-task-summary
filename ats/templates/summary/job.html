@@ -36,8 +36,8 @@
 <p>no data.</p>
 {% endif %}
 
-<h3>Month Summary</h3>
-{% if monthlist %}
+<h3>Month Summary(job)</h3>
+{% if j_monthlist %}
 <table class="usedtasktime" border="1">
   <tr>
     <th>job</th>
@@ -45,8 +45,35 @@
     <th>month</th>
     <th>task time</th>
   </tr>
-  {% for data in monthlist %}
+  {% for data in j_monthlist %}
   <tr>
+    <td>{{ data.task__job__name }}</td>
+    <td>{{ data.year }}</td>
+    <td>{{ data.month }}</td>
+    <td class="num">{{ data.month_tasktime }}</td>
+  </tr>
+  {% endfor %}
+</table>
+<!--
+<div id="chart_month" style="height:300px; width:600px;"></div>
+-->
+{% else %}
+<p>no data.</p>
+{% endif %}
+
+<h3>Month Summary(project,job)</h3>
+{% if pj_monthlist %}
+<table class="usedtasktime" border="1">
+  <tr>
+    <th>project</th>
+    <th>job</th>
+    <th>year</th>
+    <th>month</th>
+    <th>task time</th>
+  </tr>
+  {% for data in pj_monthlist %}
+  <tr>
+    <td>{{ data.project__name }}</td>
     <td>{{ data.task__job__name }}</td>
     <td>{{ data.year }}</td>
     <td>{{ data.month }}</td>
