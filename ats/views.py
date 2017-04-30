@@ -345,7 +345,8 @@ def regist(request):
 @login_required
 def summary_p(request):
     totallist = []
-    monthlist = []
+    p_monthlist = []
+    pj_monthlist = []
     datelist = []
     tasklist = []
     is_show_taskdetail = False
@@ -415,7 +416,7 @@ def summary_p(request):
             for r in datelist:
                 r['date_tasktime'] = format_totaltime(r['date_tasktime'])
 
-            # get month list
+            # get month list for project
             cursor = UsedTaskTime.objects.filter(project=project)
 
             if from_date:
@@ -431,8 +432,34 @@ def summary_p(request):
                 annotate(month_tasktime=Sum('tasktime')).\
                 order_by('year', 'month')
 
-            monthlist = list(cursor)
-            for r in monthlist:
+            p_monthlist = list(cursor)
+            for r in p_monthlist:
+                # year and month return double, so cast integer.
+                r['year'] = int(r['year'])
+                r['month'] = int(r['month'])
+                # convert timedelta to HHH:MM
+                r['month_tasktime_float'] = format_hours_float(
+                    r['month_tasktime'])
+                r['month_tasktime'] = format_totaltime(r['month_tasktime'])
+
+            # get month list for project,job
+            pj_cursor = UsedTaskTime.objects.filter(project=project)
+
+            if from_date:
+                pj_cursor = pj_cursor.filter(taskdate__gte=from_date)
+
+            if to_date:
+                pj_cursor = pj_cursor.filter(taskdate__lte=to_date)
+
+            pj_cursor = pj_cursor.extra({
+                'year': '''date_part('year', taskdate)''',
+                'month': '''date_part('month', taskdate)'''}).\
+                values('project__name', 'task__job__name', 'year', 'month').\
+                annotate(month_tasktime=Sum('tasktime')).\
+                order_by('year', 'month')
+
+            pj_monthlist = list(pj_cursor)
+            for r in pj_monthlist:
                 # year and month return double, so cast integer.
                 r['year'] = int(r['year'])
                 r['month'] = int(r['month'])
@@ -453,7 +480,8 @@ def summary_p(request):
                                  'summary/project.html',
                                  {'form': form,
                                   'totallist': totallist,
-                                  'monthlist': monthlist,
+                                  'p_monthlist': p_monthlist,
+                                  'pj_monthlist': pj_monthlist,
                                   'datelist': datelist,
                                   'tasklist': tasklist,
                                   'is_show_taskdetail': is_show_taskdetail,

@@ -34,8 +34,8 @@
 <p>no data.</p>
 {% endif %}
 
-<h3>Month Summary</h3>
-{% if monthlist %}
+<h3>Month Summary(project)</h3>
+{% if p_monthlist %}
 <table class="usedtasktime" border="1">
  <tr>
   <th>project</th>
@@ -43,7 +43,7 @@
   <th>month</th>
   <th>task time</th>
  </tr>
-{% for data in monthlist %}
+{% for data in p_monthlist %}
  <tr>
    <td>{{ data.project__name }}</td>
    <td>{{ data.year }}</td>
@@ -53,6 +53,31 @@
 {% endfor %}
 </table>
 <div id="chart_month" style="height:300px; width:600px;"></div>
+{% else %}
+<p>no data.</p>
+{% endif %}
+
+<h3>Month Summary(project,job)</h3>
+{% if pj_monthlist %}
+<table class="usedtasktime" border="1">
+ <tr>
+  <th>project</th>
+  <th>job</th>
+  <th>year</th>
+  <th>month</th>
+  <th>task time</th>
+ </tr>
+{% for data in pj_monthlist %}
+ <tr>
+  <td>{{ data.project__name }}</td>
+  <td>{{ data.task__job__name }}</td>
+  <td>{{ data.year }}</td>
+  <td>{{ data.month }}</td>
+  <td class="num">{{ data.month_tasktime }}</td>
+ </tr>
+{% endfor %}
+</table>
+<!-- <div id="chart_month" style="height:300px; width:600px;"></div> -->
 {% else %}
 <p>no data.</p>
 {% endif %}
@@ -106,14 +131,14 @@
 {% endif %}
 
 {# create graph #}
-{% if monthlist %}
+{% if p_monthlist %}
 <script type="text/javascript">
 $(document).ready(function(){
 $.jqplot.config.enablePlugins = true;
 
 var plots = [];
 
-{% for data in monthlist %}
+{% for data in p_monthlist %}
 plots.push(["{{ data.year }}" + "-" + "{{ data.month|stringformat:"02d" }}", {{ data.month_tasktime_float }}]);
 {% endfor %}
 
