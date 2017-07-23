@@ -1,4 +1,5 @@
-from django.test import TestCase
+from django.test import TestCase, Client
+from django.contrib.auth.models import User
 
 import datetime
 from datetime import timedelta
@@ -6,6 +7,10 @@ from datetime import timedelta
 from .views import (
     format_totaltime,
     format_hours_float)
+
+
+class AtsTestClient(Client):
+    pass
 
 
 class TestLib(TestCase):
@@ -70,33 +75,77 @@ class TestLib(TestCase):
 
 class TestViews(TestCase):
     fixtures = ['test_views.json']
+    client_class = AtsTestClient
+    _password = 'passpass'
 
     def setUp(self):
-        pass
+        self.user = User.objects.create_user(
+            'testuser1',
+            'testuser1@example.com',
+            self._password)
 
     def tearDown(self):
         pass
 
     def test_login_top(self):
-        self.assertTrue(True)
+        # if not login
+        _response = self.client.get('/ats/top/')
+        self.assertEqual(_response.status_code, 302)
+
+        # login
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        # enable access logined.
+        _response = self.client.get('/ats/top/')
+        self.assertEqual(_response.status_code, 200)
+        self.client.logout()
 
     def test_manage(self):
-        self.assertTrue(True)
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        _response = self.client.get('/ats/manage/')
+        self.assertEqual(_response.status_code, 200)
 
     def test_manage_chpasswd(self):
-        self.assertTrue(True)
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
 
-    def test_summary(self):
-        self.assertTrue(True)
+        _response = self.client.get('/ats/manage/')
+        self.assertEqual(_response.status_code, 200)
 
     def test_summary_project(self):
-        self.assertTrue(True)
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        _response = self.client.get('/ats/summary/project/')
+        self.assertEqual(_response.status_code, 200)
 
     def test_summary_job(self):
-        self.assertTrue(True)
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        _response = self.client.get('/ats/summary/job/')
+        self.assertEqual(_response.status_code, 200)
 
     def test_summary_user(self):
-        self.assertTrue(True)
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        _response = self.client.get('/ats/summary/user/')
+        self.assertEqual(_response.status_code, 200)
 
     def test_regist(self):
-        self.assertTrue(True)
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        _response = self.client.get('/ats/regist/')
+        self.assertEqual(_response.status_code, 200)
