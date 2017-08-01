@@ -91,7 +91,10 @@ DATABASES = {
         'PASSWORD': 'password',
         'OPTIONS': {
             'isolation_level': psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE
-        }
+        },
+        'TEST': {
+            'MIRROR': 'default',
+        },
     }
 }
 
