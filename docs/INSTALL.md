@@ -1,23 +1,23 @@
-# How to install for ver 0.4.0
+# How to install for ver 0.5.0
 
 ## require application
 
 - apache-2.2+
-- postgresql-9+
-- python-2.7 or python-3.4+
-- psycopg2
-- wsgi-4.3+
-- django-1.11
+- postgresql-9.6
+- python-2.7 or python-3.5+
+- psycopg2.6.2+
+- wsgi-4.5.11
+- django-1.11.8
 
 
 ## install target
 
-- [Debian GNU/Linux 8](#install-for-debian-8-jessie)
+- [Debian GNU/Linux 9](#install-for-debian-9-stretch)
 - [CentOS 6](#install-for-centos-6)
 - [CentOS 7](#install-for-centos-7)
 
 
-## install for debian-8 (jessie)
+## install for debian-9 (stretch)
 
 ### get source code
 
@@ -38,10 +38,10 @@ $ cd active-task-summary
 
 <pre>
 
-$ sudo apt-get install postgresql-9.4
-$ sudo -u postgres /usr/lib/postgresql/9.4/bin/createuser --createdb --pwprompt --superuser webapp
+$ sudo apt-get install postgresql-9.6
+$ sudo -u postgres /usr/lib/postgresql/9.6/bin/createuser --createdb --pwprompt --superuser webapp
 Password:
-$ sudo -u postgres /usr/lib/postgresql/9.4/bin/createdb --encoding=UTF8 --owner=webapp ats
+$ sudo -u postgres /usr/lib/postgresql/9.6/bin/createdb --encoding=UTF8 --owner=webapp ats
 $ psql -h 127.0.0.1 -U webapp -W ats
 Password:
 ats=# \q
@@ -60,11 +60,11 @@ $ sudo pip2 install -r requirements.txt
 
 </pre>
 
-- for use python-3.4
+- for use python-3.5
 
 <pre>
 
-$ sudo apt-get install python3.4 python3-pip apache2 libapache2-mod-wsgi-py3 python3-psycopg2
+$ sudo apt-get install python3.5 python3-pip apache2 libapache2-mod-wsgi-py3 python3-psycopg2
 $ sudo pip3 install -r requirements.txt
 
 </pre>
@@ -116,7 +116,7 @@ $ sudo chown -fR www-data:www-data /var/www/eggs
 
 $ cd ~/work/active-task-summary
 $ cd conf
-$ sudo cp wsgi_apache2_ats.conf.debian8.sample /etc/apache2/conf-available/wsgi_ats.conf
+$ sudo cp wsgi_apache2_ats.conf.debian9.sample /etc/apache2/conf-available/wsgi_ats.conf
 $ sudo /usr/sbin/a2enconf wsgi_ats.conf
 $ sudo service apache2 reload
 
@@ -141,11 +141,11 @@ $ sudo ln -sf /usr/local/lib/python2.7/dist-packages/django/contrib/admin/static
 
 </pre>
 
-- for use python-3.4
+- for use python-3.5
 
 <pre>
 
-$ sudo ln -sf /usr/local/lib/python3.4/dist-packages/django/contrib/admin/static/admin admin
+$ sudo ln -sf /usr/local/lib/python3.5/dist-packages/django/contrib/admin/static/admin admin
 
 </pre>
 
@@ -164,15 +164,15 @@ $ sudo -u www-data python2.7 manage.py createsuperuser
 
 </pre>
 
-- for use python-3.4
+- for use python-3.5
 
 </pre>
 
 $ cd /var/www/wsgi_apps/active-task-summary
-$ sudo -u www-data python3.4 manage.py makemigrations
-$ sudo -u www-data python3.4 manage.py migrate auth
-$ sudo -u www-data python3.4 manage.py migrate
-$ sudo -u www-data python3.4 manage.py createsuperuser
+$ sudo -u www-data python3.5 manage.py makemigrations
+$ sudo -u www-data python3.5 manage.py migrate auth
+$ sudo -u www-data python3.5 manage.py migrate
+$ sudo -u www-data python3.5 manage.py createsuperuser
 
 </pre>
 
@@ -196,14 +196,14 @@ $ ps ax | grep wsgi
 
 ### instsall external repo
 
- - use postgresql-9.4, so same version on debian-8's official package.
+ - use postgresql-9.6, so same version on debian-9's official package.
 
 <pre>
 
 $ sudo yum check-update
 $ sudo yum install epel-release
 $ sudo rpm -ivh https://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-15.ius.centos6.noarch.rpm
-$ sudo rpm -ivh https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-3.noarch.rpm
+$ sudo rpm -ivh https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-6-x86_64/pgdg-centos96-9.6-3.noarch.rpm
 $ sudo yum check-update
 
 </pre>
@@ -226,14 +226,14 @@ $ cd active-task-summary
 
 <pre>
 
-$ sudo yum install --enablerepo=pgdg94 postgresql94-server postgresql94-devel
-$ sudo service postgresql-9.4 initdb
-$ sudo vi /var/lib/pgsql/9.4/data/pg_hba.conf
+$ sudo yum install --enablerepo=pgdg96 postgresql96-server postgresql96-devel
+$ sudo service postgresql-9.6 initdb
+$ sudo vi /var/lib/pgsql/9.6/data/pg_hba.conf
 host    all             all             127.0.0.1/32            md5
-$ sudo service postgresql-9.4 restart
-$ sudo -u postgres /usr/pgsql-9.4/bin/createuser --createdb --pwprompt --superuser webapp
+$ sudo service postgresql-9.6 restart
+$ sudo -u postgres /usr/pgsql-9.6/bin/createuser --createdb --pwprompt --superuser webapp
 Password:
-$ sudo -u postgres /usr/pgsql-9.4/bin/createdb --encoding=UTF8 --owner=webapp ats
+$ sudo -u postgres /usr/pgsql-9.6/bin/createdb --encoding=UTF8 --owner=webapp ats
 $ psql -h 127.0.0.1 -U webapp -W ats
 Password:
 ats=# \q
@@ -250,7 +250,7 @@ $ sudo yum install httpd mod_ssl
 $ sudo yum install gcc make
 $ sudo yum install --enablerepo=ius python27 python27-pip python27-mod_wsgi python27-devel
 $ sudo -s
-# export PATH="/usr/pgsql-9.4/bin:$PATH"
+# export PATH="/usr/pgsql-9.6/bin:$PATH"
 # pip2.7 install -r requirements.txt
 
 </pre>
@@ -264,7 +264,7 @@ $ sudo yum install httpd mod_ssl
 $ sudo yum install gcc make
 $ sudo yum install --enablerepo=ius python35u python35u-pip python35u-mod_wsgi python35u-devel
 $ sudo -s
-# export PATH="/usr/pgsql-9.4/bin:$PATH"
+# export PATH="/usr/pgsql-9.6/bin:$PATH"
 # pip3.5 install -r requirements.txt
 
 </pre>
@@ -434,7 +434,7 @@ $ ps ax | grep wsgi | grep -v grep
 $ sudo yum check-update
 $ sudo yum install epel-release
 $ sudo rpm -ivh https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/ius-release-1.0-15.ius.centos7.noarch.rpm
-$ sudo rpm -ivh http://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-3.noarch.rpm
+$ sudo rpm -ivh http://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
 $ sudo yum check-update
 
 </pre>
@@ -458,14 +458,14 @@ $ cd active-task-summary
 
 <pre>
 
-$ sudo yum install --enablerepo=pgdg94 postgresql94-server postgresql94-devel
-$ sudo /usr/pgsql-9.4/bin/postgresql94-setup initdb
-$ sudo vi /var/lib/pgsql/9.4/data/pg_hba.conf
+$ sudo yum install --enablerepo=pgdg96 postgresql96-server postgresql96-devel
+$ sudo /usr/pgsql-9.6/bin/postgresql96-setup initdb
+$ sudo vi /var/lib/pgsql/9.6/data/pg_hba.conf
 host    all             all             127.0.0.1/32            md5
-$ sudo systemctl restart postgresql-9.4
-$ sudo -u postgres /usr/pgsql-9.4/bin/createuser --createdb --pwprompt --superuser webapp
+$ sudo systemctl restart postgresql-9.6
+$ sudo -u postgres /usr/pgsql-9.6/bin/createuser --createdb --pwprompt --superuser webapp
 Password:
-$ sudo -u postgres /usr/pgsql-9.4/bin/createdb --encoding=UTF8 --owner=webapp ats
+$ sudo -u postgres /usr/pgsql-9.6/bin/createdb --encoding=UTF8 --owner=webapp ats
 $ psql -h 127.0.0.1 -U webapp -W ats
 Password:
 ats=# \q
@@ -482,7 +482,7 @@ ats=# \q
 $ sudo yum install httpd mod_ssl python mod_wsgi python-devel gcc make
 $ sudo yum install --enablerepo=epel python-pip
 $ sudo -s
-# export PATH="/usr/pgsql-9.4/bin:$PATH"
+# export PATH="/usr/pgsql-9.6/bin:$PATH"
 # pip2.7 install -r requirements.txt
 
 </pre>
@@ -494,7 +494,7 @@ $ sudo -s
 $ sudo yum install httpd mod_ssl gcc make
 $ sudo yum install --enablerepo=ius python35u python35u-pip python35u-mod_wsgi python35u-devel
 $ sudo -s
-# export PATH="/usr/pgsql-9.4/bin:$PATH"
+# export PATH="/usr/pgsql-9.6/bin:$PATH"
 # pip3.5 install -r requirements.txt
 
 </pre>
