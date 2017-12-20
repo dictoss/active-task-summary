@@ -1,5 +1,16 @@
 # changelog
 
+## version 0.5.0
+
+- support debian 9 (stretch)
+  - drop support debian 8 (jessie)
+  - support python2.7 and python3.5, drop support python3.4
+  - require upgrade "psycopg2-2.6.2"
+
+- change supported django version.
+  - supported django-1.11
+  - drop support django-1.8
+
 ## version 0.4.0
 
 - change supported django version.
