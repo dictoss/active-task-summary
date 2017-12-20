@@ -48,7 +48,7 @@ admin.site.register(Job)
 class Task(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField(blank=False)
-    job = models.ForeignKey('Job')
+    job = models.ForeignKey('Job', on_delete=models.PROTECT)
     sortkey = models.IntegerField(null=False)
     invalid = models.BooleanField(default=False)
 
@@ -66,9 +66,9 @@ admin.site.register(Task)
 @python_2_unicode_compatible
 class ProjectWorker(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User)
-    project = models.ForeignKey('Project')
-    job = models.ForeignKey('Job')
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    project = models.ForeignKey('Project', on_delete=models.PROTECT)
+    job = models.ForeignKey('Job', on_delete=models.PROTECT)
     invalid = models.BooleanField(default=False)
 
     def __str__(self):
@@ -85,9 +85,9 @@ admin.site.register(ProjectWorker)
 @python_2_unicode_compatible
 class UsedTaskTime(models.Model):
     id = bigint_patch.BigAutoField(primary_key=True)
-    user = models.ForeignKey(User)
-    project = models.ForeignKey('Project')
-    task = models.ForeignKey('Task')
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    project = models.ForeignKey('Project', on_delete=models.PROTECT)
+    task = models.ForeignKey('Task', on_delete=models.PROTECT)
     taskdate = models.DateField(null=False)
     tasktime = models.TimeField(null=False)
 
