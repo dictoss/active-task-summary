@@ -248,17 +248,18 @@ def regist(request):
         re_form = RegistForm(initial={'regist_date': regist_date,
                                       'project_id': sel_project})
 
-    # select project
-    project = Project.objects.filter(id=sel_project)
+    # get project
+    try:
+        project = Project.objects.get(id=sel_project)
 
-    if project:
         cursor_pjw = ProjectWorker.objects.filter(user=request.user)
-        cursor_pjw = cursor_pjw.filter(project=project)
+        cursor_pjw = cursor_pjw.filter(project__id=project.id)
         cursor_pjw = cursor_pjw.filter(project__start_dt__lte=regist_date)
         cursor_pjw = cursor_pjw.filter(project__end_dt__isnull=True)
         cursor_pjw = cursor_pjw.filter(invalid=False)
         cursor_pjw = cursor_pjw.order_by('project__sortkey', 'job__sortkey')
-    else:
+    except Project.DoesNotExist as e:
+        logger.warn('regist(): project is not found (id=%s)' % (sel_project))
         cursor_pjw = []
 
     datalist = []
