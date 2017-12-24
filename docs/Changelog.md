@@ -8,7 +8,7 @@
   - require upgrade "psycopg2-2.6.2"
 
 - change supported django version.
-  - supported django-1.11
+  - supported django-1.11 and django-2.0
   - drop support django-1.8
 
 ## version 0.4.0
