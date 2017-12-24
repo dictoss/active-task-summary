@@ -12,12 +12,12 @@ Current Stable Version
 
 Develop Environment
 ===================
-- Debian GNU/Linux 8 (jessie) amd64
-- Django 1.8.x and 1.11
-- python 2.7.9 and 3.4.2
+- Debian GNU/Linux 9 (stretch) amd64
+- Django 1.11
+- python 2.7.13 and 3.5.3
 - apache 2.4
-- python-psycopg2 and python3-psycopg2 2.5.4 8
-- postgresql-9.4 (from pgdg)
+- python-psycopg2 and python3-psycopg2 2.6.2
+- postgresql-9.6 (from pgdg)
 
 NOTICE
 ===================
