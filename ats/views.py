@@ -113,7 +113,7 @@ def login_view(request):
             form = LoginForm()
             error_reason = 3
     else:
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return HttpResponseRedirect('%s/top' % get_url_prefix())
         else:
             form = LoginForm()
