@@ -10,6 +10,8 @@ import re
 import logging
 from datetime import date
 
+import pytz
+
 import django
 from django import forms
 from django.contrib.auth import authenticate, login, logout
@@ -879,9 +881,26 @@ def my_render_to_response(request, template_file, paramdict):
     return response
 
 
+def get_thismonth_1st():
+    _tz = pytz.timezone(settings.TIME_ZONE)
+    _now = datetime.datetime.now(tz=_tz)
+    _ret = _now.replace(day=1)
+
+    # logger.debug("get_thismonth_1st(): %s" % (_ret))
+    return _ret
+
+
+def get_localtime():
+    _tz = pytz.timezone(settings.TIME_ZONE)
+    _now = datetime.datetime.now(tz=_tz)
+
+    # logger.debug("get_localtime()    : %s" % (_now))
+    return _now
+
+
 class RegistSelectForm(forms.Form):
     regist_date = forms.DateField(label='regist_date', required=True,
-                                  initial=lambda: datetime.datetime.now(),
+                                  initial=lambda: get_localtime(),
                                   widget=forms.DateInput(attrs={"type":"date"}))
     projectlist = forms.ChoiceField(label='Project',
                                     choices=[('-1', '------')])
@@ -923,9 +942,9 @@ class RegistForm(forms.Form):
 
 class SummaryProjectForm(forms.Form):
     from_date = forms.DateField(label='from date', required=False,
-                                initial=lambda: datetime.datetime.now().replace(day=1))
+                                initial=lambda: get_thismonth_1st())
     to_date = forms.DateField(label='to date', required=False,
-                              initial=lambda: datetime.datetime.now())
+                              initial=lambda: get_localtime())
     projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all().order_by('sortkey'))
     is_show_taskdetail = forms.BooleanField(label="show Task Detail",
                                             required=False)
@@ -933,9 +952,9 @@ class SummaryProjectForm(forms.Form):
 
 class SummaryJobForm(forms.Form):
     from_date = forms.DateField(label='from date', required=False,
-                                initial=lambda: datetime.datetime.now().replace(day=1))
+                                initial=lambda: get_thismonth_1st())
     to_date = forms.DateField(label='to date', required=False,
-                              initial=lambda: datetime.datetime.now())
+                              initial=lambda: get_localtime())
     joblist = forms.ModelMultipleChoiceField(label='job', required=True, queryset=Job.objects.all().order_by('sortkey'))
 
 
@@ -951,9 +970,9 @@ class MyUserModelMultipleChoiceField(forms.ModelMultipleChoiceField):
 
 class SummaryUserForm(forms.Form):
     from_date = forms.DateField(label='from date', required=False,
-                                initial=lambda: datetime.datetime.now().replace(day=1))
+                                initial=lambda: get_thismonth_1st())
     to_date = forms.DateField(label='to date', required=False,
-                              initial=lambda: datetime.datetime.now())
+                              initial=lambda: get_localtime())
     userlist = MyUserModelMultipleChoiceField(label='user', required=True, queryset=User.objects.filter(is_active=True).order_by('id'))
 
 
