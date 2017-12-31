@@ -366,7 +366,8 @@ def summary_p(request):
 
             logger.debug('IN summary_p : is_show_taskdetail(%s)' % (
                 is_show_taskdetail))
-            _starttime = datetime.datetime.now()
+            _starttime = datetime.datetime.now(
+                tz=pytz.timezone(settings.TIME_ZONE))
             logger.debug('starttime: %s' % (_starttime))
 
             # calc date
@@ -471,8 +472,9 @@ def summary_p(request):
                     r['month_tasktime'])
                 r['month_tasktime'] = format_totaltime(r['month_tasktime'])
 
-            _endtime = datetime.datetime.now()
-            logger.debug('endtime: %s' % (_endtime))
+            _endtime = datetime.datetime.now(
+                tz=pytz.timezone(settings.TIME_ZONE))
+            logger.debug('endtime  : %s' % (_endtime))
             logger.debug('dur: %s' % (_endtime - _starttime))
         else:
             form = SummaryProjectForm()
