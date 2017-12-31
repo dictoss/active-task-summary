@@ -901,7 +901,7 @@ def get_localtime():
 class RegistSelectForm(forms.Form):
     regist_date = forms.DateField(label='regist_date', required=True,
                                   initial=lambda: get_localtime(),
-                                  widget=forms.DateInput(attrs={"type":"date"}))
+                                  widget=forms.DateInput(attrs={"type": "date"}))
     projectlist = forms.ChoiceField(label='Project',
                                     choices=[('-1', '------')])
     submit_type = forms.CharField(initial='dateselect',
