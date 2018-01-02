@@ -10,8 +10,6 @@ import re
 import logging
 from datetime import date
 
-import pytz
-
 import django
 from django import forms
 from django.contrib.auth import authenticate, login, logout
@@ -28,6 +26,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.forms import ModelForm
 from django.db.models import Sum, Q
 from django.db import transaction
+from django.utils import timezone
 from ats.models import *
 from ats import ats_settings
 
@@ -366,8 +365,7 @@ def summary_p(request):
 
             logger.debug('IN summary_p : is_show_taskdetail(%s)' % (
                 is_show_taskdetail))
-            _starttime = datetime.datetime.now(
-                tz=pytz.timezone(settings.TIME_ZONE))
+            _starttime = timezone.localtime()
             logger.debug('starttime: %s' % (_starttime))
 
             # calc date
@@ -472,8 +470,7 @@ def summary_p(request):
                     r['month_tasktime'])
                 r['month_tasktime'] = format_totaltime(r['month_tasktime'])
 
-            _endtime = datetime.datetime.now(
-                tz=pytz.timezone(settings.TIME_ZONE))
+            _endtime = timezone.localtime()
             logger.debug('endtime  : %s' % (_endtime))
             logger.debug('dur: %s' % (_endtime - _starttime))
         else:
@@ -884,8 +881,7 @@ def my_render_to_response(request, template_file, paramdict):
 
 
 def get_thismonth_1st():
-    _tz = pytz.timezone(settings.TIME_ZONE)
-    _now = datetime.datetime.now(tz=_tz)
+    _now = timezone.localtime()
     _ret = _now.replace(day=1)
 
     # logger.debug("get_thismonth_1st(): %s" % (_ret))
@@ -893,8 +889,7 @@ def get_thismonth_1st():
 
 
 def get_localtime():
-    _tz = pytz.timezone(settings.TIME_ZONE)
-    _now = datetime.datetime.now(tz=_tz)
+    _now = timezone.localtime()
 
     # logger.debug("get_localtime()    : %s" % (_now))
     return _now
