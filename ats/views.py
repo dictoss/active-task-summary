@@ -939,9 +939,11 @@ class RegistForm(forms.Form):
 
 class SummaryProjectForm(forms.Form):
     from_date = forms.DateField(label='from date', required=False,
-                                initial=lambda: get_thismonth_1st())
+                                initial=lambda: get_thismonth_1st(),
+                                widget=forms.DateInput(attrs={"type": "date"}))
     to_date = forms.DateField(label='to date', required=False,
-                              initial=lambda: get_localtime())
+                              initial=lambda: get_localtime(),
+                              widget=forms.DateInput(attrs={"type": "date"}))
     projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all().order_by('sortkey'))
     is_show_taskdetail = forms.BooleanField(label="show Task Detail",
                                             required=False)
@@ -949,9 +951,11 @@ class SummaryProjectForm(forms.Form):
 
 class SummaryJobForm(forms.Form):
     from_date = forms.DateField(label='from date', required=False,
-                                initial=lambda: get_thismonth_1st())
+                                initial=lambda: get_thismonth_1st(),
+                                widget=forms.DateInput(attrs={"type": "date"}))
     to_date = forms.DateField(label='to date', required=False,
-                              initial=lambda: get_localtime())
+                              initial=lambda: get_localtime(),
+                              widget=forms.DateInput(attrs={"type": "date"}))
     joblist = forms.ModelMultipleChoiceField(label='job', required=True, queryset=Job.objects.all().order_by('sortkey'))
 
 
@@ -967,9 +971,11 @@ class MyUserModelMultipleChoiceField(forms.ModelMultipleChoiceField):
 
 class SummaryUserForm(forms.Form):
     from_date = forms.DateField(label='from date', required=False,
-                                initial=lambda: get_thismonth_1st())
+                                initial=lambda: get_thismonth_1st(),
+                                widget=forms.DateInput(attrs={"type": "date"}))
     to_date = forms.DateField(label='to date', required=False,
-                              initial=lambda: get_localtime())
+                              initial=lambda: get_localtime(),
+                              widget=forms.DateInput(attrs={"type": "date"}))
     userlist = MyUserModelMultipleChoiceField(label='user', required=True, queryset=User.objects.filter(is_active=True).order_by('id'))
 
 
