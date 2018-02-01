@@ -5,6 +5,7 @@ from .models import ProjectWorker
 
 class ProjectWorkerAdmin(admin.ModelAdmin):
     list_filter = ['user', 'project', 'job']
+    ordering = ['user', 'project', 'job']
 
 
 admin.site.register(ProjectWorker, ProjectWorkerAdmin)
