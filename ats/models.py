@@ -79,8 +79,6 @@ class ProjectWorker(models.Model):
             return '%d : %s (%s - %s)' % (
                 self.id, self.user.username, self.project.name, self.job.name)
 
-admin.site.register(ProjectWorker)
-
 
 @python_2_unicode_compatible
 class UsedTaskTime(models.Model):
