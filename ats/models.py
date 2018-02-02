@@ -25,8 +25,6 @@ class Project(models.Model):
         else:
             return '%d : %s [opened]' % (self.id, self.name)
 
-admin.site.register(Project)
-
 
 @python_2_unicode_compatible
 class Job(models.Model):
@@ -40,8 +38,6 @@ class Job(models.Model):
             return '%d : %s [invalid]' % (self.id, self.name)
         else:
             return '%d : %s' % (self.id, self.name)
-
-admin.site.register(Job)
 
 
 @python_2_unicode_compatible
@@ -59,8 +55,6 @@ class Task(models.Model):
         else:
             return '%d : %s (%s)' % (
                 self.id, self.name, self.job.name)
-
-admin.site.register(Task)
 
 
 @python_2_unicode_compatible
@@ -93,5 +87,3 @@ class UsedTaskTime(models.Model):
         return '%d : [%s - %s] %s - %s - %s' % (
             self.id, self.taskdate, self.tasktime,
             self.user.username, self.project.name, self.task.name)
-
-admin.site.register(UsedTaskTime)
