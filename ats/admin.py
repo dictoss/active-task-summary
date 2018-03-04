@@ -34,7 +34,8 @@ admin.site.register(ProjectWorker, ProjectWorkerAdmin)
 
 
 class UsedTaskTimeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'project', 'task')
+    list_display = ('id', 'taskdate', 'tasktime', 'user', 'project', 'task')
+    list_filter = ['user']
     ordering = ['-id']
 
 admin.site.register(UsedTaskTime, UsedTaskTimeAdmin)
