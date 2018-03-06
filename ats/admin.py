@@ -19,7 +19,7 @@ admin.site.register(Job, JobAdmin)
 
 class TaskAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'job', 'sortkey', 'invalid')
-    ordering = ['sortkey']
+    ordering = ['job', 'sortkey']
 
 admin.site.register(Task, TaskAdmin)
 
