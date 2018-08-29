@@ -1,5 +1,9 @@
 # changelog
 
+## version 0.6.0
+
+- upgrade jquery-3.3.1
+
 ## version 0.5.0
 
 - support debian 9 (stretch)
