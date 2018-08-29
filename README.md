@@ -4,11 +4,11 @@ a web application of input and summary task time by team member.
 
 Current Development Version
 ===================
-0.6.0
+0.7.0
 
 Current Stable Version
 ===================
-0.5.0
+0.6.0
 
 Develop Environment
 ===================
