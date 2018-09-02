@@ -187,3 +187,35 @@ ORDER BY year, month;
  2014 |    12 |            0
  2015 |     1 |            0
 
+## unittest
+
+### 参考
+
+- https://stackoverflow.com/questions/30552024/unit-test-cases-for-django-admin-py-operations
+
+### ライブラリクラスのテスト
+
+### viewsのテストパターン
+
+- login画面
+- トップ画面
+- 管理画面系
+- summary系
+  - project, job, user
+    - テストパターン
+      - すでに入っているデータを検索できる
+    - グラフ表示(projectのみ)
+    - リストボックスの複数選択
+    - 詳細表示のチェックボックス(projectのみ) 
+
+- regist系
+  - テストパターン(表示系)
+    - 該当日の登録済みデータの画面表示
+    - リストボックスへの該当日の登録済みデータのセット
+  - テストパターン(登録系)
+    - 登録
+    - チェックボックスがoffの場合に登録しないこと
+
+
+### admin画面のカスタマイズのテスト
+
