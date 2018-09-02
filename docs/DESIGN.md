@@ -68,7 +68,7 @@
       - ユーザ、プロジェクト、作業グループ、作業細目の関係
       - ユーザは所属するjobを決めておく
       - 開発職、営業職、運用職、管理職、間接
-{{{
+```
 user
   |-project
     |-job
@@ -86,9 +86,10 @@ project : job = 1:N
 job : task = 1:N
 -------------------
 テンプレート登録機能が必要なのは、jobに対応するtask群。
-}}}
+```
   - user.relate_attr
     - ユーザ自身の属性
+```
 || カラム名 || データ型 || DB属性 || データ内容 || 備考 ||
 || user_id ||  ||  ||  ||  ||
 || expire_dt ||  || date || 
@@ -100,8 +101,10 @@ job : task = 1:N
 || name ||  ||  ||  ||  ||
 || start_dt ||  ||  ||  || 未入力の場合は工数登録できない ||
 || end_dt ||  ||  ||  || NULLの場合は未完了 ||
+```
   - job
     - 仕事の種別（開発、運用、営業、管理、間接などの仕事タイプ）
+```
 || カラム名 || データ型 || DB属性 || データ内容 || 備考 ||
 || id ||  ||  ||  ||  ||
 || name ||  ||  ||  ||  ||
@@ -111,11 +114,14 @@ job : task = 1:N
 || name ||  ||  ||  ||  ||
 || job_id  ||  ||  ||  ||  ||
 || sortkey ||  ||  ||  || 表示するときの順序（昇順） ||
+```
   - projectworker
+```
 |カラム名 || データ型 || DB属性 || データ内容 || 備考 ||
 || id ||  ||  ||  ||  ||
 || project_id ||  ||  ||  ||  ||
 || user_id ||  ||  ||  ||  ||
+```
   - usedtasktime
     - 作業時間データ
     - 誰が、いつ、何のプロジェクトで、何の作業を、何分したか
@@ -137,6 +143,7 @@ job : task = 1:N
         - プロジェクトを横断した作業レポートがほしい場合
         - グループでほしい場合はuser_idを複数or検索する
         - user_idとproject_idの複合index
+```
 || カラム名 || データ型 || DB属性 || データ内容 || 備考 ||
 || id || bigint || pkey ||  ||  ||
 || user_id || int ||  ||  ||  ||
@@ -144,8 +151,8 @@ job : task = 1:N
 || task_id || int ||  ||  ||  ||
 || taskdate || date ||  ||  ||  ||
 || tasktime || time ||  ||  ||  ||
+```
 
-----
 
 ## 画面及びurl設計
 
@@ -176,6 +183,7 @@ job : task = 1:N
   - api
     - ajax処理を行うためのjson受付インタフェース
     - パラメータ
+```
 {'project_id': number,
  'from date': string,
  'to date': string,
@@ -183,6 +191,7 @@ job : task = 1:N
  'user_id': [number, number,...],
  'fetch_one': number,
 }
+```
   - manage
     - user
       - id
