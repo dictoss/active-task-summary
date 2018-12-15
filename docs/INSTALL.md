@@ -166,7 +166,7 @@ $ sudo -u www-data python2.7 manage.py createsuperuser
 
 - for use python-3.5
 
-</pre>
+<pre>
 
 $ cd /var/www/wsgi_apps/active-task-summary
 $ sudo -u www-data python3.5 manage.py makemigrations
