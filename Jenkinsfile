@@ -1,6 +1,5 @@
 pipeline {
-    agent any
-
+    agent { docker 'debian:9' }
     stages {
         stage('Test') {
             steps {
