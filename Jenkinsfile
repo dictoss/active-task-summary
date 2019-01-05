@@ -1,5 +1,11 @@
 pipeline {
-    agent { docker 'debian:9' }
+    agent {
+        docker {
+            image 'debian:9'
+            label 'debian stretch'
+        }
+    }
+
     stages {
         stage('Test') {
             steps {
