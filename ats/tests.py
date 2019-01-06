@@ -9,7 +9,10 @@ from .views import (
     format_hours_float,
     validate_password,
     error404,
-    error500)
+    error500,
+    index,
+    login_view,
+    logout_view)
 
 
 class AtsTestClient(Client):
@@ -116,20 +119,65 @@ class TestViews(TestCase):
         _response = self.client.get('/ats/top/')
         self.assertEqual(_response.status_code, 302)
 
-    def test_login_top(self):
+        _request = self.factory.get('/ats/top/')
+        _responsev = index(_request)
+        self.assertEqual(_responsev.status_code, 302)
+
+    def test_login_success(self):
+        self.client.logout()
+
         # if not login
-        _response = self.client.get('/ats/top/')
-        self.assertEqual(_response.status_code, 302)
+        _response = self.client.get('/ats/login/')
+        self.assertEqual(_response.status_code, 200)
 
         # login
         _result = self.client.login(username=self.user.username,
                                     password=self._password)
         self.assertTrue(_result)
 
-        # enable access logined.
+        _response = self.client.get('/ats/login/')
+        self.assertRedirects(_response,
+                             expected_url='/ats/top',
+                             status_code=302,
+                             target_status_code=301)
+
+        self.client.logout()
+
+    def test_login_fail_password_miss(self):
+        self.client.logout()
+
+        # if not login
+        _response = self.client.get('/ats/login/')
+        self.assertEqual(_response.status_code, 200)
+
+        _result = self.client.login(username=self.user.username,
+                                    password="dummypass")
+        self.assertFalse(_result)
+
+        _response = self.client.get('/ats/login/')
+        self.assertEqual(_response.status_code, 200)
+
+    def test_login_fail(self):
+        self.client.logout()
+
+        # if not login
+        _response = self.client.get('/ats/login/')
+        self.assertEqual(_response.status_code, 200)
+
+        _result = self.client.login(username="dummyuser",
+                                    password="12345678")
+        self.assertFalse(_result)
+
+        _response = self.client.get('/ats/login/')
+        self.assertEqual(_response.status_code, 200)
+
+    def test_top(self):
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
         _response = self.client.get('/ats/top/')
         self.assertEqual(_response.status_code, 200)
-        self.client.logout()
 
     def test_query(self):
         _result = self.client.login(username=self.user.username,
