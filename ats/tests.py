@@ -14,9 +14,29 @@ from .views import (
     login_view,
     logout_view)
 
+from .models import (
+    Job)
+
 
 class AtsTestClient(Client):
     pass
+
+
+class TestModel(TestCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_job(self):
+        _o = Job(id=100, name='aaa', sortkey=10000, invalid=False)
+        _s = str(_o)
+        self.assertEqual(_s, '100 : aaa')
+
+        _o = Job(id=100, name='aaa', sortkey=10000, invalid=True)
+        _s = str(_o)
+        self.assertEqual(_s, '100 : aaa [invalid]')
 
 
 class TestLib(TestCase):
