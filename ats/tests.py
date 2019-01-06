@@ -1,4 +1,4 @@
-from django.test import TestCase, Client
+from django.test import TestCase, Client, RequestFactory
 from django.contrib.auth.models import User
 
 import datetime
@@ -7,7 +7,9 @@ from datetime import timedelta
 from .views import (
     format_totaltime,
     format_hours_float,
-    validate_password)
+    validate_password,
+    error404,
+    error500)
 
 
 class AtsTestClient(Client):
@@ -85,12 +87,14 @@ class TestLib(TestCase):
         _ret = validate_password("1234567")
         self.assertEqual(_ret, True)
 
+
 class TestViews(TestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
     _password = 'passpass'
 
     def setUp(self):
+        self.factory = RequestFactory()
         self.user = User.objects.create_user(
             'testuser1',
             'testuser1@example.com',
@@ -102,6 +106,11 @@ class TestViews(TestCase):
     def test_404(self):
         _response = self.client.get('/ats/zzz/')
         self.assertEqual(_response.status_code, 404)
+
+        _request = self.factory.get('/ats/zzz/')
+        _responsev = error404(_request)
+        self.assertEqual(_responsev.status_code, 200)
+        self.assertTrue(_responsev.content.find(b'404 NOT FOUND'))
 
     def test_index(self):
         _response = self.client.get('/ats/top/')
