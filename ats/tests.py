@@ -6,7 +6,8 @@ from datetime import timedelta
 
 from .views import (
     format_totaltime,
-    format_hours_float)
+    format_hours_float,
+    validate_password)
 
 
 class AtsTestClient(Client):
@@ -72,6 +73,17 @@ class TestLib(TestCase):
         _result = format_hours_float(_delta)
         self.assertEqual(_result, 99.75)
 
+    def test_validate_password(self):
+        _ret = None
+
+        _ret = validate_password("12345")
+        self.assertEqual(_ret, False)
+
+        _ret = validate_password("123456")
+        self.assertEqual(_ret, True)
+
+        _ret = validate_password("1234567")
+        self.assertEqual(_ret, True)
 
 class TestViews(TestCase):
     fixtures = ['test_views.json']
@@ -87,6 +99,14 @@ class TestViews(TestCase):
     def tearDown(self):
         pass
 
+    def test_404(self):
+        _response = self.client.get('/ats/zzz/')
+        self.assertEqual(_response.status_code, 404)
+
+    def test_index(self):
+        _response = self.client.get('/ats/top/')
+        self.assertEqual(_response.status_code, 302)
+
     def test_login_top(self):
         # if not login
         _response = self.client.get('/ats/top/')
@@ -101,6 +121,14 @@ class TestViews(TestCase):
         _response = self.client.get('/ats/top/')
         self.assertEqual(_response.status_code, 200)
         self.client.logout()
+
+    def test_query(self):
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        _response = self.client.get('/ats/query/')
+        self.assertEqual(_response.status_code, 200)
 
     def test_manage(self):
         _result = self.client.login(username=self.user.username,
