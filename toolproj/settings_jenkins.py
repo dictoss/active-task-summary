@@ -5,7 +5,6 @@ INSTALLED_APPS += (
     'django_jenkins',
 )
 JENKINS_TASKS = (
-    'django_jenkins.tasks.django_tests',
 )
 PROJECT_APPS = (
     'ats',
