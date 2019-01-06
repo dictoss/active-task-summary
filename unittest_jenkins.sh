@@ -10,4 +10,5 @@ pip install -U -r requirements.txt
 python manage.py makemigrations ats
 
 # execute unittest
-python manage.py jenkins ats --enable-coverage --settings=toolproj.settings_jenkins
+#python manage.py jenkins ats --enable-coverage --settings=toolproj.settings_jenkins
+coverage run --source='.' manage.py test ats --settings=toolproj.settings_test
