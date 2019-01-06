@@ -143,6 +143,28 @@ class TestViews(TestCase):
 
         self.client.logout()
 
+    def test_loginform(self):
+        # success login
+        _response = self.client.post('/ats/login/',
+                                   {'username': self.user.username,
+                                    'password': self._password})
+        self.assertRedirects(_response,
+                             expected_url='/ats/top',
+                             status_code=302,
+                             target_status_code=301)
+
+        # wrong password
+        _response = self.client.post('/ats/login/',
+                                   {'username': self.user.username,
+                                    'password': 'dummypass'})
+        self.assertEqual(_response.status_code, 200)
+
+        # wrong user and password
+        _response = self.client.post('/ats/login/',
+                                   {'username': 'dummyuser',
+                                    'password': 'dummypass'})
+        self.assertEqual(_response.status_code, 200)
+
     def test_login_fail_password_miss(self):
         self.client.logout()
 
