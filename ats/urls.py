@@ -29,7 +29,7 @@ urlpatterns = [
     #
     url(r'^query/$', views.query),
     #
-    url(r'^api/$', views.api),
+    #url(r'^api/$', views.api),
     #
     url(r'^manage/$', views.manage),
     #

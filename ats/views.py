@@ -772,11 +772,6 @@ def query(request):
                                  'query/index.html', {})
 
 
-def api(request):
-    return my_render_to_response(request,
-                                 'api.html', {})
-
-
 def manage(request):
     return my_render_to_response(request,
                                  'manage/index.html', {})
