@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 import datetime
 from datetime import timedelta
 
+import pytz
+
 from .views import (
     format_totaltime,
     format_hours_float,
@@ -15,7 +17,10 @@ from .views import (
     logout_view)
 
 from .models import (
-    Job)
+    Job,
+    Task,
+    Project,
+    ProjectWorker)
 
 
 class AtsTestClient(Client):
@@ -38,6 +43,59 @@ class TestModel(TestCase):
         _s = str(_o)
         self.assertEqual(_s, '100 : aaa [invalid]')
 
+    def test_task(self):
+        _job = Job.objects.create(
+            id=100, name='jobname', sortkey=10000, invalid=False)
+
+        _o = Task(id=101, name='taskname1', job=_job, sortkey=10001,
+                  invalid=False)
+        _s = str(_o)
+        self.assertEqual(_s, '101 : taskname1 (jobname)')
+
+        _o = Task(id=102, name='taskname2', job=_job, sortkey=10002,
+                  invalid=True)
+        _s = str(_o)
+        self.assertEqual(_s, '102 : taskname2 (jobname) [invalid]')
+
+    def test_project(self):
+        _tzgmt = pytz.timezone('Etc/GMT')
+        _delta = datetime.timedelta(days=1)
+        _now = datetime.datetime.now(tz=_tzgmt)
+        _at_s = datetime.date(year=2000, month=1, day=1)
+
+        _o = Project.objects.create(
+            id=200, name='projname1',
+            start_dt=_at_s, end_dt=None, sortkey=10000)
+        _s = str(_o)
+        self.assertEqual(_s, '200 : projname1 [opened]')
+
+        _at_e1 = _now.date()
+        _o = Project.objects.create(
+            id=201, name='projname2',
+            start_dt=_at_s, end_dt=_at_e1, sortkey=10001)
+        _s = str(_o)
+        self.assertEqual(_s, '201 : projname2 [opened]')
+
+        _at_tmp = _now - _delta
+        _at_e2 = _at_tmp.date()
+        _o = Project.objects.create(
+            id=202, name='projname3',
+            start_dt=_at_s, end_dt=_at_e2, sortkey=10001)
+        _s = str(_o)
+        self.assertEqual(_s, '202 : projname3 [closed]')
+
+    def test_projectworker(self):
+        """
+        _job = ProjectWorker.objects.create(id=100, name='jobname', sortkey=10000, invalid=False)
+
+        _o = Task(id=101, name='taskname1', job=_job, sortkey=10001, invalid=False)
+        _s = str(_o)
+        self.assertEqual(_s, '101 : taskname1 (jobname)')
+
+        _o = Task(id=102, name='taskname2', job=_job, sortkey=10002, invalid=True)
+        _s = str(_o)
+        self.assertEqual(_s, '102 : taskname2 (jobname) [invalid]')
+        """
 
 class TestLib(TestCase):
     def setUp(self):
