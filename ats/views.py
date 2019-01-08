@@ -752,21 +752,6 @@ def summary_u(request):
                                   'datedetaildata': datedatalist})
 
 
-def summary_pd(request, project_id, from_date, to_date):
-    return my_render_to_response(request,
-                                 'summary/summary_pd.html', {})
-
-
-def summary_pdu(request, project_id, from_date, to_date, user_id):
-    return my_render_to_response(request,
-                                 'summary/summary_pdu.html', {})
-
-
-def summary_pdj(request, project_id, from_date, to_date, job_id):
-    return my_render_to_response(request,
-                                 'summary/summary_pdj.html', {})
-
-
 def query(request):
     return my_render_to_response(request,
                                  'query/index.html', {})
