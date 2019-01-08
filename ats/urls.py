@@ -34,6 +34,14 @@ urlpatterns = [
     url(r'^manage/$', views.manage),
     #
     url(r'^manage/chpasswd/$', views.manage_chpasswd),
+    #url(r'^manage/user/$', views.manage_user_list),
+    #url(r'^manage/user/(?P<user_id>\d+)/$', views.manage_user_detail),
+    #url(r'^manage/project/$', views.manage_project_list),
+    #url(r'^manage/project/(?P<project_id>\d+)/$', views.manage_project_detail),
+    #url(r'^manage/task/$', views.manage_task_list),
+    #url(r'^manage/task/(?P<task_id>\d+)/$', views.manage_task_detail),
+    #url(r'^manage/job/$', views.manage_job_list),
+    #url(r'^manage/job/(?P<job_id>\d+)/$', views.manage_job_detail),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

@@ -812,46 +812,6 @@ def manage_chpasswd(request):
                                   'message': message})
 
 
-def manage_user_list(request):
-    return my_render_to_response(request,
-                                 'manage/user_list.html', {})
-
-
-def manage_user_detail(request, user_id):
-    return my_render_to_response(request,
-                                 'manage/user_detail.html', {})
-
-
-def manage_project_list(request):
-    return my_render_to_response(request,
-                                 'manage/project_list.html', {})
-
-
-def manage_project_detail(request, project_id):
-    return my_render_to_response(request,
-                                 'manage/project_detail.html', {})
-
-
-def manage_task_list(request):
-    return my_render_to_response(request,
-                                 'manage/task_list.html', {})
-
-
-def manage_task_detail(request, task_id):
-    return my_render_to_response(request,
-                                 'manage/task_detail.html', {})
-
-
-def manage_job_list(request):
-    return my_render_to_response(request,
-                                 'manage/job_list.html', {})
-
-
-def manage_job_detail(request, job_id):
-    return my_render_to_response(request,
-                                 'manage/job_detail.html', {})
-
-
 def my_render_to_response(request, template_file, paramdict):
     response = HttpResponse()
     #paramdict['sitecounter'] = do_counter(request, response)
