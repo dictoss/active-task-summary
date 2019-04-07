@@ -17,7 +17,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render_to_response, get_object_or_404, render
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import (
+    Http404,
+    HttpResponse,
+    HttpResponseRedirect,
+    HttpResponseNotFound)
 from django.forms.fields import ChoiceField
 from django.template import loader, Context, RequestContext
 from django.template.loader import render_to_string
@@ -49,7 +53,7 @@ def error500(request):
     return my_render_to_response(request, '500.html', {})
 
 
-def error404(request):
+def error404(request, exception=HttpResponseNotFound):
     return my_render_to_response(request, '404.html', {})
 
 
