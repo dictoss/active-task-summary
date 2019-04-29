@@ -2,12 +2,9 @@
 
 a web application of input and summary task time by team member.
 
-# Current Development Version
-
-0.7.0 (use django-2.2, require python3.5+)
-
 # Current Stable Version
 
+0.7.0 (use django-2.2, require python3.5+)
 0.6.0 (use django-1.11, require python2.7 or python3.5+)
 
 # Develop Environment
