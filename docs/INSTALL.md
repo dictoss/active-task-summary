@@ -1,14 +1,13 @@
-# How to install for ver 0.5.0
+# How to install for ver 0.7.0
 
 ## require application
 
 - apache-2.2+
 - postgresql-9.6
-- python-2.7 or python-3.5+
+- python-3.5+
 - psycopg2.6.2+
 - wsgi-4.5.11
-- django-1.11.8
-
+- django-2.2
 
 ## install target
 
@@ -50,15 +49,6 @@ ats=# \q
 
 
 ### install modules and librairies
-
-- for use python-2.7
-
-<pre>
-
-$ sudo apt-get install python python-pip apache2 libapache2-mod-wsgi python-psycopg2
-$ sudo pip2 install -r requirements.txt
-
-</pre>
 
 - for use python-3.5
 
@@ -133,14 +123,6 @@ $ sudo ln -sf /var/www/wsgi_apps/active-task-summary/ats/static ats
 
 </pre>
 
-- for use python-2.7
-
-<pre>
-
-$ sudo ln -sf /usr/local/lib/python2.7/dist-packages/django/contrib/admin/static/admin admin
-
-</pre>
-
 - for use python-3.5
 
 <pre>
@@ -151,18 +133,6 @@ $ sudo ln -sf /usr/local/lib/python3.5/dist-packages/django/contrib/admin/static
 
 
 ### create database schema for web application
-
-- for use python-2.7
-
-<pre>
-
-$ cd /var/www/wsgi_apps/active-task-summary
-$ sudo -u www-data python2.7 manage.py makemigrations
-$ sudo -u www-data python2.7 manage.py migrate auth
-$ sudo -u www-data python2.7 manage.py migrate
-$ sudo -u www-data python2.7 manage.py createsuperuser
-
-</pre>
 
 - for use python-3.5
 
@@ -242,19 +212,6 @@ ats=# \q
 
 
 ### install modules and librairies
-- for use python-2.7
-
-<pre>
-
-$ sudo yum install httpd mod_ssl
-$ sudo yum install gcc make
-$ sudo yum install --enablerepo=ius python27 python27-pip python27-mod_wsgi python27-devel
-$ sudo -s
-# export PATH="/usr/pgsql-9.6/bin:$PATH"
-# pip2.7 install -r requirements.txt
-
-</pre>
-
 
 - for use python-3.5
 
@@ -319,22 +276,6 @@ $ sudo cp wsgi_apache2_ats.conf.cent6.sample /etc/httpd/conf.d/wsgi_ats.conf
 
 </pre>
 
-- for use python-2.7
-
-<pre>
-
-$ sudo vi /etc/httpd/conf.d/python27-mod_wsgi.conf
-
-<IfModule !python_module>
-    <IfModule !wsgi_module>
-        LoadModule wsgi_module modules/python27-mod_wsgi.so
-        WSGISocketPrefix run/wsgi
-        WSGIScriptReloading On
-    </IfModule>
-</IfModule>
-
-</pre>
-
 - for use python-3.5
 
 <pre>
@@ -364,14 +305,6 @@ $ sudo ln -sf /var/www/wsgi_apps/active-task-summary/ats/static ats
 
 </pre>
 
-- for use python-2.7
-
-<pre>
-
-$ sudo ln -sf /usr/lib/python2.7/site-packages/django/contrib/admin/static/admin admin
-
-</pre>
-
 - for use python-3.5
 
 <pre>
@@ -382,19 +315,6 @@ $ sudo ln -sf /usr/lib/python3.5/site-packages/django/contrib/admin/static/admin
 
 
 ### create database schema for web application
-
-
-- for use python-2.7
-
-<pre>
-
-$ cd /var/www/wsgi_apps/active-task-summary
-$ sudo -u apache python2.7 manage.py makemigrations
-$ sudo -u apache python2.7 manage.py migrate auth
-$ sudo -u apache python2.7 manage.py migrate
-$ sudo -u apache python2.7 manage.py createsuperuser
-
-</pre>
 
 - for use python-3.5
 
@@ -475,18 +395,6 @@ ats=# \q
 
 ### install modules and librairies
 
-- for use python-2.7
-
-<pre>
-
-$ sudo yum install httpd mod_ssl python mod_wsgi python-devel gcc make
-$ sudo yum install --enablerepo=epel python-pip
-$ sudo -s
-# export PATH="/usr/pgsql-9.6/bin:$PATH"
-# pip2.7 install -r requirements.txt
-
-</pre>
-
 - for use python-3.5
 
 <pre>
@@ -549,18 +457,6 @@ $ sudo cp wsgi_apache2_ats.conf.cent7.sample /etc/httpd/conf.d/wsgi_ats.conf
 
 </pre>
 
-- for use python-2.7
-
-<pre>
-
-$ sudo vi /etc/httpd/conf.modules.d/10-wsgi.conf
-
-LoadModule wsgi_module modules/mod_wsgi.so
-WSGISocketPrefix run/wsgi
-WSGIScriptReloading On
-
-</pre>
-
 - for use python-3.5
 
 <pre>
@@ -591,14 +487,6 @@ $ sudo ln -sf /var/www/wsgi_apps/active-task-summary/ats/static ats
 
 </pre>
 
-- for use python-2.7
-
-<pre>
-
-$ sudo ln -sf /usr/lib/python2.7/site-packages/django/contrib/admin/static/admin admin
-
-</pre>
-
 - for use python-3.5
 
 <pre>
@@ -609,19 +497,6 @@ $ sudo ln -sf /usr/lib/python3.5/site-packages/django/contrib/admin/static/admin
 
 
 ### create database schema for web application
-
-
-- for use python-2.7
-
-<pre>
-
-$ cd /var/www/wsgi_apps/active-task-summary
-$ sudo -u apache python2.7 manage.py makemigrations
-$ sudo -u apache python2.7 manage.py migrate auth
-$ sudo -u apache python2.7 manage.py migrate
-$ sudo -u apache python2.7 manage.py createsuperuser
-
-</pre>
 
 - for use python-3.5
 
