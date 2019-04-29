@@ -1,20 +1,18 @@
-active-task-summary
-===================
+# active-task-summary
+
 a web application of input and summary task time by team member.
 
-Current Development Version
-===================
+# Current Development Version
+
 0.7.0 (use django-2.2, require python3.5+)
 
-Current Stable Version
-===================
+# Current Stable Version
+
 0.6.0 (use django-1.11, require python2.7 or python3.5+)
 
-Develop Environment
-===================
+# Develop Environment
 
-for 0.7.x series
-------------------
+## for 0.7.x series
 
 - Debian GNU/Linux 9 (stretch) amd64
 - Django 2.2
@@ -23,8 +21,7 @@ for 0.7.x series
 - python-psycopg2 and python3-psycopg2 2.6.2
 - postgresql-9.6 (from pgdg)
 
-for 0.6.x series
-------------------
+## for 0.6.x series
 
 - Debian GNU/Linux 9 (stretch) amd64
 - Django 1.11
@@ -33,22 +30,22 @@ for 0.6.x series
 - python-psycopg2 and python3-psycopg2 2.6.2
 - postgresql-9.6 (from pgdg)
 
-NOTICE
-===================
+# NOTICE
+
 This application used Django and must use postgresql.
 (If you use sqlite3 or mysql, it is not work to GROUP BY.)
 
-ToDo
-===================
+# ToDo
+
 - management to master record.
 - user permission and filter.
 - brush up site design.
 
-Install
-===================
+# Install
+
 see docs/INSTALL.md file.
 
-Screenshot
-===================
+# Screenshot
+
 ![summary_project](docs/screenshot/summary_project.png "summary project form")
 ![regist](docs/screenshot/regist.png "regist form")
