@@ -14,6 +14,7 @@ admin.site.register(User, UserAdmin)
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'start_dt', 'end_dt', 'sortkey')
+    list_display_links = ('id', 'name')
     ordering = ['sortkey']
 
 admin.site.register(Project, ProjectAdmin)
@@ -21,6 +22,7 @@ admin.site.register(Project, ProjectAdmin)
 
 class JobAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'sortkey', 'invalid')
+    list_display_links = ('id', 'name')
     ordering = ['sortkey']
 
 admin.site.register(Job, JobAdmin)
@@ -28,6 +30,7 @@ admin.site.register(Job, JobAdmin)
 
 class TaskAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'job', 'sortkey', 'invalid')
+    list_display_links = ('id', 'name')
     ordering = ['job', 'sortkey']
 
 admin.site.register(Task, TaskAdmin)
