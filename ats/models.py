@@ -4,11 +4,9 @@ import datetime
 from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
-from django.utils.encoding import python_2_unicode_compatible
 from . import bigint_patch
 
 
-@python_2_unicode_compatible
 class Project(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField(blank=False)
@@ -26,7 +24,6 @@ class Project(models.Model):
             return '%d : %s [opened]' % (self.id, self.name)
 
 
-@python_2_unicode_compatible
 class Job(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField(blank=False)
@@ -40,7 +37,6 @@ class Job(models.Model):
             return '%d : %s' % (self.id, self.name)
 
 
-@python_2_unicode_compatible
 class Task(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField(blank=False)
@@ -57,7 +53,6 @@ class Task(models.Model):
                 self.id, self.name, self.job.name)
 
 
-@python_2_unicode_compatible
 class ProjectWorker(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
@@ -74,7 +69,6 @@ class ProjectWorker(models.Model):
                 self.id, self.user.username, self.project.name, self.job.name)
 
 
-@python_2_unicode_compatible
 class UsedTaskTime(models.Model):
     id = bigint_patch.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
