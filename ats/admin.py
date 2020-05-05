@@ -21,26 +21,37 @@ admin.site.register(Project, ProjectAdmin)
 
 
 class JobAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'sortkey', 'invalid')
+    list_display = ('id', 'name', 'sortkey', 'is_vaild')
     list_display_links = ('id', 'name')
     ordering = ['sortkey']
+
+    def is_vaild(self, obj):
+        return not obj.invalid
+    is_vaild.boolean = True
 
 admin.site.register(Job, JobAdmin)
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'job', 'sortkey', 'invalid')
+    list_display = ('id', 'name', 'job', 'sortkey', 'is_vaild')
     list_display_links = ('id', 'name')
     ordering = ['job', 'sortkey']
+
+    def is_vaild(self, obj):
+        return not obj.invalid
+    is_vaild.boolean = True
 
 admin.site.register(Task, TaskAdmin)
 
 
 class ProjectWorkerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'project', 'job', 'invalid')
+    list_display = ('id', 'user', 'project', 'job', 'is_vaild')
     list_filter = ['user', 'project', 'job']
     ordering = ['user', 'project', 'job']
 
+    def is_vaild(self, obj):
+        return not obj.invalid
+    is_vaild.boolean = True
 
 admin.site.register(ProjectWorker, ProjectWorkerAdmin)
 
