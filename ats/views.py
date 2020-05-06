@@ -21,7 +21,8 @@ from django.http import (
     Http404,
     HttpResponse,
     HttpResponseRedirect,
-    HttpResponseNotFound)
+    HttpResponseNotFound,
+    QueryDict)
 from django.forms.fields import ChoiceField
 from django.template import loader, Context, RequestContext
 from django.template.loader import render_to_string
@@ -140,26 +141,8 @@ def regist(request):
     if (request.method == 'POST') and ('submit_type' in request.POST):
         regist_count = 0
 
-        if 'dateselect' in request.POST['submit_type']:
-            logger.info('IN submit_dateselect')
-
-            # rs_form
-            rs_form = RegistSelectForm(request.POST, user=request.user)
-            if rs_form.is_valid():
-                regist_date = rs_form.cleaned_data['regist_date']
-                sel_project = rs_form.cleaned_data['projectlist']
-            else:
-                logger.warning('RegistSelectForm.is_valid = False')
-
-                rs_form = RegistSelectForm(user=request.user)
-                regist_date = rs_form['regist_date'].value
-                sel_project = (rs_form.fields['projectlist'].choices[0])[0]
-
-            # re_form
-            re_form = RegistForm(initial={'regist_date': regist_date,
-                                          'project_id': sel_project})
-        elif 'regist' in request.POST['submit_type']:
-            logger.info('IN submit_regist')
+        if 'regist' in request.POST['submit_type']:
+            logger.info('IN submit_type = regist')
 
             re_form = RegistForm(request.POST)
             if re_form.is_valid():
@@ -243,8 +226,78 @@ def regist(request):
 
                 re_form = RegistForm(initial={'regist_date': regist_date,
                                               'project_id': sel_project})
+    elif request.method == 'GET':
+        logger.info('regist : method=GET, submit_type={}'.format(
+            request.GET.get('submit_type')))
+
+        if 'submit_type' in request.GET and request.GET.get('submit_type') == 'dateselect':
+            rs_form = RegistSelectForm(request.GET, user=request.user)
+            if rs_form.is_valid():
+                regist_date = rs_form.cleaned_data['regist_date']
+                sel_project = rs_form.cleaned_data['projectlist']
+            else:
+                logger.warning('RegistSelectForm.is_valid = False (1)')
+                logger.warning('rs_form.errors = {}'.format(rs_form.errors))
+
+                #
+                # check parameter
+                #
+                try:
+                    regist_date = datetime.datetime.strptime(
+                        request.GET.get('regist_date'), '%Y-%m-%d')
+                    regist_date = request.GET.get('regist_date')
+                except Exception as e:
+                    logger.warning('regist_date is wrong. regist_date = {}'.format(
+                        request.GET.get('regist_date')))
+                    regist_date = datetime.date.today().strftime('%Y-%m-%d')
+
+                # if change date, may no have project at the date.
+                _has_projects = get_projects_in_date(request.user, regist_date)
+                if 0 < len(_has_projects):
+                    for p in _has_projects:
+                        if p.project_id == int(request.GET.get('projectlist')):
+                            # continue has projectlist.
+                            sel_project = int(request.GET.get('projectlist'))
+                            break
+                    else:
+                        sel_project = _has_projects[0].project_id
+                else:
+                    sel_project = -1
+
+                # create dummy GET parameter.
+                qd_get_dateselect = QueryDict('', mutable=True)
+                qd_get_dateselect['regist_date'] = regist_date
+                qd_get_dateselect['projectlist'] = sel_project
+                qd_get_dateselect['submit_type'] = 'dateselect'
+
+                # re-try create form with validated paramater.
+                rs_form = RegistSelectForm(qd_get_dateselect, user=request.user)
+                if rs_form.is_valid():
+                    logger.debug("RegistSelectForm.is_valid = True  (2)")
+
+                    regist_date = rs_form.cleaned_data['regist_date']
+                    sel_project = rs_form.cleaned_data['projectlist']
+                else:
+                    logger.warning('RegistSelectForm.is_valid = False (2)')
+                    logger.warning('rs_form.errors = {}'.format(rs_form.errors))
+
+                    # force default screen. (without submit_type=dateselect)
+                    rs_form = RegistSelectForm(user=request.user)
+                    regist_date = datetime.date.today()
+                    sel_project = (rs_form.fields['projectlist'].choices[0])[0]
+
+            # re_form
+            re_form = RegistForm(initial={'regist_date': regist_date,
+                                          'project_id': sel_project})
+        else:
+            rs_form = RegistSelectForm(user=request.user)
+            regist_date = datetime.date.today()
+            sel_project = (rs_form.fields['projectlist'].choices[0])[0]
+
+            re_form = RegistForm(initial={'regist_date': regist_date,
+                                        'project_id': sel_project})
     else:
-        logger.info('regist : method=GET')
+        logger.info('regist : method={}. unsupport. replace GET.'.format(request.method))
 
         rs_form = RegistSelectForm(user=request.user)
         regist_date = datetime.date.today()
@@ -838,6 +891,16 @@ def get_localtime():
     # logger.debug("get_localtime()    : %s" % (_now))
     return _now
 
+def get_projects_in_date(request_user, regist_date):
+    cursor = ProjectWorker.objects.filter(
+        user=request_user).order_by('project__sortkey')
+
+    cursor = cursor.filter(Q(project__start_dt__isnull=True) | Q(project__start_dt__lte=regist_date))
+    cursor = cursor.filter(Q(project__end_dt__isnull=True) | Q(project__end_dt__gte=regist_date))
+    cursor = cursor.distinct()
+
+    return list(cursor)
+
 
 class RegistSelectForm(forms.Form):
     regist_date = forms.DateField(label='regist_date', required=True,
@@ -857,7 +920,14 @@ class RegistSelectForm(forms.Form):
 
         cmp_dt = self.fields['regist_date'].initial()
         if args:
-            cmp_dt = args[0]['regist_date']
+            # parameter check
+            try:
+                datetime.datetime.strptime(
+                    args[0]['regist_date'], '%Y-%m-%d')
+                cmp_dt = args[0]['regist_date']
+            except:
+                # parameter error. fallback default value.
+                pass
 
         cursor = cursor.filter(Q(project__start_dt__isnull=True) | Q(project__start_dt__lte=cmp_dt))
         cursor = cursor.filter(Q(project__end_dt__isnull=True) | Q(project__end_dt__gte=cmp_dt))
