@@ -1,5 +1,24 @@
 # changelog
 
+## version 0.8.0
+
+- support debian 10 (buster).
+  - continue support debian 9 (stretch).
+  - support python3.5+. python 3.7 is also supported.
+
+- change supported django version.
+  - supported django-2.2 and django-3.0.
+  - drop support django-1.11.
+
+## version 0.7.0
+
+- drop support python2.7.
+  - suupport python3.5+.
+
+- change supported django version.
+  - supported django-1.11 and django-2.2.
+  - drop support django-2.0.
+
 ## version 0.6.0
 
 - upgrade jquery-3.3.1
