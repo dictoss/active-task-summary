@@ -145,7 +145,7 @@ def regist(request):
                 regist_date = rs_form.cleaned_data['regist_date']
                 sel_project = rs_form.cleaned_data['projectlist']
             else:
-                logger.warn('RegistSelectForm.is_valid = False')
+                logger.warning('RegistSelectForm.is_valid = False')
 
                 rs_form = RegistSelectForm(user=request.user)
                 regist_date = rs_form['regist_date'].value
@@ -231,7 +231,7 @@ def regist(request):
                         # add notify message on template.
                         raise Exception(msg)
             else:
-                logger.warn('RegistForm.is_valid = False')
+                logger.warning('RegistForm.is_valid = False')
 
                 rs_form = RegistSelectForm(user=request.user)
                 regist_date = datetime.date.today()
@@ -260,7 +260,7 @@ def regist(request):
         cursor_pjw = cursor_pjw.filter(invalid=False)
         cursor_pjw = cursor_pjw.order_by('project__sortkey', 'job__sortkey')
     except Project.DoesNotExist as e:
-        logger.warn('regist(): project is not found (id=%s)' % (sel_project))
+        logger.warning('regist(): project is not found (id=%s)' % (sel_project))
         cursor_pjw = []
 
     datalist = []
