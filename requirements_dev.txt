@@ -1,4 +1,4 @@
-Django==1.11.20
+Django==1.11.29
 psycopg2==2.6.2
 coverage==4.5.2
 django-jenkins==0.110.0
