@@ -1,16 +1,38 @@
 #!/bin/bash
 
-# check python versi.on
-python -V
+TEST_MODE=
 
-# install libraries.
-pip install -U -r requirements.txt
+if [ $# -gt 0 ]; then
+    TEST_MODE=$1
+fi
 
-# create migrate file
-python manage.py makemigrations ats
+if [ "${TEST_MODE}" = "jenkins" ]; then
+    # check python version
+    python -V
+
+    # install libraries.
+    pip install -U -r requirements.txt
+
+    # create migrate file
+    python manage.py makemigrations --settings=toolproj.settings_test
+elif  [ "${TEST_MODE}" = "jenkins-docker" ]; then
+    echo "test mode is jenkins-docker, running..."
+
+    # check python version
+    python3 -V
+
+    # install libraries.
+    pip3 install -U -r requirements.txt
+    pip3 install -U -r requirements_dev.txt
+
+    # create diretory.
+    mkdir -p ~/log
+
+    # create migrate file
+    python3 manage.py makemigrations --settings=toolproj.settings_test
+fi
 
 # execute unittest
-#python manage.py jenkins ats --enable-coverage --settings=toolproj.settings_jenkins
-coverage run --source='.' manage.py test ats --settings=toolproj.settings_test
+coverage run --source='.' manage.py test -v3 ats --settings=toolproj.settings_test
 coverage report
 coverage xml
