@@ -23,7 +23,6 @@ RUN apt-get clean
 # setup user account for unittest.
 USER postgres
 RUN pg_ctlcluster 11 main start && \
-    ls -la /var/run/postgresql && \
     psql --command="CREATE USER webapp WITH SUPERUSER PASSWORD 'password'" && \
     createdb --encoding=UTF8 --owner=webapp ats
 USER root
