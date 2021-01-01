@@ -14,7 +14,7 @@ if [ "${TEST_MODE}" = "jenkins" ]; then
     pip install -U -r requirements.txt
 
     # create migrate file
-    python manage.py makemigrations --settings=toolproj.settings_test
+    python manage.py makemigrations ats --settings=toolproj.settings_test
 elif  [ "${TEST_MODE}" = "jenkins-docker" ]; then
     echo "test mode is jenkins-docker, running..."
 
@@ -29,7 +29,7 @@ elif  [ "${TEST_MODE}" = "jenkins-docker" ]; then
     mkdir -p ~/log
 
     # create migrate file
-    python3 manage.py makemigrations --settings=toolproj.settings_test
+    python3 manage.py makemigrations ats --settings=toolproj.settings_test
 fi
 
 # execute unittest
