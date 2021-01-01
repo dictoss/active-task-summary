@@ -26,6 +26,7 @@ RUN pg_ctlcluster 11 main start && \
     ls -la /var/run/postgresql && \
     psql --command="CREATE USER webapp WITH SUPERUSER PASSWORD 'password'" && \
     createdb --encoding=UTF8 --owner=webapp ats
+USER root
 
 # execute mysql-server on start docker image.
 # CMD ["/usr/lib/postgresql/11/bin/postgres", "-D", "/var/lib/postgresql/11/main", "-c", "config_file=/etc/postgresql/11/main/postgresql.conf"]
