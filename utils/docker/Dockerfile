@@ -13,7 +13,7 @@ RUN echo "ja_JP.UTF-8 UTF-8" > /etc/locale.gen
 RUN locale-gen
 
 # for web application.
-RUN apt-get install -y python3 python3-dev python3-setuptools python3-pip python3-psycopg2
+RUN apt-get install -y python3 python3-dev python3-setuptools python3-pip libpq-dev python3-psycopg2
 # RUN apt-get install -y apache2 libapache2-mod-wsgi-py3
 RUN apt-get clean
 
