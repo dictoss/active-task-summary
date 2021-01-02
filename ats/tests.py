@@ -475,12 +475,48 @@ class ManageChpasswdViewTestCase(AtsViewTestCase):
     def tearDown(self):
         pass
 
-    def test_manage_chpasswd(self):
+    def test_get(self):
         _result = self.client.login(username=self.user.username,
                                     password=self._password)
         self.assertTrue(_result)
 
         _response = self.client.get(reverse(self.view_name))
+        self.assertEqual(_response.status_code, 200)
+
+    def test_post_success(self):
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'old_password': self._password,
+                'new_password1': 'qwertyuiop',
+                'new_password2': 'qwertyuiop',
+            })
+        self.assertEqual(_response.status_code, 200)
+
+    def test_post_error(self):
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        # missing old password
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'old_password': '12345678',
+                'new_password1': 'qwertyuiop',
+                'new_password2': 'qwertyuiop',
+            })
+        self.assertEqual(_response.status_code, 200)
+
+        # difference new password.
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'old_password': self._password,
+                'new_password1': 'qwertyuiop',
+                'new_password2': 'qwertyuiop@',
+            })
         self.assertEqual(_response.status_code, 200)
 
 
