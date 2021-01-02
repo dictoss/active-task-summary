@@ -35,14 +35,7 @@ from django.utils import timezone
 from ats.models import *
 from ats import ats_settings
 
-
-formatter = logging.Formatter(ats_settings.LOG_FORMAT)
-h = logging.FileHandler(ats_settings.LOG_PATH)
-h.setFormatter(formatter)
-
-logger = logging.getLogger(ats_settings.APP_NAME)
-logger.setLevel(ats_settings.LOG_LEVEL)
-logger.addHandler(h)
+logger = logging.getLogger(__name__)
 
 
 def error500(request):
