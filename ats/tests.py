@@ -657,7 +657,6 @@ class SummaryJobViewTestCase(AtsViewTestCase):
             })
         self.assertEqual(_response.status_code, 200)
 
-
     def test_post_with_data(self):
         _result = self.client.login(username='testuser100',
                                     password='password')
@@ -889,44 +888,111 @@ class RegistViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
     view_name = 'ats:regist'
-    _password = 'passpass'
+    username = 'testuser100'
+    password = 'password'
 
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = User.objects.create_user(
-            'testuser1',
-            'testuser1@example.com',
-            self._password)
 
     def tearDown(self):
         pass
 
-    def test_regist(self):
-        _result = self.client.login(username=self.user.username,
-                                    password=self._password)
+    def test_get_unassign_user(self):
+        _user = User.objects.create_user(
+            'testuser1',
+            'testuser1@example.com',
+            'passpass')
+        _result = self.client.login(username=_user.username,
+                                    password='passpass')
         self.assertTrue(_result)
 
         _response = self.client.get(reverse(self.view_name))
         self.assertEqual(_response.status_code, 200)
 
-    def test_regist_get_dateselect(self):
-        _result = self.client.login(username=self.user.username,
-                                    password=self._password)
+    def test_get(self):
+        _result = self.client.login(username=self.username,
+                                    password=self.password)
+        self.assertTrue(_result)
+
+        _response = self.client.get(reverse(self.view_name))
+        self.assertEqual(_response.status_code, 200)
+
+    def test_get_dateselect(self):
+        _result = self.client.login(username=self.username,
+                                    password=self.password)
         self.assertTrue(_result)
 
         _response = self.client.get(
-            reverse(self.view_name), {'submit_type': 'dateselect'})
+            reverse(self.view_name), {
+                'submit_type': 'dateselect',
+                'regist_date': '2014-01-30',
+                'projectlist': 1,
+            })
         self.assertEqual(_response.status_code, 200)
 
-    def test_regist_post_regist(self):
-        _result = self.client.login(username=self.user.username,
-                                    password=self._password)
+    def test_unsupported_method(self):
+        _result = self.client.login(username=self.username,
+                                    password=self.password)
+        self.assertTrue(_result)
+
+        _response = self.client.put(
+            reverse(self.view_name), {})
+        self.assertEqual(_response.status_code, 200)
+
+    def test_post_regist_nocheck(self):
+        _result = self.client.login(username=self.username,
+                                    password=self.password)
         self.assertTrue(_result)
 
         _response = self.client.post(
             reverse(self.view_name), {
                 'submit_type': 'regist',
-                'regist_date': '2015-04-15',
-                'project_id': '1',
+                'regist_date': '2014-01-30',
+                'project_id': 1,
+                'registcheck': [],
+                'uttid': [],
+                'tasktime_hour': [],
+                'tasktime_min': [],
+            })
+        self.assertEqual(_response.status_code, 200)
+
+    def test_post_regist(self):
+        _user = User.objects.get(username=self.username)
+
+        _result = self.client.login(username=self.username,
+                                    password=self.password)
+        self.assertTrue(_result)
+
+        _project_id = 1
+        _pjw_qs = ProjectWorker.objects.filter(
+            user=_user, project__pk=_project_id).order_by('id')
+
+        _datalist = []
+        for pjw in _pjw_qs:
+            _job = Job.objects.get(pk=pjw.job.id)
+            _task_qs = Task.objects.filter(
+                job=_job).order_by('id')
+
+            for t in _task_qs:
+                # generate post data.
+                _data = {
+                    'registcheck': 'p%s_t%s' % (pjw.project.id, t.id),
+                    'uttid': 'p%s_t%s' % (pjw.project.id, t.id),
+                    'tasktime_hour': 2,
+                    'tasktime_min': 15,
+                }
+
+                _datalist.append(_data)
+
+        # regist
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'submit_type': 'regist',
+                'regist_date': '2014-01-30',
+                'project_id': _project_id,
+                'registcheck': [o['registcheck'] for o in _datalist],
+                'uttid': [o['uttid'] for o in _datalist],
+                'tasktime_hour': [o['tasktime_hour'] for o in _datalist],
+                'tasktime_min': [o['tasktime_min'] for o in _datalist],
             })
         self.assertEqual(_response.status_code, 200)
