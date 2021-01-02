@@ -1,0 +1,4 @@
+*.py linguist-language=Python
+ats/static/js/* linguist-vendored
+ats/static/js/ats.js linguist-vendored=false
+docs/* linguist-documentation
