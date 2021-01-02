@@ -4,7 +4,6 @@ import datetime
 from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
-from . import bigint_patch
 
 
 class Project(models.Model):
@@ -70,7 +69,7 @@ class ProjectWorker(models.Model):
 
 
 class UsedTaskTime(models.Model):
-    id = bigint_patch.BigAutoField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     project = models.ForeignKey('Project', on_delete=models.PROTECT)
     task = models.ForeignKey('Task', on_delete=models.PROTECT)
