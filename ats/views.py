@@ -179,7 +179,7 @@ def regist(request):
 
                     _inputdatas.append(_o)
 
-                with transaction.atomic(using='serial'):
+                with transaction.atomic():
                     try:
                         for i in _inputdatas:
                             if (0 == i['ud_ttime'].hour) and \
