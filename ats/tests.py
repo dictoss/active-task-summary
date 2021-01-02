@@ -216,6 +216,7 @@ class TestLib(TestCase):
 class Ats404ViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
+    view_name = ''
     _password = 'passpass'
 
     def setUp(self):
@@ -241,6 +242,7 @@ class Ats404ViewTestCase(AtsViewTestCase):
 class Ats500ViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
+    view_name = 'ats:error_internal'
     _password = 'passpass'
 
     def setUp(self):
@@ -255,7 +257,7 @@ class Ats500ViewTestCase(AtsViewTestCase):
 
     def test_500(self):
         try:
-            _response = self.client.get(reverse('ats:error_internal'))
+            _response = self.client.get(reverse(self.view_name))
         except Exception as e:
             pass
         else:
@@ -265,6 +267,7 @@ class Ats500ViewTestCase(AtsViewTestCase):
 class IndexViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
+    view_name = 'ats:index'
     _password = 'passpass'
 
     def setUp(self):
@@ -278,10 +281,10 @@ class IndexViewTestCase(AtsViewTestCase):
         pass
 
     def test_index(self):
-        _response = self.client.get('/ats/top/')
+        _response = self.client.get(reverse('ats:top'))
         self.assertEqual(_response.status_code, 302)
 
-        _request = self.factory.get('/ats/top/')
+        _request = self.factory.get(reverse('ats:top'))
         _responsev = index(_request)
         self.assertEqual(_responsev.status_code, 302)
 
@@ -289,6 +292,7 @@ class IndexViewTestCase(AtsViewTestCase):
 class LoginViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
+    view_name = ''
     _password = 'passpass'
 
     def setUp(self):
@@ -305,7 +309,7 @@ class LoginViewTestCase(AtsViewTestCase):
         self.client.logout()
 
         # if not login
-        _response = self.client.get('/ats/login/')
+        _response = self.client.get(reverse('ats:login_view'))
         self.assertEqual(_response.status_code, 200)
 
         # login
@@ -313,7 +317,7 @@ class LoginViewTestCase(AtsViewTestCase):
                                     password=self._password)
         self.assertTrue(_result)
 
-        _response = self.client.get('/ats/login/')
+        _response = self.client.get(reverse('ats:login_view'))
         self.assertRedirects(_response,
                              expected_url='/ats/top',
                              status_code=302,
@@ -324,7 +328,7 @@ class LoginViewTestCase(AtsViewTestCase):
     def test_loginform(self):
         # success login
         _response = self.client.post(
-            '/ats/login/',
+            reverse('ats:login_view'),
             {'username': self.user.username,
              'password': self._password})
         self.assertRedirects(_response,
@@ -334,14 +338,14 @@ class LoginViewTestCase(AtsViewTestCase):
 
         # wrong password
         _response = self.client.post(
-            '/ats/login/',
+            reverse('ats:login_view'),
             {'username': self.user.username,
              'password': 'dummypass'})
         self.assertEqual(_response.status_code, 200)
 
         # wrong user and password
         _response = self.client.post(
-            '/ats/login/',
+            reverse('ats:login_view'),
             {'username': 'dummyuser',
              'password': 'dummypass'})
         self.assertEqual(_response.status_code, 200)
@@ -378,6 +382,7 @@ class LoginViewTestCase(AtsViewTestCase):
 class TopViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
+    view_name = 'ats:top'
     _password = 'passpass'
 
     def setUp(self):
@@ -395,13 +400,14 @@ class TopViewTestCase(AtsViewTestCase):
                                     password=self._password)
         self.assertTrue(_result)
 
-        _response = self.client.get('/ats/top/')
+        _response = self.client.get(reverse(self.view_name))
         self.assertEqual(_response.status_code, 200)
 
 
 class QueryViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
+    view_name = 'ats:query'
     _password = 'passpass'
 
     def setUp(self):
@@ -419,13 +425,14 @@ class QueryViewTestCase(AtsViewTestCase):
                                     password=self._password)
         self.assertTrue(_result)
 
-        _response = self.client.get('/ats/query/')
+        _response = self.client.get(reverse(self.view_name))
         self.assertEqual(_response.status_code, 200)
 
 
 class ManageViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
+    view_name = 'ats:manage'
     _password = 'passpass'
 
     def setUp(self):
@@ -443,13 +450,14 @@ class ManageViewTestCase(AtsViewTestCase):
                                     password=self._password)
         self.assertTrue(_result)
 
-        _response = self.client.get('/ats/manage/')
+        _response = self.client.get(reverse(self.view_name))
         self.assertEqual(_response.status_code, 200)
 
 
 class ManageChpasswdViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
+    view_name = 'ats:manage_chpasswd'
     _password = 'passpass'
 
     def setUp(self):
@@ -467,13 +475,14 @@ class ManageChpasswdViewTestCase(AtsViewTestCase):
                                     password=self._password)
         self.assertTrue(_result)
 
-        _response = self.client.get('/ats/manage/')
+        _response = self.client.get(reverse(self.view_name))
         self.assertEqual(_response.status_code, 200)
 
 
 class SummaryProjectViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
+    view_name = 'ats:summary_p'
     _password = 'passpass'
 
     def setUp(self):
@@ -491,13 +500,14 @@ class SummaryProjectViewTestCase(AtsViewTestCase):
                                     password=self._password)
         self.assertTrue(_result)
 
-        _response = self.client.get('/ats/summary/project/')
+        _response = self.client.get(reverse(self.view_name))
         self.assertEqual(_response.status_code, 200)
 
 
-class SummaryJobtViewTestCase(AtsViewTestCase):
+class SummaryJobViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
+    view_name = 'ats:summary_j'
     _password = 'passpass'
 
     def setUp(self):
@@ -515,13 +525,14 @@ class SummaryJobtViewTestCase(AtsViewTestCase):
                                     password=self._password)
         self.assertTrue(_result)
 
-        _response = self.client.get('/ats/summary/job/')
+        _response = self.client.get(reverse(self.view_name))
         self.assertEqual(_response.status_code, 200)
 
 
 class SummaryUserViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
+    view_name = 'ats:summary_u'
     _password = 'passpass'
 
     def setUp(self):
@@ -539,13 +550,14 @@ class SummaryUserViewTestCase(AtsViewTestCase):
                                     password=self._password)
         self.assertTrue(_result)
 
-        _response = self.client.get('/ats/summary/user/')
+        _response = self.client.get(reverse(self.view_name))
         self.assertEqual(_response.status_code, 200)
 
 
-class SummaryRegistViewTestCase(AtsViewTestCase):
+class RegistViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
+    view_name = 'ats:regist'
     _password = 'passpass'
 
     def setUp(self):
@@ -563,5 +575,5 @@ class SummaryRegistViewTestCase(AtsViewTestCase):
                                     password=self._password)
         self.assertTrue(_result)
 
-        _response = self.client.get('/ats/regist/')
+        _response = self.client.get(reverse(self.view_name))
         self.assertEqual(_response.status_code, 200)
