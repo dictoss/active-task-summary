@@ -11,6 +11,7 @@ from .views import (
     format_totaltime,
     format_hours_float,
     validate_password,
+    get_projects_in_date,
     error404,
     error500,
     index,
@@ -142,6 +143,8 @@ class TestModel(TestCase):
 
 
 class TestLib(TestCase):
+    fixtures = ['test_views.json']
+
     def setUp(self):
         pass
 
@@ -211,6 +214,14 @@ class TestLib(TestCase):
 
         _ret = validate_password("1234567")
         self.assertEqual(_ret, True)
+
+    def test_get_projects_in_date(self):
+        _ret = None
+
+        _user = User.objects.get(username='testuser100')
+
+        _ret = get_projects_in_date(_user, '2014-01-30')
+        self.assertIsNotNone(_ret)
 
 
 class Ats404ViewTestCase(AtsViewTestCase):
