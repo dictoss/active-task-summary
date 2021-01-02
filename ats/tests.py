@@ -712,18 +712,22 @@ class SummaryUserViewTestCase(AtsViewTestCase):
         self.assertEqual(_response.status_code, 200)
 
     def test_post_with_data(self):
+        _user_id_list = []
+
         # inser data 1st user.
         _result = self.client.login(username='testuser100',
                                     password='password')
         self.assertTrue(_result)
+        _user_id_list.append(self.user.id)
 
-        _project = Project.objects.get(pk=1)
+        _project1 = Project.objects.get(pk=1)
+        _project2 = Project.objects.get(pk=2)
         _job = Job.objects.get(pk=1)
         _task = list(Task.objects.filter(job=_job).order_by('id'))[0]
 
         _obj = UsedTaskTime.objects.create(
             user=self.user,
-            project=_project,
+            project=_project1,
             task=_task,
             taskdate='2014-01-25',
             tasktime='02:15:00'
@@ -731,7 +735,7 @@ class SummaryUserViewTestCase(AtsViewTestCase):
 
         _obj = UsedTaskTime.objects.create(
             user=self.user,
-            project=_project,
+            project=_project1,
             task=_task,
             taskdate='2014-02-25',
             tasktime='04:30:00'
@@ -739,7 +743,31 @@ class SummaryUserViewTestCase(AtsViewTestCase):
 
         _obj = UsedTaskTime.objects.create(
             user=self.user,
-            project=_project,
+            project=_project1,
+            task=_task,
+            taskdate='2014-03-25',
+            tasktime='08:30:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project2,
+            task=_task,
+            taskdate='2014-01-25',
+            tasktime='02:15:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project2,
+            task=_task,
+            taskdate='2014-02-25',
+            tasktime='04:30:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project2,
             task=_task,
             taskdate='2014-03-25',
             tasktime='08:30:00'
@@ -751,14 +779,11 @@ class SummaryUserViewTestCase(AtsViewTestCase):
         _result = self.client.login(username='testuser200',
                                     password='password')
         self.assertTrue(_result)
-
-        _project = Project.objects.get(pk=1)
-        _job = Job.objects.get(pk=1)
-        _task = list(Task.objects.filter(job=_job).order_by('id'))[0]
+        _user_id_list.append(self.user.id)
 
         _obj = UsedTaskTime.objects.create(
             user=self.user,
-            project=_project,
+            project=_project1,
             task=_task,
             taskdate='2014-01-25',
             tasktime='02:15:00'
@@ -766,7 +791,7 @@ class SummaryUserViewTestCase(AtsViewTestCase):
 
         _obj = UsedTaskTime.objects.create(
             user=self.user,
-            project=_project,
+            project=_project1,
             task=_task,
             taskdate='2014-02-25',
             tasktime='01:00:00'
@@ -774,7 +799,31 @@ class SummaryUserViewTestCase(AtsViewTestCase):
 
         _obj = UsedTaskTime.objects.create(
             user=self.user,
-            project=_project,
+            project=_project1,
+            task=_task,
+            taskdate='2014-03-25',
+            tasktime='08:30:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project2,
+            task=_task,
+            taskdate='2014-01-25',
+            tasktime='02:15:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project2,
+            task=_task,
+            taskdate='2014-02-25',
+            tasktime='01:00:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project2,
             task=_task,
             taskdate='2014-03-25',
             tasktime='08:30:00'
@@ -787,7 +836,7 @@ class SummaryUserViewTestCase(AtsViewTestCase):
             reverse(self.view_name), {
                 'from_date': '2014-01-01',
                 'to_date': '2014-03-31',
-                'userlist': [2, 3],
+                'userlist': _user_id_list,
             })
         self.assertEqual(_response.status_code, 200)
 
@@ -795,7 +844,7 @@ class SummaryUserViewTestCase(AtsViewTestCase):
             reverse(self.view_name), {
                 'from_date': '2014-01-01',
                 'to_date': '2014-03-31',
-                'userlist': [2, 3],
+                'userlist': _user_id_list,
             })
         self.assertEqual(_response.status_code, 200)
 
