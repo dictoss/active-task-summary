@@ -231,7 +231,7 @@ def regist(request):
         logger.info('regist : method=GET, submit_type={}'.format(
             request.GET.get('submit_type')))
 
-        if 'submit_type' in request.GET and request.GET.get('submit_type') == 'dateselect':
+        if 'dateselect' == request.GET.get('submit_type', ''):
             rs_form = RegistSelectForm(request.GET, user=request.user)
             if rs_form.is_valid():
                 regist_date = rs_form.cleaned_data['regist_date']
