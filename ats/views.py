@@ -53,10 +53,6 @@ def error404(request, exception=HttpResponseNotFound):
     return my_render(request, '404.html', {}, status_code=404)
 
 
-def get_url_prefix():
-    return '%s/%s' % (settings.APP_MOUNTDIR, ats_settings.APP_NAME)
-
-
 def format_totaltime(td):
     totalhour = (td.days * 24) + int(td.seconds / 3600)
     minute = int(td.seconds / 60) - (int(td.seconds / 3600) * 60)
@@ -860,8 +856,6 @@ def manage_chpasswd(request):
 
 
 def my_render(request, template_file, paramdict, status_code=200):
-    paramdict['url_prefix'] = get_url_prefix()
-
     response = render(request, template_file, paramdict)
     response.status_code = status_code
 
