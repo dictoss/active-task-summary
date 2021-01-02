@@ -18,5 +18,5 @@ LOG_PATH = '%s/ats.log' % '/var/log/ats'
 
 try:
     from .ats_settings_devel import *
-except:
+except Exception as e:
     pass
