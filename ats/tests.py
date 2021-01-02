@@ -323,7 +323,12 @@ class LoginViewTestCase(AtsViewTestCase):
                              status_code=302,
                              target_status_code=200)
 
-        self.client.logout()
+        # logout
+        _response = self.client.get(reverse('ats:logout_view'))
+        self.assertRedirects(_response,
+                             expected_url=reverse('ats:login_view'),
+                             status_code=302,
+                             target_status_code=200)
 
     def test_loginform(self):
         # success login
