@@ -223,7 +223,7 @@ class TestViews(TestCase):
 
         _request = self.factory.get('/ats/zzz/')
         _responsev = error404(_request)
-        self.assertEqual(_responsev.status_code, 200)
+        self.assertEqual(_responsev.status_code, 404)
         self.assertTrue(_responsev.content.find(b'404 NOT FOUND'))
 
     def test_index(self):
