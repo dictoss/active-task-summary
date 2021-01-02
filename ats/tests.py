@@ -359,28 +359,28 @@ class LoginViewTestCase(AtsViewTestCase):
         self.client.logout()
 
         # if not login
-        _response = self.client.get('/ats/login/')
+        _response = self.client.get(reverse('ats:login_view'))
         self.assertEqual(_response.status_code, 200)
 
         _result = self.client.login(username=self.user.username,
                                     password="dummypass")
         self.assertFalse(_result)
 
-        _response = self.client.get('/ats/login/')
+        _response = self.client.get(reverse('ats:login_view'))
         self.assertEqual(_response.status_code, 200)
 
     def test_login_fail(self):
         self.client.logout()
 
         # if not login
-        _response = self.client.get('/ats/login/')
+        _response = self.client.get(reverse('ats:login_view'))
         self.assertEqual(_response.status_code, 200)
 
         _result = self.client.login(username="dummyuser",
                                     password="12345678")
         self.assertFalse(_result)
 
-        _response = self.client.get('/ats/login/')
+        _response = self.client.get(reverse('ats:login_view'))
         self.assertEqual(_response.status_code, 200)
 
 
