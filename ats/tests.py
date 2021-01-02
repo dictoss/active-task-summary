@@ -582,3 +582,25 @@ class RegistViewTestCase(AtsViewTestCase):
 
         _response = self.client.get(reverse(self.view_name))
         self.assertEqual(_response.status_code, 200)
+
+    def test_regist_get_dateselect(self):
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        _response = self.client.get(
+            reverse(self.view_name), {'submit_type': 'dateselect'})
+        self.assertEqual(_response.status_code, 200)
+
+    def test_regist_post_regist(self):
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'submit_type': 'regist',
+                'regist_date': '2015-04-15',
+                'project_id': '1',
+            })
+        self.assertEqual(_response.status_code, 200)
