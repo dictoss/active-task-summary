@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.urls import include, path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from django.contrib import admin
@@ -10,38 +10,39 @@ handler500 = 'ats.views.error500'
 handler404 = 'ats.views.error404'
 
 urlpatterns = [
-    url(r'^$', views.index),
-    url(r'^top/$', views.top),
-    url(r'^login/$', views.login_view),
-    url(r'^logout/$', views.logout_view),
-    url(r'^regist/$', views.regist),
+    path('', views.index),
+    path('top/', views.top),
+    path('login/', views.login_view),
+    path('logout/', views.logout_view),
+    path('regist/', views.regist),
     #
-    #url(r'^summary/$', views.summary),
-    url(r'^summary/project/$', views.summary_p),
-    url(r'^summary/job/$', views.summary_j),
-    url(r'^summary/user/$', views.summary_u),
+    # path('summary/', views.summary),
+    path('summary/project/', views.summary_p),
+    path('summary/job/', views.summary_j),
+    path('summary/user/', views.summary_u),
     #
     # direct link
-    #url(r'^summary/(?P<project_id>\d+)/$', views.summary_p),
-    #url(r'^summary/(?P<project_id>\d+)/(?P<from_date>\d+)_(?P<to_date>\d+)/$', views.summary_pd),
-    #url(r'^summary/(?P<project_id>\d+)/(?P<from_date>\d+)_(?P<to_date>\d+)/u(?P<user_id>\d+)/$', views.summary_pdu),
-    #url(r'^summary/(?P<project_id>\d+)/(?P<from_date>\d+)_(?P<to_date>\d+)/j(?P<job_id>\d+)/$', views.summary_pdj),
     #
-    url(r'^query/$', views.query),
+    # path('summary/(?P<project_id>\d+)/', views.summary_p),
+    # path('summary/(?P<project_id>\d+)/(?P<from_date>\d+)_(?P<to_date>\d+)/', vi ews.summary_pd),
+    # path('summary/(?P<project_id>\d+)/(?P<from_date>\d+)_(?P<to_date>\d+)/u(?P<user_id>\d+)/', views.summary_pdu),
+    # path('summary/(?P<project_id>\d+)/(?P<from_date>\d+)_(?P<to_date>\d+)/j(?P<job_id>\d+)/, views.summary_pdj),
     #
-    #url(r'^api/$', views.api),
+    path('query/', views.query),
     #
-    url(r'^manage/$', views.manage),
+    # path('api/', views.api),
     #
-    url(r'^manage/chpasswd/$', views.manage_chpasswd),
-    #url(r'^manage/user/$', views.manage_user_list),
-    #url(r'^manage/user/(?P<user_id>\d+)/$', views.manage_user_detail),
-    #url(r'^manage/project/$', views.manage_project_list),
-    #url(r'^manage/project/(?P<project_id>\d+)/$', views.manage_project_detail),
-    #url(r'^manage/task/$', views.manage_task_list),
-    #url(r'^manage/task/(?P<task_id>\d+)/$', views.manage_task_detail),
-    #url(r'^manage/job/$', views.manage_job_list),
-    #url(r'^manage/job/(?P<job_id>\d+)/$', views.manage_job_detail),
+    path('manage/', views.manage),
+    #
+    path('manage/chpasswd/', views.manage_chpasswd),
+    # path('manage/user/', views.manage_user_list),
+    # path('manage/user/(?P<user_id>\d+)/', views.manage_user_detail),
+    # path('manage/project/', views.manage_project_list),
+    # path('manage/project/(?P<project_id>\d+)/', views.manage_project_detail),
+    # path('manage/task/', views.manage_task_list),
+    # path('manage/task/(?P<task_id>\d+)/', views.manage_task_detail),
+    # path('manage/job/', views.manage_job_list),
+    # path('manage/job/(?P<job_id>\d+)/', views.manage_job_detail),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
