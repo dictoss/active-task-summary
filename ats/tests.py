@@ -531,6 +531,58 @@ class SummaryProjectViewTestCase(AtsViewTestCase):
             })
         self.assertEqual(_response.status_code, 200)
 
+    def test_post_with_data(self):
+        _result = self.client.login(username='testuser100',
+                                    password='password')
+        self.assertTrue(_result)
+
+        # insert data
+        _project = Project.objects.get(pk=1)
+        _job = Job.objects.get(pk=1)
+        _task = list(Task.objects.filter(job=_job).order_by('id'))[0]
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project,
+            task=_task,
+            taskdate='2014-01-25',
+            tasktime='02:15:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project,
+            task=_task,
+            taskdate='2014-02-25',
+            tasktime='04:30:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project,
+            task=_task,
+            taskdate='2014-03-25',
+            tasktime='08:30:00'
+        )
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'from_date': '2014-01-01',
+                'to_date': '2014-03-31',
+                'projectlist': _project.id,
+                'is_show_taskdetail': '0',
+            })
+        self.assertEqual(_response.status_code, 200)
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'from_date': '2014-01-01',
+                'to_date': '2014-03-31',
+                'projectlist': _project.id,
+                'is_show_taskdetail': '1',
+            })
+        self.assertEqual(_response.status_code, 200)
+
 
 class SummaryJobViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
@@ -570,6 +622,57 @@ class SummaryJobViewTestCase(AtsViewTestCase):
         self.assertEqual(_response.status_code, 200)
 
 
+    def test_post_with_data(self):
+        _result = self.client.login(username='testuser100',
+                                    password='password')
+        self.assertTrue(_result)
+
+        # insert data
+        _project = Project.objects.get(pk=1)
+        _job = Job.objects.get(pk=1)
+        _task = list(Task.objects.filter(job=_job).order_by('id'))[0]
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project,
+            task=_task,
+            taskdate='2014-01-25',
+            tasktime='02:15:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project,
+            task=_task,
+            taskdate='2014-02-25',
+            tasktime='04:30:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project,
+            task=_task,
+            taskdate='2014-03-25',
+            tasktime='08:30:00'
+        )
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'from_date': '2014-01-01',
+                'to_date': '2014-03-31',
+                'joblist': _job,
+            })
+        self.assertEqual(_response.status_code, 200)
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'from_date': '2014-01-01',
+                'to_date': '2014-03-31',
+                'joblist': _job,
+            })
+        self.assertEqual(_response.status_code, 200)
+
+
 class SummaryUserViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
@@ -598,6 +701,56 @@ class SummaryUserViewTestCase(AtsViewTestCase):
         _result = self.client.login(username=self.user.username,
                                     password=self._password)
         self.assertTrue(_result)
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'from_date': '2014-01-01',
+                'to_date': '2014-03-31',
+                'userlist': 2,
+            })
+        self.assertEqual(_response.status_code, 200)
+
+    def test_post_with_data(self):
+        _result = self.client.login(username='testuser100',
+                                    password='password')
+        self.assertTrue(_result)
+
+        # insert data
+        _project = Project.objects.get(pk=1)
+        _job = Job.objects.get(pk=1)
+        _task = list(Task.objects.filter(job=_job).order_by('id'))[0]
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project,
+            task=_task,
+            taskdate='2014-01-25',
+            tasktime='02:15:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project,
+            task=_task,
+            taskdate='2014-02-25',
+            tasktime='04:30:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project,
+            task=_task,
+            taskdate='2014-03-25',
+            tasktime='08:30:00'
+        )
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'from_date': '2014-01-01',
+                'to_date': '2014-03-31',
+                'joblist': _job,
+            })
+        self.assertEqual(_response.status_code, 200)
 
         _response = self.client.post(
             reverse(self.view_name), {
