@@ -500,12 +500,35 @@ class SummaryProjectViewTestCase(AtsViewTestCase):
     def tearDown(self):
         pass
 
-    def test_summary_project(self):
+    def test_get(self):
         _result = self.client.login(username=self.user.username,
                                     password=self._password)
         self.assertTrue(_result)
 
         _response = self.client.get(reverse(self.view_name))
+        self.assertEqual(_response.status_code, 200)
+
+    def test_post(self):
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'from_date': '2014-01-01',
+                'to_date': '2014-03-31',
+                'projectlist': 1,
+                'is_show_taskdetail': '0',
+            })
+        self.assertEqual(_response.status_code, 200)
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'from_date': '2014-01-01',
+                'to_date': '2014-03-31',
+                'projectlist': 1,
+                'is_show_taskdetail': '1',
+            })
         self.assertEqual(_response.status_code, 200)
 
 
@@ -525,12 +548,25 @@ class SummaryJobViewTestCase(AtsViewTestCase):
     def tearDown(self):
         pass
 
-    def test_summary_job(self):
+    def test_get(self):
         _result = self.client.login(username=self.user.username,
                                     password=self._password)
         self.assertTrue(_result)
 
         _response = self.client.get(reverse(self.view_name))
+        self.assertEqual(_response.status_code, 200)
+
+    def test_post(self):
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'from_date': '2014-01-01',
+                'to_date': '2014-03-31',
+                'joblist': 1,
+            })
         self.assertEqual(_response.status_code, 200)
 
 
@@ -550,12 +586,25 @@ class SummaryUserViewTestCase(AtsViewTestCase):
     def tearDown(self):
         pass
 
-    def test_summary_user(self):
+    def test_get(self):
         _result = self.client.login(username=self.user.username,
                                     password=self._password)
         self.assertTrue(_result)
 
         _response = self.client.get(reverse(self.view_name))
+        self.assertEqual(_response.status_code, 200)
+
+    def test_post(self):
+        _result = self.client.login(username=self.user.username,
+                                    password=self._password)
+        self.assertTrue(_result)
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'from_date': '2014-01-01',
+                'to_date': '2014-03-31',
+                'userlist': 2,
+            })
         self.assertEqual(_response.status_code, 200)
 
 
