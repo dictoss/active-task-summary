@@ -28,6 +28,10 @@ class AtsTestClient(Client):
     pass
 
 
+class AtsViewTestCase(TestCase):
+    pass
+
+
 class TestModel(TestCase):
     def setUp(self):
         pass
@@ -202,7 +206,7 @@ class TestLib(TestCase):
         self.assertEqual(_ret, True)
 
 
-class TestViews(TestCase):
+class Ats404ViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
     _password = 'passpass'
@@ -226,6 +230,22 @@ class TestViews(TestCase):
         self.assertEqual(_responsev.status_code, 404)
         self.assertTrue(_responsev.content.find(b'404 NOT FOUND'))
 
+
+class IndexViewTestCase(AtsViewTestCase):
+    fixtures = ['test_views.json']
+    client_class = AtsTestClient
+    _password = 'passpass'
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            'testuser1',
+            'testuser1@example.com',
+            self._password)
+
+    def tearDown(self):
+        pass
+
     def test_index(self):
         _response = self.client.get('/ats/top/')
         self.assertEqual(_response.status_code, 302)
@@ -233,6 +253,21 @@ class TestViews(TestCase):
         _request = self.factory.get('/ats/top/')
         _responsev = index(_request)
         self.assertEqual(_responsev.status_code, 302)
+
+class LoginViewTestCase(AtsViewTestCase):
+    fixtures = ['test_views.json']
+    client_class = AtsTestClient
+    _password = 'passpass'
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            'testuser1',
+            'testuser1@example.com',
+            self._password)
+
+    def tearDown(self):
+        pass
 
     def test_login_success(self):
         self.client.logout()
@@ -304,6 +339,22 @@ class TestViews(TestCase):
         _response = self.client.get('/ats/login/')
         self.assertEqual(_response.status_code, 200)
 
+
+class TopViewTestCase(AtsViewTestCase):
+    fixtures = ['test_views.json']
+    client_class = AtsTestClient
+    _password = 'passpass'
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            'testuser1',
+            'testuser1@example.com',
+            self._password)
+
+    def tearDown(self):
+        pass
+
     def test_top(self):
         _result = self.client.login(username=self.user.username,
                                     password=self._password)
@@ -311,6 +362,22 @@ class TestViews(TestCase):
 
         _response = self.client.get('/ats/top/')
         self.assertEqual(_response.status_code, 200)
+
+
+class QueryViewTestCase(AtsViewTestCase):
+    fixtures = ['test_views.json']
+    client_class = AtsTestClient
+    _password = 'passpass'
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            'testuser1',
+            'testuser1@example.com',
+            self._password)
+
+    def tearDown(self):
+        pass
 
     def test_query(self):
         _result = self.client.login(username=self.user.username,
@@ -320,6 +387,22 @@ class TestViews(TestCase):
         _response = self.client.get('/ats/query/')
         self.assertEqual(_response.status_code, 200)
 
+
+class ManageViewTestCase(AtsViewTestCase):
+    fixtures = ['test_views.json']
+    client_class = AtsTestClient
+    _password = 'passpass'
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            'testuser1',
+            'testuser1@example.com',
+            self._password)
+
+    def tearDown(self):
+        pass
+
     def test_manage(self):
         _result = self.client.login(username=self.user.username,
                                     password=self._password)
@@ -327,6 +410,21 @@ class TestViews(TestCase):
 
         _response = self.client.get('/ats/manage/')
         self.assertEqual(_response.status_code, 200)
+
+class ManageChpasswdViewTestCase(AtsViewTestCase):
+    fixtures = ['test_views.json']
+    client_class = AtsTestClient
+    _password = 'passpass'
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            'testuser1',
+            'testuser1@example.com',
+            self._password)
+
+    def tearDown(self):
+        pass
 
     def test_manage_chpasswd(self):
         _result = self.client.login(username=self.user.username,
@@ -336,6 +434,21 @@ class TestViews(TestCase):
         _response = self.client.get('/ats/manage/')
         self.assertEqual(_response.status_code, 200)
 
+class SummaryProjectViewTestCase(AtsViewTestCase):
+    fixtures = ['test_views.json']
+    client_class = AtsTestClient
+    _password = 'passpass'
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            'testuser1',
+            'testuser1@example.com',
+            self._password)
+
+    def tearDown(self):
+        pass
+
     def test_summary_project(self):
         _result = self.client.login(username=self.user.username,
                                     password=self._password)
@@ -343,6 +456,21 @@ class TestViews(TestCase):
 
         _response = self.client.get('/ats/summary/project/')
         self.assertEqual(_response.status_code, 200)
+
+class SummaryJobtViewTestCase(AtsViewTestCase):
+    fixtures = ['test_views.json']
+    client_class = AtsTestClient
+    _password = 'passpass'
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            'testuser1',
+            'testuser1@example.com',
+            self._password)
+
+    def tearDown(self):
+        pass
 
     def test_summary_job(self):
         _result = self.client.login(username=self.user.username,
@@ -352,6 +480,22 @@ class TestViews(TestCase):
         _response = self.client.get('/ats/summary/job/')
         self.assertEqual(_response.status_code, 200)
 
+
+class SummaryUserViewTestCase(AtsViewTestCase):
+    fixtures = ['test_views.json']
+    client_class = AtsTestClient
+    _password = 'passpass'
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            'testuser1',
+            'testuser1@example.com',
+            self._password)
+
+    def tearDown(self):
+        pass
+
     def test_summary_user(self):
         _result = self.client.login(username=self.user.username,
                                     password=self._password)
@@ -359,6 +503,22 @@ class TestViews(TestCase):
 
         _response = self.client.get('/ats/summary/user/')
         self.assertEqual(_response.status_code, 200)
+
+
+class SummaryRegistViewTestCase(AtsViewTestCase):
+    fixtures = ['test_views.json']
+    client_class = AtsTestClient
+    _password = 'passpass'
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            'testuser1',
+            'testuser1@example.com',
+            self._password)
+
+    def tearDown(self):
+        pass
 
     def test_regist(self):
         _result = self.client.login(username=self.user.username,
