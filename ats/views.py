@@ -25,7 +25,6 @@ from django.http import (
     QueryDict)
 from django.forms.fields import ChoiceField
 from django.template import loader, Context, RequestContext
-from django.template.loader import render_to_string
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.forms import ModelForm
@@ -864,17 +863,11 @@ def manage_chpasswd(request):
 
 
 def my_render_to_response(request, template_file, paramdict, status_code=200):
-    response = HttpResponse()
-
     paramdict['url_prefix'] = get_url_prefix()
 
-    _gen_html = render_to_string(
-        template_file,
-        context=paramdict,
-        request=request)
-
+    response = render(request, template_file, paramdict)
     response.status_code = status_code
-    response.write(_gen_html)
+
     return response
 
 
