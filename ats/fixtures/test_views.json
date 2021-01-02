@@ -1,1 +1,1 @@
-[]
+[{"model": "ats.project", "pk": 1, "fields": {"name": "project1", "start_dt": "2014-01-13", "end_dt": null, "sortkey": 100}}, {"model": "ats.job", "pk": 1, "fields": {"name": "job1", "sortkey": 100, "invalid": false}}]
