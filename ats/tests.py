@@ -629,8 +629,9 @@ class SummaryJobViewTestCase(AtsViewTestCase):
 
         # insert data
         _project = Project.objects.get(pk=1)
-        _job = Job.objects.get(pk=1)
-        _task = list(Task.objects.filter(job=_job).order_by('id'))[0]
+        _job1 = Job.objects.get(pk=1)
+        _job2 = Job.objects.get(pk=2)
+        _task = list(Task.objects.filter(job=_job1).order_by('id'))[0]
 
         _obj = UsedTaskTime.objects.create(
             user=self.user,
@@ -660,7 +661,7 @@ class SummaryJobViewTestCase(AtsViewTestCase):
             reverse(self.view_name), {
                 'from_date': '2014-01-01',
                 'to_date': '2014-03-31',
-                'joblist': _job,
+                'joblist': [_job1.id, _job2.id],
             })
         self.assertEqual(_response.status_code, 200)
 
@@ -668,7 +669,7 @@ class SummaryJobViewTestCase(AtsViewTestCase):
             reverse(self.view_name), {
                 'from_date': '2014-01-01',
                 'to_date': '2014-03-31',
-                'joblist': _job,
+                'joblist': [_job1.id, _job2.id],
             })
         self.assertEqual(_response.status_code, 200)
 
@@ -711,11 +712,11 @@ class SummaryUserViewTestCase(AtsViewTestCase):
         self.assertEqual(_response.status_code, 200)
 
     def test_post_with_data(self):
+        # inser data 1st user.
         _result = self.client.login(username='testuser100',
                                     password='password')
         self.assertTrue(_result)
 
-        # insert data
         _project = Project.objects.get(pk=1)
         _job = Job.objects.get(pk=1)
         _task = list(Task.objects.filter(job=_job).order_by('id'))[0]
@@ -744,11 +745,49 @@ class SummaryUserViewTestCase(AtsViewTestCase):
             tasktime='08:30:00'
         )
 
+        self.client.logout()
+
+        # inser data 2nd user.
+        _result = self.client.login(username='testuser200',
+                                    password='password')
+        self.assertTrue(_result)
+
+        _project = Project.objects.get(pk=1)
+        _job = Job.objects.get(pk=1)
+        _task = list(Task.objects.filter(job=_job).order_by('id'))[0]
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project,
+            task=_task,
+            taskdate='2014-01-25',
+            tasktime='02:15:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project,
+            task=_task,
+            taskdate='2014-02-25',
+            tasktime='01:00:00'
+        )
+
+        _obj = UsedTaskTime.objects.create(
+            user=self.user,
+            project=_project,
+            task=_task,
+            taskdate='2014-03-25',
+            tasktime='08:30:00'
+        )
+
+        # self.client.logout()
+
+        # post
         _response = self.client.post(
             reverse(self.view_name), {
                 'from_date': '2014-01-01',
                 'to_date': '2014-03-31',
-                'joblist': _job,
+                'userlist': [2, 3],
             })
         self.assertEqual(_response.status_code, 200)
 
@@ -756,7 +795,7 @@ class SummaryUserViewTestCase(AtsViewTestCase):
             reverse(self.view_name), {
                 'from_date': '2014-01-01',
                 'to_date': '2014-03-31',
-                'userlist': 2,
+                'userlist': [2, 3],
             })
         self.assertEqual(_response.status_code, 200)
 
