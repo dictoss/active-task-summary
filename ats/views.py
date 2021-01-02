@@ -864,14 +864,8 @@ def manage_chpasswd(request):
 
 def my_render_to_response(request, template_file, paramdict):
     response = HttpResponse()
-    # paramdict['sitecounter'] = do_counter(request, response)
 
     paramdict['url_prefix'] = get_url_prefix()
-    paramdict['app_name'] = ats_settings.APP_NAME
-    paramdict['app_longname'] = ats_settings.APP_LONGNAME
-    paramdict['app_auther'] = ats_settings.APP_AUTHER
-    paramdict['app_version'] = ats_settings.APP_VERSION
-    paramdict['is_lastname_front'] = ats_settings.ATS_IS_LASTNAME_FRONT
 
     _gen_html = render_to_string(
         template_file,
