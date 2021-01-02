@@ -1,4 +1,5 @@
 from django.test import TestCase, Client, RequestFactory
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 import datetime
@@ -235,6 +236,30 @@ class Ats404ViewTestCase(AtsViewTestCase):
         _responsev = error404(_request)
         self.assertEqual(_responsev.status_code, 404)
         self.assertTrue(_responsev.content.find(b'404 NOT FOUND'))
+
+
+class Ats500ViewTestCase(AtsViewTestCase):
+    fixtures = ['test_views.json']
+    client_class = AtsTestClient
+    _password = 'passpass'
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            'testuser1',
+            'testuser1@example.com',
+            self._password)
+
+    def tearDown(self):
+        pass
+
+    def test_500(self):
+        try:
+            _response = self.client.get(reverse('ats:error_internal'))
+        except Exception as e:
+            pass
+        else:
+            self.fail()
 
 
 class IndexViewTestCase(AtsViewTestCase):

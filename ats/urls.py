@@ -6,9 +6,11 @@ admin.autodiscover()
 
 from . import views
 
+app_name = 'ats'
+
 urlpatterns = [
     path('', views.index),
-    path('error_internal/', views.errorinternal),
+    path('error_internal/', views.errorinternal, name='error_internal'),
     path('top/', views.top),
     path('login/', views.login_view),
     path('logout/', views.logout_view),
