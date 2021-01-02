@@ -98,7 +98,8 @@ class TestModel(TestCase):
         _proj = Project.objects.create(
             id=200, name='projname200',
             start_dt=_at_s, end_dt=None, sortkey=10000)
-        _job = Job.objects.create(id=100, name='job100', sortkey=10000, invalid=False)
+        _job = Job.objects.create(
+            id=100, name='job100', sortkey=10000, invalid=False)
 
         _o = ProjectWorker.objects.create(
                 id=50000, user=_user, project=_proj, job=_job, invalid=False)
@@ -108,7 +109,8 @@ class TestModel(TestCase):
         _o = ProjectWorker.objects.create(
             id=50001, user=_user, project=_proj, job=_job, invalid=True)
         _s = str(_o)
-        self.assertEqual(_s, '50001 : testuser1 (projname200 - job100) [invalid]')
+        self.assertEqual(
+            _s, '50001 : testuser1 (projname200 - job100) [invalid]')
 
     def test_usedtasktime(self):
         _user = User.objects.create_user(
@@ -122,16 +124,20 @@ class TestModel(TestCase):
         _job = Job.objects.create(
             id=100, name='job100', sortkey=10000, invalid=False)
 
-        _task = Task.objects.create(id=201, name='task201',
+        _task = Task.objects.create(
+            id=201, name='task201',
             job=_job, sortkey=10001, invalid=False)
 
         _td = datetime.date(year=2019, month=2, day=1)
         _tt = datetime.time(hour=1, minute=30, second=0)
-        _o = UsedTaskTime.objects.create(id=60000,
+        _o = UsedTaskTime.objects.create(
+            id=60000,
             user=_user, project=_proj, task=_task,
             taskdate=_td, tasktime=_tt)
         _s = str(_o)
-        self.assertEqual(_s, '60000 : [2019-02-01 - 01:30:00] testuser1 - proj200 - task201')
+        self.assertEqual(
+            _s,
+            '60000 : [2019-02-01 - 01:30:00] testuser1 - proj200 - task201')
 
 
 class TestLib(TestCase):
@@ -254,6 +260,7 @@ class IndexViewTestCase(AtsViewTestCase):
         _responsev = index(_request)
         self.assertEqual(_responsev.status_code, 302)
 
+
 class LoginViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
@@ -291,24 +298,27 @@ class LoginViewTestCase(AtsViewTestCase):
 
     def test_loginform(self):
         # success login
-        _response = self.client.post('/ats/login/',
-                                   {'username': self.user.username,
-                                    'password': self._password})
+        _response = self.client.post(
+            '/ats/login/',
+            {'username': self.user.username,
+             'password': self._password})
         self.assertRedirects(_response,
                              expected_url='/ats/top',
                              status_code=302,
                              target_status_code=301)
 
         # wrong password
-        _response = self.client.post('/ats/login/',
-                                   {'username': self.user.username,
-                                    'password': 'dummypass'})
+        _response = self.client.post(
+            '/ats/login/',
+            {'username': self.user.username,
+             'password': 'dummypass'})
         self.assertEqual(_response.status_code, 200)
 
         # wrong user and password
-        _response = self.client.post('/ats/login/',
-                                   {'username': 'dummyuser',
-                                    'password': 'dummypass'})
+        _response = self.client.post(
+            '/ats/login/',
+            {'username': 'dummyuser',
+             'password': 'dummypass'})
         self.assertEqual(_response.status_code, 200)
 
     def test_login_fail_password_miss(self):
@@ -411,6 +421,7 @@ class ManageViewTestCase(AtsViewTestCase):
         _response = self.client.get('/ats/manage/')
         self.assertEqual(_response.status_code, 200)
 
+
 class ManageChpasswdViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
@@ -434,6 +445,7 @@ class ManageChpasswdViewTestCase(AtsViewTestCase):
         _response = self.client.get('/ats/manage/')
         self.assertEqual(_response.status_code, 200)
 
+
 class SummaryProjectViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
     client_class = AtsTestClient
@@ -456,6 +468,7 @@ class SummaryProjectViewTestCase(AtsViewTestCase):
 
         _response = self.client.get('/ats/summary/project/')
         self.assertEqual(_response.status_code, 200)
+
 
 class SummaryJobtViewTestCase(AtsViewTestCase):
     fixtures = ['test_views.json']
