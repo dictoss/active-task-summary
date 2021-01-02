@@ -57,7 +57,6 @@ def error500(request):
 def error404(request, exception=HttpResponseNotFound):
     return my_render_to_response(request, '404.html', {})
 
-
 def get_url_prefix():
     return '%s/%s' % (settings.APP_MOUNTDIR, APP_NAME)
 
@@ -71,6 +70,13 @@ def format_totaltime(td):
 
 def format_hours_float(td):
     return (td.days * 24) + (td.seconds / 3600.0)
+
+
+def errorinternal(request):
+    """
+    for test. always 500 error.
+    """
+    raise Exception('ErrorInternalView')
 
 
 def index(request):
