@@ -2,7 +2,13 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.contrib import admin
 
-from .models import Project, Job, Task, ProjectWorker, UsedTaskTime
+from .models import (
+    Project,
+    Job,
+    Task,
+    ProjectWorker,
+    UsedTaskTime,
+)
 
 UserAdmin.list_display = (
     'username', 'email', 'first_name', 'last_name',
@@ -17,6 +23,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'name')
     ordering = ['sortkey']
 
+
 admin.site.register(Project, ProjectAdmin)
 
 
@@ -28,6 +35,7 @@ class JobAdmin(admin.ModelAdmin):
     def is_vaild(self, obj):
         return not obj.invalid
     is_vaild.boolean = True
+
 
 admin.site.register(Job, JobAdmin)
 
@@ -41,6 +49,7 @@ class TaskAdmin(admin.ModelAdmin):
         return not obj.invalid
     is_vaild.boolean = True
 
+
 admin.site.register(Task, TaskAdmin)
 
 
@@ -53,6 +62,7 @@ class ProjectWorkerAdmin(admin.ModelAdmin):
         return not obj.invalid
     is_vaild.boolean = True
 
+
 admin.site.register(ProjectWorker, ProjectWorkerAdmin)
 
 
@@ -60,5 +70,6 @@ class UsedTaskTimeAdmin(admin.ModelAdmin):
     list_display = ('id', 'taskdate', 'tasktime', 'user', 'project', 'task')
     list_filter = ['user']
     ordering = ['-id']
+
 
 admin.site.register(UsedTaskTime, UsedTaskTimeAdmin)
