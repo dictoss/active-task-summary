@@ -984,7 +984,7 @@ class RegistViewTestCase(AtsViewTestCase):
 
                 _datalist.append(_data)
 
-        # regist
+        # regist (add)
         _response = self.client.post(
             reverse(self.view_name), {
                 'submit_type': 'regist',
@@ -995,4 +995,36 @@ class RegistViewTestCase(AtsViewTestCase):
                 'tasktime_hour': [o['tasktime_hour'] for o in _datalist],
                 'tasktime_min': [o['tasktime_min'] for o in _datalist],
             })
+
+        # regist (update)
+        for d in _datalist:
+            d['tasktime_min'] = 30
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'submit_type': 'regist',
+                'regist_date': '2014-01-30',
+                'project_id': _project_id,
+                'registcheck': [o['registcheck'] for o in _datalist],
+                'uttid': [o['uttid'] for o in _datalist],
+                'tasktime_hour': [o['tasktime_hour'] for o in _datalist],
+                'tasktime_min': [o['tasktime_min'] for o in _datalist],
+            })
+
+        # regist (delete)
+        for d in _datalist:
+            d['tasktime_hour'] = 0
+            d['tasktime_min'] = 0
+
+        _response = self.client.post(
+            reverse(self.view_name), {
+                'submit_type': 'regist',
+                'regist_date': '2014-01-30',
+                'project_id': _project_id,
+                'registcheck': [o['registcheck'] for o in _datalist],
+                'uttid': [o['uttid'] for o in _datalist],
+                'tasktime_hour': [o['tasktime_hour'] for o in _datalist],
+                'tasktime_min': [o['tasktime_min'] for o in _datalist],
+            })
+
         self.assertEqual(_response.status_code, 200)
