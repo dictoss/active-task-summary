@@ -87,7 +87,7 @@ def index(request):
 def top(request):
     return my_render_to_response(request,
                                  'top/index.html', {})
-    #return HttpResponse("""<html><body>this is top.</body></html>""")
+    # return HttpResponse("""<html><body>this is top.</body></html>""")
 
 
 def login_view(request):
@@ -150,9 +150,10 @@ def regist(request):
                 sel_project = re_form.cleaned_data['project_id']
 
                 # RegistSelect form
-                rs_form = RegistSelectForm(user=request.user,
-                                           initial={'regist_date': regist_date,
-                                                    'projectlist': sel_project})
+                rs_form = RegistSelectForm(
+                    user=request.user,
+                    initial={'regist_date': regist_date,
+                             'projectlist': sel_project})
 
                 # Regist form
                 checkregist = request.POST.getlist('registcheck')
@@ -200,17 +201,17 @@ def regist(request):
                                     task=Task.objects.get(pk=i['tid']),
                                     taskdate=regist_date).delete()
                             else:
-                                uttinst, \
-                                    _created = UsedTaskTime.objects.get_or_create(
-                                        user=request.user,
-                                        project=Project.objects.get(pk=i['pid']),
-                                        task=Task.objects.get(pk=i['tid']),
-                                        taskdate=regist_date,
-                                        defaults={'tasktime': i['ud_ttime']})
+                                uttinst, _created = \
+                                  UsedTaskTime.objects.get_or_create(
+                                      user=request.user,
+                                      project=Project.objects.get(pk=i['pid']),
+                                      task=Task.objects.get(pk=i['tid']),
+                                      taskdate=regist_date,
+                                      defaults={'tasktime': i['ud_ttime']})
                                 if not _created:
                                     uttinst.tasktime = i['ud_ttime']
                                     uttinst.save()
-                    except:
+                    except Exception as e:
                         msg = "EXCEPT: fail save or delete. msg=%s,%s" % (
                             sys.exc_info()[1], sys.exc_info()[2])
                         logger.error(msg)
@@ -247,8 +248,9 @@ def regist(request):
                         request.GET.get('regist_date'), '%Y-%m-%d')
                     regist_date = request.GET.get('regist_date')
                 except Exception as e:
-                    logger.warning('regist_date is wrong. regist_date = {}'.format(
-                        request.GET.get('regist_date')))
+                    logger.warning(
+                        'regist_date is wrong. regist_date = {}'.format(
+                         request.GET.get('regist_date')))
                     regist_date = datetime.date.today().strftime('%Y-%m-%d')
 
                 # if change date, may no have project at the date.
@@ -271,7 +273,8 @@ def regist(request):
                 qd_get_dateselect['submit_type'] = 'dateselect'
 
                 # re-try create form with validated paramater.
-                rs_form = RegistSelectForm(qd_get_dateselect, user=request.user)
+                rs_form = RegistSelectForm(
+                    qd_get_dateselect, user=request.user)
                 if rs_form.is_valid():
                     logger.debug("RegistSelectForm.is_valid = True  (2)")
 
@@ -279,7 +282,8 @@ def regist(request):
                     sel_project = rs_form.cleaned_data['projectlist']
                 else:
                     logger.warning('RegistSelectForm.is_valid = False (2)')
-                    logger.warning('rs_form.errors = {}'.format(rs_form.errors))
+                    logger.warning('rs_form.errors = {}'.format(
+                        rs_form.errors))
 
                     # force default screen. (without submit_type=dateselect)
                     rs_form = RegistSelectForm(user=request.user)
@@ -294,10 +298,12 @@ def regist(request):
             regist_date = datetime.date.today()
             sel_project = (rs_form.fields['projectlist'].choices[0])[0]
 
-            re_form = RegistForm(initial={'regist_date': regist_date,
-                                        'project_id': sel_project})
+            re_form = RegistForm(initial={
+                'regist_date': regist_date,
+                'project_id': sel_project})
     else:
-        logger.info('regist : method={}. unsupport. replace GET.'.format(request.method))
+        logger.info('regist : method={}. unsupport. replace GET.'.format(
+            request.method))
 
         rs_form = RegistSelectForm(user=request.user)
         regist_date = datetime.date.today()
@@ -317,7 +323,8 @@ def regist(request):
         cursor_pjw = cursor_pjw.filter(invalid=False)
         cursor_pjw = cursor_pjw.order_by('project__sortkey', 'job__sortkey')
     except Project.DoesNotExist as e:
-        logger.warning('regist(): project is not found (id=%s)' % (sel_project))
+        logger.warning('regist(): project is not found (id=%s)' % (
+            sel_project))
         cursor_pjw = []
 
     datalist = []
@@ -562,7 +569,7 @@ def summary_j(request):
             to_date = form.cleaned_data['to_date']
             joblist = form.cleaned_data['joblist']
 
-            #calc job
+            # calc job
             cursor = UsedTaskTime.objects.filter(task__job__in=joblist)
 
             if from_date:
@@ -584,7 +591,7 @@ def summary_j(request):
             for r in jobdatalist:
                 r['total_tasktime'] = format_totaltime(r['total_tasktime'])
 
-            #calc task
+            # calc task
             cursor = UsedTaskTime.objects.filter(task__job__in=joblist)
 
             if from_date:
@@ -688,7 +695,7 @@ def summary_u(request):
             to_date = form.cleaned_data['to_date']
             userlist = form.cleaned_data['userlist']
 
-            #calc user
+            # calc user
             cursor = UsedTaskTime.objects.filter(user__in=userlist)
 
             if from_date:
@@ -744,7 +751,7 @@ def summary_u(request):
             for r in userdatalist:
                 r['total_tasktime'] = format_totaltime(r['total_tasktime'])
 
-            #calc task
+            # calc task
             cursor = UsedTaskTime.objects.filter(user__in=userlist)
             cursor = cursor.order_by('project__sortkey',
                                      'task__job__sortkey',
@@ -856,7 +863,7 @@ def manage_chpasswd(request):
 
 def my_render_to_response(request, template_file, paramdict):
     response = HttpResponse()
-    #paramdict['sitecounter'] = do_counter(request, response)
+    # paramdict['sitecounter'] = do_counter(request, response)
 
     paramdict['url_prefix'] = get_url_prefix()
     paramdict['app_name'] = APP_NAME
@@ -891,21 +898,25 @@ def get_localtime():
     # logger.debug("get_localtime()    : %s" % (_now))
     return _now
 
+
 def get_projects_in_date(request_user, regist_date):
     cursor = ProjectWorker.objects.filter(
         user=request_user).order_by('project__sortkey')
 
-    cursor = cursor.filter(Q(project__start_dt__isnull=True) | Q(project__start_dt__lte=regist_date))
-    cursor = cursor.filter(Q(project__end_dt__isnull=True) | Q(project__end_dt__gte=regist_date))
+    cursor = cursor.filter(
+        Q(project__start_dt__isnull=True) | Q(project__start_dt__lte=regist_date))
+    cursor = cursor.filter(
+        Q(project__end_dt__isnull=True) | Q(project__end_dt__gte=regist_date))
     cursor = cursor.distinct()
 
     return list(cursor)
 
 
 class RegistSelectForm(forms.Form):
-    regist_date = forms.DateField(label='regist_date', required=True,
-                                  initial=lambda: get_localtime(),
-                                  widget=forms.DateInput(attrs={"type": "date"}))
+    regist_date = forms.DateField(
+        label='regist_date', required=True,
+        initial=lambda: get_localtime(),
+        widget=forms.DateInput(attrs={"type": "date"}))
     projectlist = forms.ChoiceField(label='Project',
                                     choices=[('-1', '------')])
     submit_type = forms.CharField(initial='dateselect',
@@ -925,12 +936,14 @@ class RegistSelectForm(forms.Form):
                 datetime.datetime.strptime(
                     args[0]['regist_date'], '%Y-%m-%d')
                 cmp_dt = args[0]['regist_date']
-            except:
+            except Exception as e:
                 # parameter error. fallback default value.
                 pass
 
-        cursor = cursor.filter(Q(project__start_dt__isnull=True) | Q(project__start_dt__lte=cmp_dt))
-        cursor = cursor.filter(Q(project__end_dt__isnull=True) | Q(project__end_dt__gte=cmp_dt))
+        cursor = cursor.filter(
+            Q(project__start_dt__isnull=True) | Q(project__start_dt__lte=cmp_dt))
+        cursor = cursor.filter(
+            Q(project__end_dt__isnull=True) | Q(project__end_dt__gte=cmp_dt))
         cursor = cursor.values(
             'project__id', 'project__name').distinct()
 
@@ -958,7 +971,9 @@ class SummaryProjectForm(forms.Form):
     to_date = forms.DateField(label='to date', required=False,
                               initial=lambda: get_localtime(),
                               widget=forms.DateInput(attrs={"type": "date"}))
-    projectlist = forms.ModelChoiceField(label='Project', queryset=Project.objects.all().order_by('sortkey'))
+    projectlist = forms.ModelChoiceField(
+        label='Project',
+        queryset=Project.objects.all().order_by('sortkey'))
     is_show_taskdetail = forms.BooleanField(label="show Task Detail",
                                             required=False)
 
@@ -970,7 +985,10 @@ class SummaryJobForm(forms.Form):
     to_date = forms.DateField(label='to date', required=False,
                               initial=lambda: get_localtime(),
                               widget=forms.DateInput(attrs={"type": "date"}))
-    joblist = forms.ModelMultipleChoiceField(label='job', required=True, queryset=Job.objects.all().order_by('sortkey'))
+    joblist = forms.ModelMultipleChoiceField(
+        label='job',
+        required=True,
+        queryset=Job.objects.all().order_by('sortkey'))
 
 
 class MyUserModelMultipleChoiceField(forms.ModelMultipleChoiceField):
@@ -990,7 +1008,10 @@ class SummaryUserForm(forms.Form):
     to_date = forms.DateField(label='to date', required=False,
                               initial=lambda: get_localtime(),
                               widget=forms.DateInput(attrs={"type": "date"}))
-    userlist = MyUserModelMultipleChoiceField(label='user', required=True, queryset=User.objects.filter(is_active=True).order_by('id'))
+    userlist = MyUserModelMultipleChoiceField(
+        label='user',
+        required=True,
+        queryset=User.objects.filter(is_active=True).order_by('id'))
 
 
 class LoginForm(forms.Form):
