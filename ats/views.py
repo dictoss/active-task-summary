@@ -17,6 +17,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.http import (
     Http404,
     HttpResponse,
@@ -81,13 +82,12 @@ def index(request):
     else:
         return HttpResponseRedirect('/login/')
     """
-    return HttpResponseRedirect('%s/top' % get_url_prefix())
+    return HttpResponseRedirect(reverse('ats:top'))
 
 
 @login_required
 def top(request):
     return my_render(request, 'top/index.html', {})
-    # return HttpResponse("""<html><body>this is top.</body></html>""")
 
 
 def login_view(request):
@@ -107,7 +107,7 @@ def login_view(request):
                     if 'next' in request.GET:
                         nextpage = request.GET.get('next')
                     else:
-                        nextpage = '%s/top' % get_url_prefix()
+                        nextpage = reverse('ats:top')
 
                     return HttpResponseRedirect(nextpage)
                 else:
@@ -120,7 +120,7 @@ def login_view(request):
             error_reason = 3
     else:
         if request.user.is_authenticated:
-            return HttpResponseRedirect('%s/top' % get_url_prefix())
+            return HttpResponseRedirect(reverse('ats:top'))
         else:
             form = LoginForm()
 
@@ -133,7 +133,7 @@ def login_view(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('%s/login/' % get_url_prefix())
+    return HttpResponseRedirect(reverse('ats:login_view'))
 
 
 @login_required

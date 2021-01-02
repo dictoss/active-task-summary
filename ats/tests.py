@@ -319,9 +319,9 @@ class LoginViewTestCase(AtsViewTestCase):
 
         _response = self.client.get(reverse('ats:login_view'))
         self.assertRedirects(_response,
-                             expected_url='/ats/top',
+                             expected_url=reverse('ats:top'),
                              status_code=302,
-                             target_status_code=301)
+                             target_status_code=200)
 
         self.client.logout()
 
@@ -332,9 +332,9 @@ class LoginViewTestCase(AtsViewTestCase):
             {'username': self.user.username,
              'password': self._password})
         self.assertRedirects(_response,
-                             expected_url='/ats/top',
+                             expected_url=reverse('ats:top'),
                              status_code=302,
-                             target_status_code=301)
+                             target_status_code=200)
 
         # wrong password
         _response = self.client.post(
