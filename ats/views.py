@@ -45,11 +45,11 @@ logger.addHandler(h)
 
 
 def error500(request):
-    return my_render_to_response(request, '500.html', {}, status_code=500)
+    return my_render(request, '500.html', {}, status_code=500)
 
 
 def error404(request, exception=HttpResponseNotFound):
-    return my_render_to_response(request, '404.html', {}, status_code=404)
+    return my_render(request, '404.html', {}, status_code=404)
 
 
 def get_url_prefix():
@@ -86,8 +86,7 @@ def index(request):
 
 @login_required
 def top(request):
-    return my_render_to_response(request,
-                                 'top/index.html', {})
+    return my_render(request, 'top/index.html', {})
     # return HttpResponse("""<html><body>this is top.</body></html>""")
 
 
@@ -125,10 +124,10 @@ def login_view(request):
         else:
             form = LoginForm()
 
-    return my_render_to_response(request,
-                                 'login/login.html',
-                                 {'form': form,
-                                  'error_reason': error_reason})
+    return my_render(request, 'login/login.html', {
+        'form': form,
+        'error_reason': error_reason
+    })
 
 
 @login_required
@@ -395,18 +394,18 @@ def regist(request):
     day_total_hour = int(day_total.seconds / 3600)
     day_total_min = int((day_total.seconds - (day_total_hour * 3600)) / 60)
 
-    return my_render_to_response(request,
-                                 'regist/regist.html',
-                                 {'form': rs_form,
-                                  'regist_form': re_form,
-                                  'regist_date': regist_date,
-                                  'projectid': sel_project,
-                                  'existdatalist': existdatalist,
-                                  'datalist': datalist,
-                                  'hourlist': hourlist,
-                                  'minutelist': minutelist,
-                                  'oneday_total_hour': day_total_hour,
-                                  'oneday_total_min': day_total_min})
+    return my_render(request, 'regist/regist.html', {
+        'form': rs_form,
+        'regist_form': re_form,
+        'regist_date': regist_date,
+        'projectid': sel_project,
+        'existdatalist': existdatalist,
+        'datalist': datalist,
+        'hourlist': hourlist,
+        'minutelist': minutelist,
+        'oneday_total_hour': day_total_hour,
+        'oneday_total_min': day_total_min
+    })
 
 
 @login_required
@@ -543,17 +542,17 @@ def summary_p(request):
     else:
         form = SummaryProjectForm()
 
-    return my_render_to_response(request,
-                                 'summary/project.html',
-                                 {'form': form,
-                                  'totallist': totallist,
-                                  'p_monthlist': p_monthlist,
-                                  'pj_monthlist': pj_monthlist,
-                                  'datelist': datelist,
-                                  'tasklist': tasklist,
-                                  'is_show_taskdetail': is_show_taskdetail,
-                                  'from_date': from_date,
-                                  'to_date': to_date})
+    return my_render(request, 'summary/project.html', {
+        'form': form,
+        'totallist': totallist,
+        'p_monthlist': p_monthlist,
+        'pj_monthlist': pj_monthlist,
+        'datelist': datelist,
+        'tasklist': tasklist,
+        'is_show_taskdetail': is_show_taskdetail,
+        'from_date': from_date,
+        'to_date': to_date
+    })
 
 
 @login_required
@@ -672,13 +671,13 @@ def summary_j(request):
     else:
         form = SummaryJobForm()
 
-    return my_render_to_response(request,
-                                 'summary/job.html',
-                                 {'form': form,
-                                  'jobdata': jobdatalist,
-                                  'pj_monthlist': pj_monthlist,
-                                  'j_monthlist': j_monthlist,
-                                  'taskdata': taskdatalist})
+    return my_render(request, 'summary/job.html', {
+        'form': form,
+        'jobdata': jobdatalist,
+        'pj_monthlist': pj_monthlist,
+        'j_monthlist': j_monthlist,
+        'taskdata': taskdatalist
+    })
 
 
 @login_required
@@ -807,24 +806,22 @@ def summary_u(request):
     else:
         form = SummaryUserForm()
 
-    return my_render_to_response(request,
-                                 'summary/user.html',
-                                 {'form': form,
-                                  'userdata': userdatalist,
-                                  'taskdata': taskdatalist,
-                                  'datesummarydata': datesummarylist,
-                                  'monthlist': monthlist,
-                                  'datedetaildata': datedatalist})
+    return my_render(request, 'summary/user.html', {
+        'form': form,
+        'userdata': userdatalist,
+        'taskdata': taskdatalist,
+        'datesummarydata': datesummarylist,
+        'monthlist': monthlist,
+        'datedetaildata': datedatalist
+    })
 
 
 def query(request):
-    return my_render_to_response(request,
-                                 'query/index.html', {})
+    return my_render(request, 'query/index.html', {})
 
 
 def manage(request):
-    return my_render_to_response(request,
-                                 'manage/index.html', {})
+    return my_render(request, 'manage/index.html', {})
 
 
 def validate_password(password):
@@ -856,13 +853,13 @@ def manage_chpasswd(request):
     else:
         form = PasswordChangeForm(request.user)
 
-    return my_render_to_response(request,
-                                 'manage/chpasswd.html',
-                                 {'form': form,
-                                  'message': message})
+    return my_render(request, 'manage/chpasswd.html', {
+        'form': form,
+        'message': message
+    })
 
 
-def my_render_to_response(request, template_file, paramdict, status_code=200):
+def my_render(request, template_file, paramdict, status_code=200):
     paramdict['url_prefix'] = get_url_prefix()
 
     response = render(request, template_file, paramdict)
