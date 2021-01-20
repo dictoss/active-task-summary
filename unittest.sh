@@ -34,5 +34,8 @@ fi
 
 # execute unittest
 coverage run --source='.' manage.py test -v3 ats --settings=toolproj.settings_test
+RET=$?
+echo "unittest result code: ${RET}"
 coverage report
 coverage xml
+exit ${RET}
