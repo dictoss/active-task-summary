@@ -38,4 +38,5 @@ RET=$?
 echo "unittest result code: ${RET}"
 coverage report
 coverage xml
+coverage html
 exit ${RET}
