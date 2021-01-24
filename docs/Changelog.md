@@ -1,5 +1,20 @@
 # changelog
 
+## version 0.6.2
+
+- backport ver 0.8.1.
+  - this version for legacy system, require python2.7 and django-1.11.
+  - refactoring.
+    - use reverse().
+    - fix pep8.
+    - fix handler404 and handler500.
+    - use LOGGING.
+    - replace BigAutoField.
+    - remove unuse files.
+  - add more test code.
+  - add Dockerfile for jenkins and docker at same host.
+  - fix apache wsgi config.
+
 ## version 0.6.1
 
 - drop support django-1.8. If use python2.7, use 0.6.x branch and django-1.11.
