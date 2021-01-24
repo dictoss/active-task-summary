@@ -1,4 +1,4 @@
-# How to install for ver 0.6.1
+# How to install for ver 0.6.2
 
 ## require application
 
