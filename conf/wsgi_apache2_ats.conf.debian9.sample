@@ -1,9 +1,9 @@
 #
 # apache2 config for ats wsgi applicaion sample
 #
-WSGIScriptAlias /toolproj /var/www/wsgi_apps/active-task-summary/ats.wsgi
+WSGIScriptAlias /toolproj /var/www/wsgi_apps/active-task-summary/toolproj/wsgi.py
 
-WSGIDaemonProcess ats user=www-data group=www-data processes=1 threads=32 home=/ python-eggs=/var/www/eggs display-name=%{GROUP}
+WSGIDaemonProcess ats user=www-data group=www-data processes=1 threads=32 home=/ python-path=/var/www/wsgi_apps/active-task-summary python-eggs=/var/www/eggs display-name=%{GROUP}
 
 <Directory "/var/www/wsgi_apps/ats">
     # for apache-2.2
