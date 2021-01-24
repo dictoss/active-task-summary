@@ -1,5 +1,9 @@
 # changelog
 
+## version 0.6.1
+
+- drop support django-1.8. If use python2.7, use 0.6.x branch and django-1.11.
+
 ## version 0.6.0
 
 - upgrade jquery-3.3.1
