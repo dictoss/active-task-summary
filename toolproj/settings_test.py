@@ -38,12 +38,11 @@ INSTALLED_APPS = (
     'ats',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -61,6 +60,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'ats.my_context_processors.app_info',
+                'ats.my_context_processors.is_lastname_front',
             ],
             'debug': DEBUG,
         },
@@ -82,20 +83,6 @@ DATABASES = {
         'USER': 'webapp',
         'PASSWORD': 'password'
     },
-    'serial': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-        'NAME': 'ats',
-        'USER': 'webapp',
-        'PASSWORD': 'password',
-        'OPTIONS': {
-            'isolation_level': psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE
-        },
-        'TEST': {
-            'MIRROR': 'default',
-        },
-    }
 }
 
 DATABASE_ENGINE = 'postgresql'
@@ -131,3 +118,70 @@ STATICFILES_DIRS = (
 LOGIN_REDIRECT_URL = "%s/ats/top/" % APP_MOUNTDIR
 LOGIN_URL = "%s/ats/login/" % APP_MOUNTDIR
 LOGOUT_URL = "%s/ats/logout/" % APP_MOUNTDIR
+
+MY_LOG_LEVEL = 'DEBUG'
+MY_LOG_PATH = '%s/%s/ats.log' % (os.getenv('HOME'), 'log')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+     },
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s,%(levelname)-8s,%(module)s,L%(lineno)s,%(message)s',
+        },
+        'simple': {
+            'format': '%(asctime)s,%(levelname)-8s,%(message)s',
+        },
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[%(server_time)s] %(message)s',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+        },
+        'django.server': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': MY_LOG_PATH,
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'mail_admins'],
+            'level': 'INFO',
+        },
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'ats': {
+            'handlers': ['file'],
+            'level': MY_LOG_LEVEL,
+            'propagate': False,
+        },
+    },
+}

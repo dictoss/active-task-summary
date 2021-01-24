@@ -8,7 +8,7 @@
 
 {% block boxmain %}
 <ul>
-  <li><a href="{{ url_prefix }}/manage/chpasswd/">change password</a></li>
+  <li><a href="{% url 'ats:manage_chpasswd' %}">change password</a></li>
   <li>binding user and job by project</li>
 </ul>
 {% endblock %}

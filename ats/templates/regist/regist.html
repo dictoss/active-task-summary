@@ -8,11 +8,10 @@
 
 {% block boxmain %}
 <h3>Choice data input date</h3>
-<form name="dateselect" action="#" method="POST">
-{% csrf_token %}
+<form name="dateselect" action="#" method="GET">
 {{ form.as_p }}
 <br>
-<input id="submit_dateselect" type="submit" value="dateselect" name="submit_dateselect">
+<input type="submit" value="dateselect">
 <br><br>
 {% if existdatalist %}
 <table class="usedtasktime" border="1">
@@ -61,6 +60,6 @@ empty data this day.
 {% else %}
 <p>no data.</p>
 {% endif %}
-<input id="submit_regist" type="submit" value="regist" name="submit_regist">
+<input type="submit" value="regist">
 </form>
 {% endblock %}
