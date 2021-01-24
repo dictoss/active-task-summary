@@ -4,20 +4,21 @@ a web application of input and summary task time by team member.
 
 Current Development Version
 ===================
-0.7.0
+0.8.x
 
 Current Stable Version
 ===================
-0.6.0
+0.8.1 (recommend, python3 and Django-2.2+)
+0.6.2 (for legacy system, use python 2.7 and Django-1.11)
 
 Develop Environment
 ===================
-- Debian GNU/Linux 9 (stretch) amd64
+- Debian GNU/Linux 10 (buster) amd64
 - Django 1.11
-- python 2.7.13 and 3.5.3
+- python 2.7.16 and 3.7.3
 - apache 2.4
-- python-psycopg2 and python3-psycopg2 2.6.2
-- postgresql-9.6 (from pgdg)
+- python-psycopg2 and python3-psycopg2 2.8.6
+- postgresql-9.6+ (from pgdg)
 
 NOTICE
 ===================
