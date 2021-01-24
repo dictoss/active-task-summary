@@ -10,6 +10,7 @@ app_name = 'ats'
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'error_internal/', views.errorinternal, name='error_internal'),
     url(r'^top/$', views.top, name='top'),
     url(r'^login/$', views.login_view, name='login_view'),
     url(r'^logout/$', views.logout_view, name='logout_view'),
