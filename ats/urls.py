@@ -6,6 +6,8 @@ admin.autodiscover()
 
 from . import views
 
+app_name = 'ats'
+
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^top/$', views.top, name='top'),
