@@ -46,11 +46,11 @@ logger.addHandler(h)
 
 
 def error500(request):
-    return my_render_to_response(request, '500.html', {})
+    return my_render_to_response(request, '500.html', {}, status_code=500)
 
 
 def error404(request):
-    return my_render_to_response(request, '404.html', {})
+    return my_render_to_response(request, '404.html', {}, status_code=404)
 
 
 def get_url_prefix():
@@ -797,7 +797,7 @@ def manage_chpasswd(request):
                                   'message': message})
 
 
-def my_render_to_response(request, template_file, paramdict):
+def my_render_to_response(request, template_file, paramdict, status_code=200):
     response = HttpResponse()
     #paramdict['sitecounter'] = do_counter(request, response)
 
@@ -817,6 +817,7 @@ def my_render_to_response(request, template_file, paramdict):
                                      context=paramdict,
                                      request=request)
     response.write(_gen_html)
+    response.status_code = status_code
     return response
 
 

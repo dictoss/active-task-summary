@@ -6,9 +6,6 @@ admin.autodiscover()
 
 from . import views
 
-handler500 = 'ats.views.error500'
-handler404 = 'ats.views.error404'
-
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^top/$', views.top, name='top'),
