@@ -2,6 +2,8 @@
 
 TEST_MODE=
 APP_NAME=ats
+BIN_PYTHON=python3
+BIN_PIP=pip3
 
 if [ $# -gt 0 ]; then
     TEST_MODE=$1
@@ -20,17 +22,17 @@ elif  [ "${TEST_MODE}" = "jenkins-docker" ]; then
     echo "test mode is jenkins-docker, running..."
 
     # check python version
-    python3 -V
+    ${BIN_PYTHON} -V
 
     # install libraries.
-    pip3 install -U -r requirements.txt
-    pip3 install -U -r requirements_dev.txt
+    ${BIN_PIP} install -U -r requirements.txt
+    ${BIN_PIP} install -U -r requirements_dev.txt
 
     # create diretory.
     mkdir -p ~/log
 
     # create migrate file
-    python3 manage.py makemigrations ats --settings=toolproj.settings_test
+    ${BIN_PYTHON} manage.py makemigrations ats --settings=toolproj.settings_test
 fi
 
 # execute unittest
