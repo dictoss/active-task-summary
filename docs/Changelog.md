@@ -1,5 +1,25 @@
 # changelog
 
+## version 0.8.2
+
+- bugfix.
+  - #30 migrate django.db.backends.postgresql_psycopg2
+  - #31 move apps AtsConfig from ats_settings.py.
+- refactoring.
+  - update comment based django-1.11. (before django-1.6)
+  - add apps.py and apps directory. based on django-1.11.
+  - support multiple app.
+    - fix move to ats/static/ats/* from ats/static/* .
+    - fix move to ats/templates/ats/* from ats/templates/* .
+- install.
+  - change install operation.
+    - require symblic link to toolproj/settins/__init__.py.
+    - require symblic link to ats/apps/__init__.py.
+- change target system.
+  - require centos-7.7 or higher.
+    - Sinse centos-7.7, added python3 package (python3.6) on base. no require ius.
+  - drop support centos-6 (2020-11-30 EoL ended)
+
 ## version 0.8.1
 
 - refactoring.
