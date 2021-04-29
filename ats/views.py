@@ -35,16 +35,17 @@ from django.utils import timezone
 from django.apps import apps
 from ats.models import *
 
+
 logger = logging.getLogger(__name__)
 ats_settings = apps.get_app_config('ats')
 
 
 def error500(request):
-    return my_render(request, '500.html', {}, status_code=500)
+    return my_render(request, 'ats/500.html', {}, status_code=500)
 
 
 def error404(request, exception=HttpResponseNotFound):
-    return my_render(request, '404.html', {}, status_code=404)
+    return my_render(request, 'ats/404.html', {}, status_code=404)
 
 
 def format_totaltime(td):
@@ -77,7 +78,7 @@ def index(request):
 
 @login_required
 def top(request):
-    return my_render(request, 'top/index.html', {})
+    return my_render(request, 'ats/top/index.html', {})
 
 
 def login_view(request):
@@ -114,7 +115,7 @@ def login_view(request):
         else:
             form = LoginForm()
 
-    return my_render(request, 'login/login.html', {
+    return my_render(request, 'ats/login/login.html', {
         'form': form,
         'error_reason': error_reason
     })
@@ -384,7 +385,7 @@ def regist(request):
     day_total_hour = int(day_total.seconds / 3600)
     day_total_min = int((day_total.seconds - (day_total_hour * 3600)) / 60)
 
-    return my_render(request, 'regist/regist.html', {
+    return my_render(request, 'ats/regist/regist.html', {
         'form': rs_form,
         'regist_form': re_form,
         'regist_date': regist_date,
@@ -532,7 +533,7 @@ def summary_p(request):
     else:
         form = SummaryProjectForm()
 
-    return my_render(request, 'summary/project.html', {
+    return my_render(request, 'ats/summary/project.html', {
         'form': form,
         'totallist': totallist,
         'p_monthlist': p_monthlist,
@@ -661,7 +662,7 @@ def summary_j(request):
     else:
         form = SummaryJobForm()
 
-    return my_render(request, 'summary/job.html', {
+    return my_render(request, 'ats/summary/job.html', {
         'form': form,
         'jobdata': jobdatalist,
         'pj_monthlist': pj_monthlist,
@@ -796,7 +797,7 @@ def summary_u(request):
     else:
         form = SummaryUserForm()
 
-    return my_render(request, 'summary/user.html', {
+    return my_render(request, 'ats/summary/user.html', {
         'form': form,
         'userdata': userdatalist,
         'taskdata': taskdatalist,
@@ -807,11 +808,11 @@ def summary_u(request):
 
 
 def query(request):
-    return my_render(request, 'query/index.html', {})
+    return my_render(request, 'ats/query/index.html', {})
 
 
 def manage(request):
-    return my_render(request, 'manage/index.html', {})
+    return my_render(request, 'ats/manage/index.html', {})
 
 
 def validate_password(password):
@@ -843,7 +844,7 @@ def manage_chpasswd(request):
     else:
         form = PasswordChangeForm(request.user)
 
-    return my_render(request, 'manage/chpasswd.html', {
+    return my_render(request, 'ats/manage/chpasswd.html', {
         'form': form,
         'message': message
     })
