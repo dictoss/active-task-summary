@@ -1,4 +1,4 @@
-# How to install for ver 0.8.0
+# How to install for ver 0.8.2
 
 ## require application
 
@@ -7,7 +7,7 @@
 - python-3.5+
 - psycopg2.6.2+
 - wsgi-4.5.11+
-- django-2.2
+- django-2.2.*
 
 ## install target
 
@@ -70,8 +70,11 @@ $ sudo cp -rf active-task-summary /var/www/wsgi_apps/
 $ cd /var/www/wsgi_apps
 $ sudo chown -fR www-data:www-data active-task-summary
 $ cd active-task-summary
-$ sudo find . -name "*.pyc" -delete
-$ sudo find . -name "*_devel.py" -delete
+$ cd toolproj/settings
+$ sudo ln -fs production.py __init__.py
+$ cd ../..
+$ cd ats/apps
+$ sudo ln -fs apps_production.py __init__.py
 
 </pre>
 
@@ -80,8 +83,8 @@ $ sudo find . -name "*_devel.py" -delete
 
 <pre>
 
-$ sudo vi toolproj/settings.py
-$ sudo vi ats/ats_settings.py
+$ sudo vi toolproj/settings/production.py
+$ sudo vi ats/apps/ats_production.py
 
 </pre>
 
@@ -212,8 +215,11 @@ $ sudo cp -rf active-task-summary /var/www/wsgi_apps/
 $ cd /var/www/wsgi_apps
 $ sudo chown -fR www-data:www-data active-task-summary
 $ cd active-task-summary
-$ sudo find . -name "*.pyc" -delete
-$ sudo find . -name "*_devel.py" -delete
+$ cd toolproj/settings
+$ sudo ln -fs production.py __init__.py
+$ cd ../..
+$ cd ats/apps
+$ sudo ln -fs apps_production.py __init__.py
 
 </pre>
 
@@ -222,8 +228,8 @@ $ sudo find . -name "*_devel.py" -delete
 
 <pre>
 
-$ sudo vi toolproj/settings.py
-$ sudo vi ats/ats_settings.py
+$ sudo vi toolproj/settings/production.py
+$ sudo vi ats/apps/ats_production.py
 
 </pre>
 
@@ -379,8 +385,11 @@ $ sudo cp -rf active-task-summary /var/www/wsgi_apps/
 $ cd /var/www/wsgi_apps
 $ sudo chown -fR apache:apache active-task-summary
 $ cd active-task-summary
-$ sudo find . -name "*.pyc" -delete
-$ sudo find . -name "*_devel.py" -delete
+$ cd toolproj/settings
+$ sudo ln -fs production.py __init__.py
+$ cd ../..
+$ cd ats/apps
+$ sudo ln -fs apps_production.py __init__.py
 
 </pre>
 
@@ -388,8 +397,8 @@ $ sudo find . -name "*_devel.py" -delete
 
 <pre>
 
-$ sudo vi toolproj/settings.py
-$ sudo vi ats/ats_settings.py
+$ sudo vi toolproj/settings/production.py
+$ sudo vi ats/apps/ats_production.py
 
 </pre>
 
@@ -560,8 +569,11 @@ $ sudo cp -rf active-task-summary /var/www/wsgi_apps/
 $ cd /var/www/wsgi_apps
 $ sudo chown -fR apache:apache active-task-summary
 $ cd active-task-summary
-$ sudo find . -name "*.pyc" -delete
-$ sudo find . -name "*_devel.py" -delete
+$ cd toolproj/settings
+$ sudo ln -fs production.py __init__.py
+$ cd ../..
+$ cd ats/apps
+$ sudo ln -fs apps_production.py __init__.py
 
 </pre>
 
@@ -569,8 +581,8 @@ $ sudo find . -name "*_devel.py" -delete
 
 <pre>
 
-$ sudo vi toolproj/settings.py
-$ sudo vi ats/ats_settings.py
+$ sudo vi toolproj/settings/production.py
+$ sudo vi ats/apps/ats_production.py
 
 </pre>
 
