@@ -32,10 +32,12 @@ from django.forms import ModelForm
 from django.db.models import Sum, Q
 from django.db import transaction
 from django.utils import timezone
+from django.apps import apps
 from ats.models import *
-from ats import ats_settings
+
 
 logger = logging.getLogger(__name__)
+ats_settings = apps.get_app_config('ats')
 
 
 def error500(request):
