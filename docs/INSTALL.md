@@ -13,8 +13,7 @@
 
 - [Debian GNU/Linux 10](#install-for-debian-10-buster)
 - [Debian GNU/Linux 9](#install-for-debian-9-stretch)
-- [CentOS 6](#install-for-centos-6)
-- [CentOS 7](#install-for-centos-7)
+- [CentOS 7.7+](#install-for-centos-77+)
 
 ## install for debian-10 (buster)
 
@@ -308,193 +307,7 @@ $ ps ax | grep wsgi
 
 ---
 
-## install for CentOS-6
-
-### instsall external repo
-
- - use postgresql-9.6, so same version on debian-9's official package.
-
-<pre>
-
-$ sudo yum check-update
-$ sudo yum install epel-release
-$ sudo rpm -ivh https://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-15.ius.centos6.noarch.rpm
-$ sudo rpm -ivh https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-6-x86_64/pgdg-centos96-9.6-3.noarch.rpm
-$ sudo yum check-update
-
-</pre>
-
-### get source code
-
-<pre>
-
-$ sudo yum install --enablerepo=ius git2u
-$ cd ~/
-$ mkdir work
-$ cd work
-$ git clone https://github.com/dictoss/active-task-summary.git
-$ cd active-task-summary
-
-</pre>
-
-
-### install database
-
-<pre>
-
-$ sudo yum install --enablerepo=pgdg96 postgresql96-server postgresql96-devel
-$ sudo service postgresql-9.6 initdb
-$ sudo vi /var/lib/pgsql/9.6/data/pg_hba.conf
-host    all             all             127.0.0.1/32            md5
-$ sudo service postgresql-9.6 restart
-$ sudo -u postgres /usr/pgsql-9.6/bin/createuser --createdb --pwprompt --superuser webapp
-Password:
-$ sudo -u postgres /usr/pgsql-9.6/bin/createdb --encoding=UTF8 --owner=webapp ats
-$ psql -h 127.0.0.1 -U webapp -W ats
-Password:
-ats=# \q
-
-</pre>
-
-
-### install modules and librairies
-
-- for use python-3.5
-
-<pre>
-
-$ sudo yum install httpd mod_ssl
-$ sudo yum install gcc make
-$ sudo yum install --enablerepo=ius python35u python35u-pip python35u-mod_wsgi python35u-devel
-$ sudo -s
-# export PATH="/usr/pgsql-9.6/bin:$PATH"
-# pip3.5 install -r requirements.txt
-
-</pre>
-
-
-### deploy app
-
-<pre>
-
-$ sudo mkdir -p /var/www/wsgi_apps
-$ pwd
-~/work/active-task-summary
-$ cd ..
-$ sudo cp -rf active-task-summary /var/www/wsgi_apps/
-$ cd /var/www/wsgi_apps
-$ sudo chown -fR apache:apache active-task-summary
-$ cd active-task-summary
-$ cd toolproj/settings
-$ sudo ln -fs production.py __init__.py
-$ cd ../..
-$ cd ats/apps
-$ sudo ln -fs apps_production.py __init__.py
-
-</pre>
-
-### modify config
-
-<pre>
-
-$ sudo vi toolproj/settings/production.py
-$ sudo vi ats/apps/ats_production.py
-
-</pre>
-
-
-### create log and eggs directory
-
-<pre>
-
-$ sudo mkdir /var/log/ats
-$ sudo chown -fR apache:apache /var/log/ats
-$ sudo mkdir /var/www/eggs
-$ sudo chown -fR apache:apache /var/www/eggs
-
-</pre>
-
-
-### setup wsgi deamon used apache2.
-
-<pre>
-
-$ cd ~/work/active-task-summary
-$ cd conf
-$ sudo cp wsgi_apache2_ats.conf.cent6.sample /etc/httpd/conf.d/wsgi_ats.conf
-
-</pre>
-
-- for use python-3.5
-
-<pre>
-
-$ sudo vi /etc/httpd/conf.d/wsgi-python3.5.conf
-<IfModule !wsgi_module>
-    LoadModule wsgi_module modules/mod_wsgi_python3.5.so
-    WSGISocketPrefix run/wsgi
-    WSGIScriptReloading On
-</IfModule>
-
-</pre>
-
-<pre>
-
-$ sudo service httpd restart
-
-</pre>
-
-### link static file in webapplication.
-
-<pre>
-
-$ sudo mkdir /var/www/html/static
-$ cd /var/www/html/static
-$ sudo ln -sf /var/www/wsgi_apps/active-task-summary/ats/static ats
-
-</pre>
-
-- for use python-3.5
-
-<pre>
-
-$ sudo ln -sf /usr/lib/python3.5/site-packages/django/contrib/admin/static/admin admin
-
-</pre>
-
-
-### create database schema for web application
-
-- for use python-3.5
-
-<pre>
-
-$ cd /var/www/wsgi_apps/active-task-summary
-$ sudo -u apache python3.5 manage.py makemigrations
-$ sudo -u apache python3.5 manage.py migrate auth
-$ sudo -u apache python3.5 manage.py migrate
-$ sudo -u apache python3.5 manage.py createsuperuser
-
-</pre>
-
-
-### check exec application
-
-<pre>
-
-$ ps ax | grep wsgi | grep -v grep
- 2486 ?        Sl     0:00 (wsgi:ats)
-
-</pre>
-
-
-### try login
-
-- curl -v http://localhost/toolproj/ats/login/
-
----
-
-## install for CentOS-7
+## install for CentOS-7.7+
 
 ### install external repo
 
@@ -502,8 +315,7 @@ $ ps ax | grep wsgi | grep -v grep
 
 $ sudo yum check-update
 $ sudo yum install epel-release
-$ sudo rpm -ivh https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/ius-release-1.0-15.ius.centos7.noarch.rpm
-$ sudo rpm -ivh http://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+$ sudo yum install http://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 $ sudo yum check-update
 
 </pre>
@@ -513,7 +325,7 @@ $ sudo yum check-update
 
 <pre>
 
-$ sudo yum install --enablerepo=ius git2u
+$ sudo yum install git
 $ cd ~/
 $ mkdir work
 $ cd work
@@ -544,15 +356,15 @@ ats=# \q
 
 ### install modules and librairies
 
-- for use python-3.5
+- for use python-3.6
 
 <pre>
 
 $ sudo yum install httpd mod_ssl gcc make
-$ sudo yum install --enablerepo=ius python35u python35u-pip python35u-mod_wsgi python35u-devel
+$ sudo yum install python3 python3-pip python3-mod_wsgi python3-devel
 $ sudo -s
 # export PATH="/usr/pgsql-9.6/bin:$PATH"
-# pip3.5 install -r requirements.txt
+# pip3 install -r requirements.txt
 
 </pre>
 
@@ -609,14 +421,14 @@ $ sudo cp wsgi_apache2_ats.conf.cent7.sample /etc/httpd/conf.d/wsgi_ats.conf
 
 </pre>
 
-- for use python-3.5
+- for use python-3.6
 
 <pre>
 
-$ sudo vi /etc/httpd/conf.modules.d/10-wsgi-python3.5.conf
+$ sudo vi /etc/httpd/conf.modules.d/10-wsgi-python3.conf
 
 <IfModule !wsgi_module>
-    LoadModule wsgi_module modules/mod_wsgi_python3.5.so
+    LoadModule wsgi_module modules/mod_wsgi_python3.so
     WSGISocketPrefix run/wsgi
     WSGIScriptReloading On
 </IfModule>
@@ -639,26 +451,26 @@ $ sudo ln -sf /var/www/wsgi_apps/active-task-summary/ats/static ats
 
 </pre>
 
-- for use python-3.5
+- for use python-3.6
 
 <pre>
 
-$ sudo ln -sf /usr/lib/python3.5/site-packages/django/contrib/admin/static/admin admin
+$ sudo ln -sf /usr/lib/python3.6/site-packages/django/contrib/admin/static/admin admin
 
 </pre>
 
 
 ### create database schema for web application
 
-- for use python-3.5
+- for use python-3.6
 
 <pre>
 
 $ cd /var/www/wsgi_apps/active-task-summary
-$ sudo -u apache python3.5 manage.py makemigrations
-$ sudo -u apache python3.5 manage.py migrate auth
-$ sudo -u apache python3.5 manage.py migrate
-$ sudo -u apache python3.5 manage.py createsuperuser
+$ sudo -u apache python3 manage.py makemigrations
+$ sudo -u apache python3 manage.py migrate auth
+$ sudo -u apache python3 manage.py migrate
+$ sudo -u apache python3 manage.py createsuperuser
 
 </pre>
 
