@@ -108,15 +108,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-)
-
-STATICFILES_DIRS = (
-    ("ats", '%s/ats/static' % BASE_DIR),
-)
-
 LOGIN_REDIRECT_URL = "%s/ats/top/" % APP_MOUNTDIR
 LOGIN_URL = "%s/ats/login/" % APP_MOUNTDIR
 LOGOUT_URL = "%s/ats/logout/" % APP_MOUNTDIR
