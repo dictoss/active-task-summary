@@ -38,7 +38,7 @@ elif  [ "${TEST_MODE}" = "jenkins-docker" ]; then
 
     cd ../../
     cd ats/apps
-    ln -fs app_${APP_ENV}.py __init__.py
+    ln -fs apps_${APP_ENV}.py __init__.py
 
     cd ../../
 
