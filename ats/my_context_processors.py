@@ -1,11 +1,14 @@
+from django.apps import apps
 
-from ats import ats_settings
+
+ats_settings = apps.get_app_config('ats')
 
 
 def app_info(request):
+
     return {'app_info': {
-        'name': ats_settings.APP_NAME,
-        'longname': ats_settings.APP_LONGNAME,
+        'name': ats_settings.name,
+        'longname': ats_settings.verbose_name,
         'auther': ats_settings.APP_AUTHER,
         'version': ats_settings.APP_VERSION,
         }
