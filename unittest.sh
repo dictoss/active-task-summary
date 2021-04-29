@@ -40,6 +40,8 @@ elif  [ "${TEST_MODE}" = "jenkins-docker" ]; then
     cd ats/apps
     ln -fs app_${APP_ENV}.py __init__.py
 
+    cd ../../
+
     # create migrate file
     ${BIN_PYTHON} manage.py makemigrations ats
 fi
