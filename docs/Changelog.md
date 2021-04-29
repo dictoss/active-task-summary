@@ -60,6 +60,41 @@
 
 ## version 0.6.x (LTS)
 
+### version 0.6.3
+
+- backport 0.8.2 with support python2.7 and django-1.11.
+  - bugfix.
+    - #30 migrate django.db.backends.postgresql_psycopg2
+    - #31 move apps AtsConfig from ats_settings.py.
+  - refactoring.
+    - update comment based django-1.11. (before django-1.6)
+    - add apps.py and apps directory. based on django-1.11.
+    - support multiple app.
+      - fix move to ats/static/ats/* from ats/static/* .
+      - fix move to ats/templates/ats/* from ats/templates/* .
+  - install.
+    - change install operation.
+      - require symblic link to toolproj/settins/__init__.py.
+      - require symblic link to ats/apps/__init__.py.
+  - change target system.
+    - require centos-7.7 or higher.
+      - Sinse centos-7.7, added python3 package (python3.6) on base. no require ius.
+    - drop support centos-6 (2020-11-30 EoL ended)
+
+### version 0.6.2
+
+- backport 0.8.1 with support python2.7 and django-1.11.
+  - refactoring.
+    - use reverse().
+    - fix pep8.
+    - fix handler404 and handler500.
+    - use LOGGING.
+    - replace BigAutoField.
+    - remove unuse files.
+  - add more test code.
+  - add Dockerfile for jenkins and docker at same host.
+  - fix apache wsgi config.
+
 ### version 0.6.1
 
 - drop support django-1.8. If use python2.7, use 0.6.x branch and django-1.11.
