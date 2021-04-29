@@ -4,6 +4,7 @@ TEST_MODE=
 APP_NAME=ats
 BIN_PYTHON=python3
 BIN_PIP=pip3
+APP_ENV=test
 
 if [ $# -gt 0 ]; then
     TEST_MODE=$1
@@ -31,12 +32,20 @@ elif  [ "${TEST_MODE}" = "jenkins-docker" ]; then
     # create diretory.
     mkdir -p ~/log
 
+    # create symlink for settings and app_settings.
+    cd toolproj/settings
+    ln -fs ${APP_ENV}.py __init__.py
+
+    cd ../../
+    cd ats/apps
+    ln -fs app_${APP_ENV}.py __init__.py
+
     # create migrate file
-    ${BIN_PYTHON} manage.py makemigrations ats --settings=toolproj.settings.test
+    ${BIN_PYTHON} manage.py makemigrations ats
 fi
 
 # execute unittest
-coverage run --source='.' manage.py test -v2 --settings=toolproj.settings.test ${APP_NAME}
+coverage run --source='.' manage.py test -v2 ${APP_NAME}
 RET=$?
 echo "unittest result code: ${RET}"
 coverage report
