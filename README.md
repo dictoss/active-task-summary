@@ -4,8 +4,8 @@ a web application of input and summary task time by team member.
 
 # Current Stable Version
 
-- 0.8.1 (use django-2.2, require python3.5+)
-- 0.6.2 (use django-1.11, require python2.7 or python3.5+)
+- 0.8.2 (use django-2.2, require python3.5+)
+- 0.6.3 LTS (use django-1.11, require python2.7 or python3.5+)
 
 # Develop Environment
 
@@ -15,17 +15,17 @@ a web application of input and summary task time by team member.
 - Django 2.2 and 3.0
 - python 3.7.3
 - apache 2.4
-- python3-psycopg2 2.6.2
+- python3-psycopg2 2.8.6
 - postgresql-11
 
-## for 0.6.x series
+## for 0.6.x series (LTS)
 
-- Debian GNU/Linux 9 (stretch) amd64
+- Debian GNU/Linux 10 (buster) amd64
 - Django 1.11
-- python 2.7.13 and 3.5.3
+- python 2.7
 - apache 2.4
-- python-psycopg2 and python3-psycopg2 2.6.2
-- postgresql-9.6 (from pgdg)
+- python-psycopg2 2.8.6
+- postgresql-11
 
 # NOTICE
 
