@@ -1,6 +1,7 @@
 #!/bin/bash
 
 TEST_MODE=
+APP_NAME=ats
 BIN_PYTHON=python
 BIN_PIP=pip
 
@@ -35,7 +36,7 @@ elif  [ "${TEST_MODE}" = "jenkins-docker" ]; then
 fi
 
 # execute unittest
-coverage run --source='.' manage.py test -v3 ats --settings=toolproj.settings_test
+coverage run --source='.' manage.py test -v2 --settings=toolproj.settings_test ${APP_NAME}
 RET=$?
 echo "unittest result code: ${RET}"
 coverage report
