@@ -187,9 +187,3 @@ LOGGING = {
         },
     },
 }
-
-
-try:
-    from .settings_devel import *
-except:
-    pass
