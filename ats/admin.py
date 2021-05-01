@@ -47,11 +47,20 @@ class ExternalProjectAdmin(admin.ModelAdmin):
 admin.site.register(ExternalProject, ExternalProjectAdmin)
 
 
+class TaskInline(admin.TabularInline):
+    model = Task
+    extra = 1
+    ordering = ['sortkey']
+
+
 class JobAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'sortkey', 'is_vaild')
     list_display_links = ('id', 'name')
     ordering = ['sortkey']
     search_fields = ['name']
+
+    # ForeignKey
+    inlines = [TaskInline]
 
     def is_vaild(self, obj):
         return not obj.invalid
