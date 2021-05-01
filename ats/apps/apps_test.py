@@ -9,9 +9,9 @@ from django.apps import AppConfig
 
 class AtsConfig(AppConfig):
     name = 'ats'
+    verbose_name = 'Active Task Summary'
 
     # app info
-    APP_LONGNAME = 'Active Task Summary'
     APP_VERSION = '0.6.3'
     APP_AUTHER = 'dictoss'
 
