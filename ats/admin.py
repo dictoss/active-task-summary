@@ -4,6 +4,7 @@ from django.contrib import admin
 
 from .models import (
     Project,
+    ExternalProject,
     Job,
     Task,
     ProjectWorker,
@@ -25,13 +26,25 @@ admin.site.register(User, UserAdmin)
 
 
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'start_dt', 'end_dt', 'sortkey')
+    list_display = (
+        'id', 'name', 'start_dt', 'end_dt',
+        'sortkey', 'externl_project')
     list_display_links = ('id', 'name')
     ordering = ['sortkey']
     search_fields = ['name']
 
 
 admin.site.register(Project, ProjectAdmin)
+
+
+class ExternalProjectAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'code')
+    list_display_links = ('id', 'name')
+    ordering = ['id']
+    search_fields = ['name', 'code']
+
+
+admin.site.register(ExternalProject, ExternalProjectAdmin)
 
 
 class JobAdmin(admin.ModelAdmin):
