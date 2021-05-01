@@ -9,10 +9,10 @@ from django.apps import AppConfig
 
 class AtsConfig(AppConfig):
     name = 'ats'
+    verbose_name = 'Active Task Summary'
 
     # app info
-    APP_LONGNAME = 'Active Task Summary'
-    APP_VERSION = '0.8.0'
+    APP_VERSION = '0.8.2'
     APP_AUTHER = 'dictoss'
 
     # valid range is between 1 and 24.
