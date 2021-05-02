@@ -431,7 +431,7 @@ def summary_p(request):
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
 
-            cursor = cursor.values('project__name').annotate(
+            cursor = cursor.values('project__name', 'project__external_project__code').annotate(
                 total_tasktime=Sum('tasktime'))
 
             totallist = list(cursor)
@@ -465,7 +465,7 @@ def summary_p(request):
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
 
-            cursor = cursor.values('project__name', 'taskdate').annotate(
+            cursor = cursor.values('project__name', 'project__external_project__code', 'taskdate').annotate(
                 date_tasktime=Sum('tasktime'))
             cursor = cursor.order_by('taskdate')
             datelist = list(cursor)
@@ -485,7 +485,7 @@ def summary_p(request):
             cursor = cursor.extra({
                 'year': '''date_part('year', taskdate)''',
                 'month': '''date_part('month', taskdate)'''}).\
-                values('project__name', 'year', 'month').\
+                values('project__name', 'project__external_project__code', 'year', 'month').\
                 annotate(month_tasktime=Sum('tasktime')).\
                 order_by('year', 'month')
 
@@ -511,7 +511,7 @@ def summary_p(request):
             pj_cursor = pj_cursor.extra({
                 'year': '''date_part('year', taskdate)''',
                 'month': '''date_part('month', taskdate)'''}).\
-                values('project__name', 'task__job__name', 'year', 'month').\
+                values('project__name', 'project__external_project__code', 'task__job__name', 'year', 'month').\
                 annotate(month_tasktime=Sum('tasktime')).\
                 order_by('year', 'month')
 
@@ -698,6 +698,7 @@ def summary_u(request):
             # date data
             cursor_date = cursor.order_by('taskdate')
             cursor_date = cursor_date.values('project__name',
+                                             'project__external_project__code',
                                              'taskdate',
                                              'task__job__name',
                                              'task__name',
@@ -731,6 +732,7 @@ def summary_u(request):
                                      'task__job__sortkey')
 
             cursor = cursor.values('project__name',
+                                   'project__external_project__code',
                                    'task__job__name',
                                    'user__last_name',
                                    'user__first_name').annotate(
@@ -755,6 +757,7 @@ def summary_u(request):
                 cursor = cursor.filter(taskdate__lte=to_date)
 
             cursor = cursor.values('project__name',
+                                   'project__external_project__code',
                                    'task__job__name',
                                    'task__name',
                                    'user__last_name',

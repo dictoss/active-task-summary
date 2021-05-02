@@ -21,11 +21,13 @@
 <table class="usedtasktime" border="1">
  <tr>
   <th>project</th>
+  <th>code</th>
   <th>task time</th>
  </tr>
 {% for data in totallist %}
  <tr>
   <td>{{ data.project__name }}</td>
+  <td>{% if data.project__external_project__code %}{{ data.project__external_project__code }}{% endif %}</td>
   <td class="num">{{ data.total_tasktime }}</td>
  </tr>
 {% endfor %}
@@ -39,6 +41,7 @@
 <table class="usedtasktime" border="1">
  <tr>
   <th>project</th>
+  <th>code</th>
   <th>year</th>
   <th>month</th>
   <th>task time</th>
@@ -46,6 +49,7 @@
 {% for data in p_monthlist %}
  <tr>
    <td>{{ data.project__name }}</td>
+   <td>{% if data.project__external_project__code %}{{ data.project__external_project__code }}{% endif %}</td>
    <td>{{ data.year }}</td>
    <td>{{ data.month }}</td>
    <td class="num">{{ data.month_tasktime }}</td>
@@ -62,6 +66,7 @@
 <table class="usedtasktime" border="1">
  <tr>
   <th>project</th>
+  <th>code</th>
   <th>job</th>
   <th>year</th>
   <th>month</th>
@@ -70,6 +75,7 @@
 {% for data in pj_monthlist %}
  <tr>
   <td>{{ data.project__name }}</td>
+  <td>{% if data.project__external_project__code %}{{ data.project__external_project__code }}{% endif %}</td>
   <td>{{ data.task__job__name }}</td>
   <td>{{ data.year }}</td>
   <td>{{ data.month }}</td>
@@ -88,12 +94,14 @@
  <tr>
   <th>date</th>
   <th>project</th>
+  <th>code</th>
   <th>task time</th>
  </tr>
 {% for data in datelist %}
  <tr>
   <td>{{ data.taskdate|date:"Y-m-d" }}</td>
   <td>{{ data.project__name }}</td>
+  <td>{% if data.project__external_project__code %}{{ data.project__external_project__code }}{% endif %}</td>
   <td class="num">{{ data.date_tasktime }}</td>
  </tr>
 {% endfor %}
@@ -109,6 +117,7 @@
  <tr>
   <th>date</th>
   <th>project</th>
+  <th>code</th>
   <th>job</th>
   <th>task</th>
   <th>task time</th>
@@ -117,6 +126,7 @@
  <tr>
   <td>{{ data.taskdate|date:"Y-m-d" }}</td>
   <td>{{ data.project.name }}</td>
+  <td>{{ data.project.external_project.code }}</td>
   <td>{{ data.task.job.name }}</td>
   <td>{{ data.task.name }}</td>
   <td class="num">{{ data.tasktime|time:"H:i" }}</td>
