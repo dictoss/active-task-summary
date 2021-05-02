@@ -8,6 +8,8 @@ import time
 import datetime
 import re
 import logging
+import csv
+import six
 from datetime import date
 
 import django
@@ -57,6 +59,10 @@ def format_totaltime(td):
 
 def format_hours_float(td):
     return (td.days * 24) + (td.seconds / 3600.0)
+
+
+def format_time(timedata):
+    return '%d:%02d' % (timedata.hour, timedata.minute)
 
 
 def errorinternal(request):
@@ -431,7 +437,7 @@ def summary_p(request):
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
 
-            cursor = cursor.values('project__name').annotate(
+            cursor = cursor.values('project__name', 'project__external_project__code').annotate(
                 total_tasktime=Sum('tasktime'))
 
             totallist = list(cursor)
@@ -465,7 +471,7 @@ def summary_p(request):
             if to_date:
                 cursor = cursor.filter(taskdate__lte=to_date)
 
-            cursor = cursor.values('project__name', 'taskdate').annotate(
+            cursor = cursor.values('project__name', 'project__external_project__code', 'taskdate').annotate(
                 date_tasktime=Sum('tasktime'))
             cursor = cursor.order_by('taskdate')
             datelist = list(cursor)
@@ -485,7 +491,7 @@ def summary_p(request):
             cursor = cursor.extra({
                 'year': '''date_part('year', taskdate)''',
                 'month': '''date_part('month', taskdate)'''}).\
-                values('project__name', 'year', 'month').\
+                values('project__name', 'project__external_project__code', 'year', 'month').\
                 annotate(month_tasktime=Sum('tasktime')).\
                 order_by('year', 'month')
 
@@ -511,7 +517,7 @@ def summary_p(request):
             pj_cursor = pj_cursor.extra({
                 'year': '''date_part('year', taskdate)''',
                 'month': '''date_part('month', taskdate)'''}).\
-                values('project__name', 'task__job__name', 'year', 'month').\
+                values('project__name', 'project__external_project__code', 'task__job__name', 'year', 'month').\
                 annotate(month_tasktime=Sum('tasktime')).\
                 order_by('year', 'month')
 
@@ -678,8 +684,13 @@ def summary_u(request):
     datedatalist = []
     datesummarylist = []
     monthlist = []
+    submit_type = ''
+    show_msg = ''
 
     if request.method == 'POST':
+        submit_type = request.POST.get('submit_type', 'view')
+        logger.info('IN summary_u(POST) submit_type=%s', submit_type)
+
         form = SummaryUserForm(request.POST)
         if form.is_valid():
             from_date = form.cleaned_data['from_date']
@@ -698,6 +709,7 @@ def summary_u(request):
             # date data
             cursor_date = cursor.order_by('taskdate')
             cursor_date = cursor_date.values('project__name',
+                                             'project__external_project__code',
                                              'taskdate',
                                              'task__job__name',
                                              'task__name',
@@ -731,6 +743,7 @@ def summary_u(request):
                                      'task__job__sortkey')
 
             cursor = cursor.values('project__name',
+                                   'project__external_project__code',
                                    'task__job__name',
                                    'user__last_name',
                                    'user__first_name').annotate(
@@ -755,6 +768,7 @@ def summary_u(request):
                 cursor = cursor.filter(taskdate__lte=to_date)
 
             cursor = cursor.values('project__name',
+                                   'project__external_project__code',
                                    'task__job__name',
                                    'task__name',
                                    'user__last_name',
@@ -792,6 +806,23 @@ def summary_u(request):
                 r['month_tasktime_float'] = format_hours_float(
                     r['month_tasktime'])
                 r['month_tasktime'] = format_totaltime(r['month_tasktime'])
+
+            #
+            # export csv
+            #
+            if submit_type == 'export':
+                logger.info('export csv. user_id=%s, from_date=%s, to_date=%s',
+                            request.user.id, from_date, to_date)
+                _csv_bin = export_csv_task(datedatalist, True, "\n")
+
+                if _csv_bin is not None:
+                    _filename = 'ats_export_taskdetail_{}_{}.csv'.format(from_date, to_date)
+
+                    response = HttpResponse(_csv_bin, content_type='text/csv')
+                    response['Content-Disposition'] = 'attachment; filename="{}"'.format(_filename)
+                    return response
+                else:
+                    show_msg = 'csv export error.'
         else:
             form = SummaryUserForm()
     else:
@@ -799,6 +830,7 @@ def summary_u(request):
 
     return my_render(request, 'ats/summary/user.html', {
         'form': form,
+        'show_msg': show_msg,
         'userdata': userdatalist,
         'taskdata': taskdatalist,
         'datesummarydata': datesummarylist,
@@ -807,21 +839,80 @@ def summary_u(request):
     })
 
 
+def get_user_realname(first_name, last_name):
+    if ats_settings.ATS_IS_LASTNAME_FRONT:
+        return '%s %s' % (last_name, first_name)
+    else:
+        return '%s %s' % (first_name, last_name)
+
+
+def export_csv_task(datalist, add_header, new_line):
+    _s = ''
+    if six.PY2:
+        bufffer = six.BytesIO()
+    else:
+        bufffer = six.StringIO()
+
+    try:
+        if True:
+            _writer = csv.writer(
+                bufffer, lineterminator=new_line,
+                quotechar='"', quoting=csv.QUOTE_ALL)
+
+            if add_header:
+                _header = ['date', 'project', 'code', 'job', 'task', 'user', 'tasktime']
+                _writer.writerow(_header)
+
+            for d in datalist:
+                _line = []
+
+                _date = d['taskdate'].isoformat()
+                _line.append(_date)
+
+                _line.append(d['project__name'])
+
+                if d['project__external_project__code']:
+                    _line.append(d['project__external_project__code'])
+                else:
+                    _line.append('')
+
+                _line.append(d['task__job__name'])
+                _line.append(d['task__name'])
+                _line.append(get_user_realname(d['user__first_name'], d['user__last_name']))
+                _line.append(format_time(d['tasktime']))
+
+                if six.PY2:
+                    for i in range(len(_line)):
+                        _line[i] = _line[i].encode('utf8')
+
+                _writer.writerow(_line)
+
+            _s = bufffer.getvalue()
+            bufffer.close()
+
+            if six.PY3:
+                _s = _s.encode('utf8')
+    except Exception as e:
+        logger.error('fail export_csv_task().')
+        logger.error('EXCEPT: export_csv_task(). e=%s, msg1=%s,msg2=%s',
+                     e, sys.exc_info()[1], sys.exc_info()[2])
+
+        return None
+
+    return _s
+
+
+@login_required
 def query(request):
     return my_render(request, 'ats/query/index.html', {})
 
 
+@login_required
 def manage(request):
     return my_render(request, 'ats/manage/index.html', {})
 
 
-def validate_password(password):
-    if 6 <= len(password):
-        return True
-    else:
-        return False
-
-
+@login_required
 def manage_chpasswd(request):
     message = ''
 
@@ -832,15 +923,11 @@ def manage_chpasswd(request):
         # success to check old_password and
         # it is same to password1 and password2.
         if form.is_valid():
-            p = form.clean_new_password2()
-
-            if validate_password(p):
-                form.save()
-                message = 'success change password.'
-            else:
-                message = 'password is not good. not change password.'
+            form.save()
+            message = 'success change password.'
+            logger.info('success change password. user_id=%s', request.user.id)
         else:
-            pass
+            logger.warning('fail vaild to change password. continue... user_id=%s', request.user.id)
     else:
         form = PasswordChangeForm(request.user)
 
@@ -984,7 +1071,8 @@ class SummaryUserForm(forms.Form):
     userlist = MyUserModelMultipleChoiceField(
         label='user',
         required=True,
-        queryset=User.objects.filter(is_active=True).order_by('id'))
+        queryset=User.objects.filter(is_active=True).exclude(
+            username=ats_settings.HIDDEN_DEFAULT_SUPERUSER).order_by('id'))
 
 
 class LoginForm(forms.Form):

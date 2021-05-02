@@ -1,6 +1,7 @@
 from django.test import TestCase, Client, RequestFactory
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 
 import datetime
 from datetime import timedelta
@@ -10,7 +11,6 @@ import pytz
 from .views import (
     format_totaltime,
     format_hours_float,
-    validate_password,
     get_projects_in_date,
     error404,
     error500,
@@ -108,11 +108,14 @@ class TestModel(TestCase):
         _s = str(_o)
         self.assertEqual(_s, '50000 : testuser1 (projname200 - job100)')
 
-        _o = ProjectWorker.objects.create(
-            id=50001, user=_user, project=_proj, job=_job, invalid=True)
-        _s = str(_o)
-        self.assertEqual(
-            _s, '50001 : testuser1 (projname200 - job100) [invalid]')
+        # unique error test
+        try:
+            _o = ProjectWorker.objects.create(
+                id=50001, user=_user, project=_proj, job=_job, invalid=True)
+        except IntegrityError as e:
+            self.assertTrue(True)
+        else:
+            self.fail('permit add unique job, project and user on ProjectWorker.')
 
     def test_usedtasktime(self):
         _user = User.objects.create_user(
@@ -202,18 +205,6 @@ class TestLib(TestCase):
         _delta = datetime.timedelta(days=4, hours=3, minutes=45, seconds=0)
         _result = format_hours_float(_delta)
         self.assertEqual(_result, 99.75)
-
-    def test_validate_password(self):
-        _ret = None
-
-        _ret = validate_password("12345")
-        self.assertEqual(_ret, False)
-
-        _ret = validate_password("123456")
-        self.assertEqual(_ret, True)
-
-        _ret = validate_password("1234567")
-        self.assertEqual(_ret, True)
 
     def test_get_projects_in_date(self):
         _ret = None

@@ -14,6 +14,8 @@ class Project(models.Model):
     start_dt = models.DateField(null=False, blank=False)
     end_dt = models.DateField(null=True, blank=True)
     sortkey = models.IntegerField(null=False)
+    external_project = models.ForeignKey('ExternalProject',
+        on_delete=models.PROTECT, blank=True, null=True)
 
     def __str__(self):
         if self.end_dt:
@@ -23,6 +25,17 @@ class Project(models.Model):
                 return '%d : %s [opened]' % (self.id, self.name)
         else:
             return '%d : %s [opened]' % (self.id, self.name)
+
+
+@python_2_unicode_compatible
+class ExternalProject(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.TextField(blank=False)
+    code = models.CharField(max_length=255, db_index=True,
+        blank=True, null=True, default='',)
+
+    def __str__(self):
+        return '%d : %s' % (self.id, self.name)
 
 
 @python_2_unicode_compatible
@@ -63,6 +76,11 @@ class ProjectWorker(models.Model):
     project = models.ForeignKey('Project', on_delete=models.PROTECT)
     job = models.ForeignKey('Job', on_delete=models.PROTECT)
     invalid = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = [
+            ['job', 'project','user']
+        ]
 
     def __str__(self):
         if self.invalid:
