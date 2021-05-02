@@ -1,6 +1,7 @@
 from django.test import TestCase, Client, RequestFactory
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 
 import datetime
 from datetime import timedelta
@@ -108,11 +109,14 @@ class TestModel(TestCase):
         _s = str(_o)
         self.assertEqual(_s, '50000 : testuser1 (projname200 - job100)')
 
-        _o = ProjectWorker.objects.create(
-            id=50001, user=_user, project=_proj, job=_job, invalid=True)
-        _s = str(_o)
-        self.assertEqual(
-            _s, '50001 : testuser1 (projname200 - job100) [invalid]')
+        # unique error test
+        try:
+            _o = ProjectWorker.objects.create(
+                id=50001, user=_user, project=_proj, job=_job, invalid=True)
+        except IntegrityError as e:
+            self.assertTrue(True)
+        else:
+            self.fail('permit add unique job, project and user on ProjectWorker.')
 
     def test_usedtasktime(self):
         _user = User.objects.create_user(
