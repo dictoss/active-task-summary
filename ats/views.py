@@ -807,10 +807,12 @@ def summary_u(request):
     })
 
 
+@login_required
 def query(request):
     return my_render(request, 'ats/query/index.html', {})
 
 
+@login_required
 def manage(request):
     return my_render(request, 'ats/manage/index.html', {})
 
@@ -822,6 +824,7 @@ def validate_password(password):
         return False
 
 
+@login_required
 def manage_chpasswd(request):
     message = ''
 
