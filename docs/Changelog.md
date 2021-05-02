@@ -1,8 +1,56 @@
 # changelog
 
+- [version 2.0.x](#version-2.0.x)
+- [version 1.0.x](#version-1.0.x)
 - [version 0.8.x](#version-0.8.x)
-- [version 0.6.x (LTS)](#version-0.6.x-lts)
+- [version 0.6.x](#version-0.6.x)
 - [old version](#old-version)
+
+## version 2.0.x
+
+### version 2.0.0
+
+- major release.
+  - The verion 2.0 series is the successor to 0.8.x.
+  - require python-3.5 or higher, and Django-2.2.
+- enhancement
+  - fix #15 (Add multiple ProjectWorker models on admin project window at one time.)
+  - fix #27 (insert ,update and delete multiple tasks on admin job model at once)
+  - fix #28
+    - add code colmun on project summary and user summary.
+    - add ExternalProject and ForeignKey.
+  - fix #29 (export csv file with task detail data on Summary User.)
+  - fix #34 (add filter job on admin task model.)
+  - fix #35 (update jquery-3.6.0)
+  - fix #37 (can hidden default super user name.)
+- refactoring
+  - fix #38 (use AUTH_PASSWORD_VALIDATORS on password change window.)
+- bugfix
+  - fix #36 (add @login_required decorator)
+
+## version 1.0.x
+
+### version 1.0.0
+
+- major release.
+  - The verion 1.0 series is the successor to 0.6.x.
+  - require python-2.7, and Django-1.11.
+- backport 2.0.0.
+  - enhancement
+    - fix #15 (Add multiple ProjectWorker models on admin project window at one time.)
+    - fix #27 (insert ,update and delete multiple tasks on admin job model at once)
+    - fix #28
+      - add code colmun on project summary and user summary.
+      - add ExternalProject and ForeignKey.
+    - fix #29 (export csv file with task detail data on Summary User.)
+    - fix #34 (add filter job on admin task model.)
+    - fix #35 (update jquery-3.6.0)
+    - fix #37 (can hidden default super user name.)
+  - refactoring
+    - fix #38 (use AUTH_PASSWORD_VALIDATORS on password change window.)
+  - bugfix
+    - fix #36 (add @login_required decorator)
+
 
 ## version 0.8.x
 
