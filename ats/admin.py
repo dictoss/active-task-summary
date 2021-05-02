@@ -25,6 +25,12 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
 
+class ProjectWorkerInline(admin.TabularInline):
+    model = ProjectWorker
+    extra = 1
+    ordering = ('user', 'job')
+
+
 class ProjectAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'name', 'start_dt', 'end_dt',
@@ -32,6 +38,9 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'name')
     ordering = ['sortkey']
     search_fields = ['name']
+
+    # ForeignKey
+    inlines = [ProjectWorkerInline]
 
 
 admin.site.register(Project, ProjectAdmin)

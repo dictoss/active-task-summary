@@ -9,6 +9,8 @@
 {% block boxmain %}
 <ul>
   <li><a href="{% url 'ats:manage_chpasswd' %}">change password</a></li>
-  <li>binding user and job by project</li>
+  {% if user.is_superuser %}
+  <li><a href="{% url 'admin:index' %}">manage database</a></li>
+  {% endif %}
 </ul>
 {% endblock %}

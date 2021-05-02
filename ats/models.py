@@ -71,6 +71,11 @@ class ProjectWorker(models.Model):
     job = models.ForeignKey('Job', on_delete=models.PROTECT)
     invalid = models.BooleanField(default=False)
 
+    class Meta:
+        unique_together = [
+            ['job', 'project','user']
+        ]
+
     def __str__(self):
         if self.invalid:
             return '%d : %s (%s - %s) [invalid]' % (
