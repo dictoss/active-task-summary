@@ -990,7 +990,8 @@ class SummaryUserForm(forms.Form):
     userlist = MyUserModelMultipleChoiceField(
         label='user',
         required=True,
-        queryset=User.objects.filter(is_active=True).order_by('id'))
+        queryset=User.objects.filter(is_active=True).exclude(
+            username=ats_settings.HIDDEN_DEFAULT_SUPERUSER).order_by('id'))
 
 
 class LoginForm(forms.Form):

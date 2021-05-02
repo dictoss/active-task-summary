@@ -22,3 +22,5 @@ class AtsConfig(AppConfig):
     ATS_REGIST_MIN_SPAN = [0, 15, 30, 45]
 
     ATS_IS_LASTNAME_FRONT = False
+
+    HIDDEN_DEFAULT_SUPERUSER = ''
