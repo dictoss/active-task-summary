@@ -34,7 +34,7 @@ class ProjectWorkerInline(admin.TabularInline):
 class ProjectAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'name', 'start_dt', 'end_dt',
-        'sortkey', 'externl_project')
+        'sortkey', 'external_project')
     list_display_links = ('id', 'name')
     ordering = ['sortkey']
     search_fields = ['name']

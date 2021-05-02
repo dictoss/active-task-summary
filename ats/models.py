@@ -12,7 +12,7 @@ class Project(models.Model):
     start_dt = models.DateField(null=False, blank=False)
     end_dt = models.DateField(null=True, blank=True)
     sortkey = models.IntegerField(null=False)
-    externl_project = models.ForeignKey('ExternalProject',
+    external_project = models.ForeignKey('ExternalProject',
         on_delete=models.PROTECT, blank=True, null=True)
 
     def __str__(self):
