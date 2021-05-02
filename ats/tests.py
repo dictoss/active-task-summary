@@ -11,7 +11,6 @@ import pytz
 from .views import (
     format_totaltime,
     format_hours_float,
-    validate_password,
     get_projects_in_date,
     error404,
     error500,
@@ -206,18 +205,6 @@ class TestLib(TestCase):
         _delta = datetime.timedelta(days=4, hours=3, minutes=45, seconds=0)
         _result = format_hours_float(_delta)
         self.assertEqual(_result, 99.75)
-
-    def test_validate_password(self):
-        _ret = None
-
-        _ret = validate_password("12345")
-        self.assertEqual(_ret, False)
-
-        _ret = validate_password("123456")
-        self.assertEqual(_ret, True)
-
-        _ret = validate_password("1234567")
-        self.assertEqual(_ret, True)
 
     def test_get_projects_in_date(self):
         _ret = None

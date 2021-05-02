@@ -901,13 +901,6 @@ def manage(request):
     return my_render(request, 'ats/manage/index.html', {})
 
 
-def validate_password(password):
-    if 6 <= len(password):
-        return True
-    else:
-        return False
-
-
 @login_required
 def manage_chpasswd(request):
     message = ''
@@ -919,15 +912,11 @@ def manage_chpasswd(request):
         # success to check old_password and
         # it is same to password1 and password2.
         if form.is_valid():
-            p = form.clean_new_password2()
-
-            if validate_password(p):
-                form.save()
-                message = 'success change password.'
-            else:
-                message = 'password is not good. not change password.'
+            form.save()
+            message = 'success change password.'
+            logger.info('success change password. user_id=%s', request.user.id)
         else:
-            pass
+            logger.warning('fail vaild to change password. continue... user_id=%s', request.user.id)
     else:
         form = PasswordChangeForm(request.user)
 
