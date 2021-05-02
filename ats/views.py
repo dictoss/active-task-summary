@@ -9,7 +9,7 @@ import datetime
 import re
 import logging
 import csv
-from io import StringIO
+import six
 from datetime import date
 
 import django
@@ -813,10 +813,9 @@ def summary_u(request):
             if submit_type == 'export':
                 logger.info('export csv. user_id=%s, from_date=%s, to_date=%s',
                             request.user.id, from_date, to_date)
-                _csv_str = export_csv_task(datedatalist, True, "\n")
+                _csv_bin = export_csv_task(datedatalist, True, "\n")
 
-                if _csv_str is not None:
-                    _csv_bin = _csv_str.encode('utf8')
+                if _csv_bin is not None:
                     _filename = 'ats_export_taskdetail_{}_{}.csv'.format(from_date, to_date)
 
                     response = HttpResponse(_csv_bin, content_type='text/csv')
@@ -842,16 +841,20 @@ def summary_u(request):
 
 def get_user_realname(first_name, last_name):
     if ats_settings.ATS_IS_LASTNAME_FRONT:
-        return '{} {}'.format(last_name, first_name)
+        return '%s %s' % (last_name, first_name)
     else:
-        return '{} {}'.format(first_name, last_name)
+        return '%s %s' % (first_name, last_name)
 
 
 def export_csv_task(datalist, add_header, new_line):
     _s = ''
+    if six.PY2:
+        bufffer = six.BytesIO()
+    else:
+        bufffer = six.StringIO()
 
     try:
-        with StringIO() as bufffer:
+        if True:
             _writer = csv.writer(
                 bufffer, lineterminator=new_line,
                 quotechar='"', quoting=csv.QUOTE_ALL)
@@ -878,9 +881,17 @@ def export_csv_task(datalist, add_header, new_line):
                 _line.append(get_user_realname(d['user__first_name'], d['user__last_name']))
                 _line.append(format_time(d['tasktime']))
 
+                if six.PY2:
+                    for i in range(len(_line)):
+                        _line[i] = _line[i].encode('utf8')
+
                 _writer.writerow(_line)
 
             _s = bufffer.getvalue()
+            bufffer.close()
+
+            if six.PY3:
+                _s = _s.encode('utf8')
     except Exception as e:
         logger.error('fail export_csv_task().')
         logger.error('EXCEPT: export_csv_task(). e=%s, msg1=%s,msg2=%s',
