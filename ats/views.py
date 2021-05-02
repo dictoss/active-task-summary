@@ -8,6 +8,8 @@ import time
 import datetime
 import re
 import logging
+import csv
+from io import StringIO
 from datetime import date
 
 import django
@@ -57,6 +59,10 @@ def format_totaltime(td):
 
 def format_hours_float(td):
     return (td.days * 24) + (td.seconds / 3600.0)
+
+
+def format_time(timedata):
+    return '%d:%02d' % (timedata.hour, timedata.minute)
 
 
 def errorinternal(request):
@@ -678,8 +684,13 @@ def summary_u(request):
     datedatalist = []
     datesummarylist = []
     monthlist = []
+    submit_type = ''
+    show_msg = ''
 
     if request.method == 'POST':
+        submit_type = request.POST.get('submit_type', 'view')
+        logger.info('IN summary_u(POST) submit_type=%s', submit_type)
+
         form = SummaryUserForm(request.POST)
         if form.is_valid():
             from_date = form.cleaned_data['from_date']
@@ -795,6 +806,24 @@ def summary_u(request):
                 r['month_tasktime_float'] = format_hours_float(
                     r['month_tasktime'])
                 r['month_tasktime'] = format_totaltime(r['month_tasktime'])
+
+            #
+            # export csv
+            #
+            if submit_type == 'export':
+                logger.info('export csv. user_id=%s, from_date=%s, to_date=%s',
+                            request.user.id, from_date, to_date)
+                _csv_str = export_csv_task(datedatalist, True, "\n")
+
+                if _csv_str is not None:
+                    _csv_bin = _csv_str.encode('utf8')
+                    _filename = 'ats_export_taskdetail_{}_{}.csv'.format(from_date, to_date)
+
+                    response = HttpResponse(_csv_bin, content_type='text/csv')
+                    response['Content-Disposition'] = 'attachment; filename="{}"'.format(_filename)
+                    return response
+                else:
+                    show_msg = 'csv export error.'
         else:
             form = SummaryUserForm()
     else:
@@ -802,12 +831,64 @@ def summary_u(request):
 
     return my_render(request, 'ats/summary/user.html', {
         'form': form,
+        'show_msg': show_msg,
         'userdata': userdatalist,
         'taskdata': taskdatalist,
         'datesummarydata': datesummarylist,
         'monthlist': monthlist,
         'datedetaildata': datedatalist
     })
+
+
+def get_user_realname(first_name, last_name):
+    if ats_settings.ATS_IS_LASTNAME_FRONT:
+        return '{} {}'.format(last_name, first_name)
+    else:
+        return '{} {}'.format(first_name, last_name)
+
+
+def export_csv_task(datalist, add_header, new_line):
+    _s = ''
+
+    try:
+        with StringIO() as bufffer:
+            _writer = csv.writer(
+                bufffer, lineterminator=new_line,
+                quotechar='"', quoting=csv.QUOTE_ALL)
+
+            if add_header:
+                _header = ['date', 'project', 'code', 'job', 'task', 'user', 'tasktime']
+                _writer.writerow(_header)
+
+            for d in datalist:
+                _line = []
+
+                _date = d['taskdate'].isoformat()
+                _line.append(_date)
+
+                _line.append(d['project__name'])
+
+                if d['project__external_project__code']:
+                    _line.append(d['project__external_project__code'])
+                else:
+                    _line.append('')
+
+                _line.append(d['task__job__name'])
+                _line.append(d['task__name'])
+                _line.append(get_user_realname(d['user__first_name'], d['user__last_name']))
+                _line.append(format_time(d['tasktime']))
+
+                _writer.writerow(_line)
+
+            _s = bufffer.getvalue()
+    except Exception as e:
+        logger.error('fail export_csv_task().')
+        logger.error('EXCEPT: export_csv_task(). e=%s, msg1=%s,msg2=%s',
+                     e, sys.exc_info()[1], sys.exc_info()[2])
+
+        return None
+
+    return _s
 
 
 @login_required

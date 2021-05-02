@@ -12,8 +12,14 @@
 {% csrf_token %}
 {{ form.as_p }}
 <br>
-<input type="submit" value="Submit">
+<input name="submit_type" type="submit" value="view">
+<input name="submit_type" type="submit" value="export">
 </form>
+
+<div class="notice_msg">
+  <strong>{{ show_msg }}</strong>
+</div>
+
 <hr>
 
 <h3>Project Summary</h3>
