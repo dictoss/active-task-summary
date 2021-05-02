@@ -12,7 +12,7 @@ class AtsConfig(AppConfig):
     verbose_name = 'Active Task Summary'
 
     # app info
-    APP_VERSION = '0.8.2'
+    APP_VERSION = '2.0.0'
     APP_AUTHER = 'dictoss'
 
     # valid range is between 1 and 24.
