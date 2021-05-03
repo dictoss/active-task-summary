@@ -177,8 +177,7 @@ $ sudo ln -sf /usr/lib/python3.5/site-packages/django/contrib/admin/static/admin
 <pre>
 
 $ cd /var/www/wsgi_apps/active-task-summary
-$ sudo -u apache python3.5 manage.py makemigrations
-$ sudo -u apache python3.5 manage.py migrate auth
+$ sudo -u apache python3.5 manage.py makemigrations ats
 $ sudo -u apache python3.5 manage.py migrate
 $ sudo -u apache python3.5 manage.py createsuperuser
 
