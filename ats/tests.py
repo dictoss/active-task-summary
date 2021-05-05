@@ -11,7 +11,9 @@ import pytz
 from .views import (
     format_totaltime,
     format_hours_float,
+    format_time,
     get_projects_in_date,
+    export_csv_task,
     error404,
     error500,
     index,
@@ -213,6 +215,74 @@ class TestLib(TestCase):
 
         _ret = get_projects_in_date(_user, '2014-01-30')
         self.assertIsNotNone(_ret)
+
+    def test_format_time(self):
+        _t = datetime.time(hour=1, minute=5)
+        _s = format_time(_t)
+        self.assertEqual(_s, '1:05')
+
+    def test_export_csv_task(self):
+        _datalist = [
+            {
+                'taskdate': datetime.date(year=2015, month=4, day=5),
+                'project__name': 'projname1',
+                'project__external_project__code': 'abcd',
+                'task__job__name': 'jobname1',
+                'task__name': 'taskname1',
+                'user__first_name': 'user1_first',
+                'user__last_name': 'user1_last',
+                'tasktime': datetime.time(hour=1, minute=15)
+             },
+        ]
+
+        #
+        # if _add_header is True
+        #
+        _add_header = True
+        _data_bin = export_csv_task(_datalist, _add_header, "\n")
+        self.assertIsNotNone(_data_bin)
+        print(_data_bin)
+
+        _data_str = _data_bin.decode('utf8')
+        _rows = _data_str.split("\n")
+
+        _cols_0 = _rows[0].split(',')
+        self.assertEqual(_cols_0[0], '"date"')
+        self.assertEqual(_cols_0[1], '"project"')
+        self.assertEqual(_cols_0[2], '"code"')
+        self.assertEqual(_cols_0[3], '"job"')
+        self.assertEqual(_cols_0[4], '"task"')
+        self.assertEqual(_cols_0[5], '"user"')
+        self.assertEqual(_cols_0[6], '"tasktime"')
+
+        _cols_1 = _rows[1].split(',')
+        self.assertEqual(_cols_1[0], '"2015-04-05"')
+        self.assertEqual(_cols_1[1], '"projname1"')
+        self.assertEqual(_cols_1[2], '"abcd"')
+        self.assertEqual(_cols_1[3], '"jobname1"')
+        self.assertEqual(_cols_1[4], '"taskname1"')
+        self.assertEqual(_cols_1[5], '"user1_first user1_last"')
+        self.assertEqual(_cols_1[6], '"1:15"')
+
+        #
+        # if _add_header is False
+        #
+        _add_header = False
+        _data_bin = export_csv_task(_datalist, _add_header, "\n")
+        self.assertIsNotNone(_data_bin)
+        print(_data_bin)
+
+        _data_str = _data_bin.decode('utf8')
+        _rows = _data_str.split("\n")
+
+        _cols_1 = _rows[0].split(',')
+        self.assertEqual(_cols_1[0], '"2015-04-05"')
+        self.assertEqual(_cols_1[1], '"projname1"')
+        self.assertEqual(_cols_1[2], '"abcd"')
+        self.assertEqual(_cols_1[3], '"jobname1"')
+        self.assertEqual(_cols_1[4], '"taskname1"')
+        self.assertEqual(_cols_1[5], '"user1_first user1_last"')
+        self.assertEqual(_cols_1[6], '"1:15"')
 
 
 class Ats404ViewTestCase(AtsViewTestCase):
