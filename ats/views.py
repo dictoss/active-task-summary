@@ -2,13 +2,10 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-import codecs
 import time
 import datetime
 import re
 import logging
-import csv
-import six
 from datetime import date
 
 import django
