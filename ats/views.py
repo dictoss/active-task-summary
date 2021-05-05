@@ -37,10 +37,8 @@ from django.apps import apps
 from ats.models import *
 
 from .libs import (
-    get_user_realname,
     format_totaltime,
     format_hours_float,
-    format_time,
     get_localtime,
     get_thismonth_1st,
     export_csv_task,
