@@ -35,10 +35,6 @@ def format_hours_float(td):
     return (td.days * 24) + (td.seconds / 3600.0)
 
 
-def format_time(timedata):
-    return '%d:%02d' % (timedata.hour, timedata.minute)
-
-
 def get_localtime():
     _now = timezone.localtime()
 
@@ -87,7 +83,7 @@ def export_csv_task(datalist, add_header, new_line):
                 _line.append(d['task__job__name'])
                 _line.append(d['task__name'])
                 _line.append(get_user_realname(d['user__first_name'], d['user__last_name']), ats_settings.ATS_IS_LASTNAME_FRONT)
-                _line.append(format_time(d['tasktime']))
+                _line.append(d['tasktime'].format_time())
 
                 if six.PY2:
                     for i in range(len(_line)):

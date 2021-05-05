@@ -97,3 +97,6 @@ class UsedTaskTime(models.Model):
         return '%d : [%s - %s] %s - %s - %s' % (
             self.id, self.taskdate, self.tasktime,
             self.user.username, self.project.name, self.task.name)
+
+    def format_time(self):
+        return '%d:%02d' % (self.hour, self.minute)
