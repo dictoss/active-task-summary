@@ -17,8 +17,8 @@ logger = logging.getLogger(__name__)
 ats_settings = apps.get_app_config('ats')
 
 
-def get_user_realname(first_name, last_name):
-    if ats_settings.ATS_IS_LASTNAME_FRONT:
+def get_user_realname(first_name, last_name, is_last_name_front):
+    if is_last_name_front:
         return '%s %s' % (last_name, first_name)
     else:
         return '%s %s' % (first_name, last_name)
@@ -86,7 +86,7 @@ def export_csv_task(datalist, add_header, new_line):
 
                 _line.append(d['task__job__name'])
                 _line.append(d['task__name'])
-                _line.append(get_user_realname(d['user__first_name'], d['user__last_name']))
+                _line.append(get_user_realname(d['user__first_name'], d['user__last_name']), ats_settings.ATS_IS_LASTNAME_FRONT)
                 _line.append(format_time(d['tasktime']))
 
                 if six.PY2:

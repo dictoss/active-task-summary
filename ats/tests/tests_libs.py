@@ -74,3 +74,10 @@ class TestLib(TestCase):
         _delta = datetime.timedelta(days=4, hours=3, minutes=45, seconds=0)
         _result = format_hours_float(_delta)
         self.assertEqual(_result, 99.75)
+
+    def test_get_user_realname(self):
+        _s = get_user_realname('aaa', 'bbb', False)
+        self.assertEqual(_s, 'aaa bbb')
+
+        _s = get_user_realname('aaa', 'bbb', True)
+        self.assertEqual(_s, 'bbb aaa')
