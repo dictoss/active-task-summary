@@ -12,6 +12,7 @@ from ..models import (
     Job,
     Task,
     Project,
+    ExternalProject,
     ProjectWorker,
     UsedTaskTime)
 
@@ -72,6 +73,12 @@ class TestModel(TestCase):
             start_dt=_at_s, end_dt=_at_e2, sortkey=10001)
         _s = str(_o)
         self.assertEqual(_s, '202 : projname3 [closed]')
+
+    def test_externalproject(self):
+        _obj = ExternalProject.objects.create(
+            id=1, name='extproj1', code='1234')
+        _s = str(_obj)
+        self.assertEqual(_s, '1 : extproj1')
 
     def test_projectworker(self):
         _user = User.objects.create_user(
