@@ -1,5 +1,5 @@
 import datetime
-from datetime import timedelta
+from datetime import timedelta, time
 
 from django.test import TestCase
 
@@ -7,6 +7,7 @@ from ..libs import (
     get_user_realname,
     format_totaltime,
     format_hours_float,
+    format_time,
     get_localtime,
     get_thismonth_1st,
     export_csv_task,
@@ -80,3 +81,8 @@ class TestLib(TestCase):
 
         _s = get_user_realname('aaa', 'bbb', True)
         self.assertEqual(_s, 'bbb aaa')
+
+    def test_format_time(self):
+        _t = datetime.time(hour=1, minute=5)
+        _s = format_time(_t)
+        self.assertEqual(_s, '1:05')
