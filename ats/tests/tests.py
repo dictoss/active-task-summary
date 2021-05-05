@@ -8,7 +8,7 @@ from datetime import timedelta
 
 import pytz
 
-from .views import (
+from ..views import (
     format_totaltime,
     format_hours_float,
     get_projects_in_date,
@@ -18,7 +18,7 @@ from .views import (
     login_view,
     logout_view)
 
-from .models import (
+from ..models import (
     Job,
     Task,
     Project,
