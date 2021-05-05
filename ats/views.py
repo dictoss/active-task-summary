@@ -64,11 +64,11 @@ def get_projects_in_date(request_user, regist_date):
 
 
 def error500(request):
-    return my_render(request, 'ats/500.html', {}, status_code=500)
+    return render(request, 'ats/500.html', {}, status=500)
 
 
 def error404(request, exception=HttpResponseNotFound):
-    return my_render(request, 'ats/404.html', {}, status_code=404)
+    return render(request, 'ats/404.html', {}, status=404)
 
 
 def errorinternal(request):
@@ -90,7 +90,7 @@ def index(request):
 
 @login_required
 def top(request):
-    return my_render(request, 'ats/top/index.html', {})
+    return render(request, 'ats/top/index.html', {})
 
 
 def login_view(request):
@@ -127,7 +127,7 @@ def login_view(request):
         else:
             form = LoginForm()
 
-    return my_render(request, 'ats/login/login.html', {
+    return render(request, 'ats/login/login.html', {
         'form': form,
         'error_reason': error_reason
     })
@@ -397,7 +397,7 @@ def regist(request):
     day_total_hour = int(day_total.seconds / 3600)
     day_total_min = int((day_total.seconds - (day_total_hour * 3600)) / 60)
 
-    return my_render(request, 'ats/regist/regist.html', {
+    return render(request, 'ats/regist/regist.html', {
         'form': rs_form,
         'regist_form': re_form,
         'regist_date': regist_date,
@@ -545,7 +545,7 @@ def summary_p(request):
     else:
         form = SummaryProjectForm()
 
-    return my_render(request, 'ats/summary/project.html', {
+    return render(request, 'ats/summary/project.html', {
         'form': form,
         'totallist': totallist,
         'p_monthlist': p_monthlist,
@@ -674,7 +674,7 @@ def summary_j(request):
     else:
         form = SummaryJobForm()
 
-    return my_render(request, 'ats/summary/job.html', {
+    return render(request, 'ats/summary/job.html', {
         'form': form,
         'jobdata': jobdatalist,
         'pj_monthlist': pj_monthlist,
@@ -834,7 +834,7 @@ def summary_u(request):
     else:
         form = SummaryUserForm()
 
-    return my_render(request, 'ats/summary/user.html', {
+    return render(request, 'ats/summary/user.html', {
         'form': form,
         'show_msg': show_msg,
         'userdata': userdatalist,
@@ -847,12 +847,12 @@ def summary_u(request):
 
 @login_required
 def query(request):
-    return my_render(request, 'ats/query/index.html', {})
+    return render(request, 'ats/query/index.html', {})
 
 
 @login_required
 def manage(request):
-    return my_render(request, 'ats/manage/index.html', {})
+    return render(request, 'ats/manage/index.html', {})
 
 
 @login_required
@@ -874,17 +874,10 @@ def manage_chpasswd(request):
     else:
         form = PasswordChangeForm(request.user)
 
-    return my_render(request, 'ats/manage/chpasswd.html', {
+    return render(request, 'ats/manage/chpasswd.html', {
         'form': form,
         'message': message
     })
-
-
-def my_render(request, template_file, paramdict, status_code=200):
-    response = render(request, template_file, paramdict)
-    response.status_code = status_code
-
-    return response
 
 
 class RegistSelectForm(forms.Form):
