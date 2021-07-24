@@ -1,12 +1,17 @@
 # changelog
 
-- [version 2.0.x](#version-2.0.x)
-- [version 1.0.x](#version-1.0.x)
-- [version 0.8.x](#version-0.8.x)
-- [version 0.6.x](#version-0.6.x)
+- [version 2.0.x](#version-20x)
+- [version 1.0.x](#version-10x)
+- [version 0.8.x](#version-08x)
+- [version 0.6.x](#version-06x)
 - [old version](#old-version)
 
 ## version 2.0.x
+
+### version 2.0.1
+
+- bugfix
+  - fix #43 error makemigrations to 1.0.0 from 0.6.1.
 
 ### version 2.0.0
 
@@ -29,6 +34,11 @@
   - fix #36 (add @login_required decorator)
 
 ## version 1.0.x
+
+### version 1.0.1
+
+- bugfix
+  - fix #43 error makemigrations to 1.0.0 from 0.6.1.
 
 ### version 1.0.0
 
