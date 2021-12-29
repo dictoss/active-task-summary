@@ -352,7 +352,7 @@ ats=# \q
 
 ### install modules and librairies
 
-- for use python-3.8
+- for use python-3.9
 
 <pre>
 
