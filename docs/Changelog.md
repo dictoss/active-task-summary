@@ -1,10 +1,27 @@
 # changelog
 
+- [version 3.0.x](#version-30x)
 - [version 2.0.x](#version-20x)
 - [version 1.0.x](#version-10x)
 - [version 0.8.x](#version-08x)
 - [version 0.6.x](#version-06x)
 - [old version](#old-version)
+
+## version 3.0.x
+
+### version 3.0.0
+
+- major release.
+  - The verion 3.0 series is the successor to 2.0.x.
+  - require python-3.6 or higher, and Django-3.2.
+  - upgrade dependency libraries and packages.
+- supports the following operating systems.
+  - debian-11
+  - debian-10
+  - AlmaLinux-8
+  - CentOS-7.7+
+- drop support operation system.
+  - debian-9
 
 ## version 2.0.x
 
