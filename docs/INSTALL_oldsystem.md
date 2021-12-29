@@ -1,4 +1,4 @@
-# How to install for ver 0.8.2
+# How to install for ver 1.0.x
 
 ## require application
 
@@ -11,7 +11,156 @@
 
 ## install target
 
+- [Debian GNU/Linux 9](#install-for-debian-9-stretch)
 - [CentOS 6](#install-for-centos-6)
+
+---
+
+## install for debian-9 (stretch)
+
+### get source code
+
+<pre>
+
+$ sudo apt-get update
+$ sudo apt-get install git
+$ cd ~/
+$ mkdir work
+$ cd work
+$ git clone https://github.com/dictoss/active-task-summary.git
+$ cd active-task-summary
+
+</pre>
+
+
+### install database
+
+<pre>
+
+$ sudo apt-get install postgresql-9.6
+$ sudo -u postgres /usr/lib/postgresql/9.6/bin/createuser --createdb --pwprompt --superuser webapp
+Password:
+$ sudo -u postgres /usr/lib/postgresql/9.6/bin/createdb --encoding=UTF8 --owner=webapp ats
+$ psql -h 127.0.0.1 -U webapp -W ats
+Password:
+ats=# \q
+
+</pre>
+
+
+### install modules and librairies
+
+- for use python-3.5
+
+<pre>
+
+$ sudo apt-get install python3.5 python3-pip apache2 libapache2-mod-wsgi-py3 python3-psycopg2
+$ sudo pip3 install -r requirements.txt
+
+</pre>
+
+
+### deploy app
+
+<pre>
+
+$ sudo mkdir -p /var/www/wsgi_apps
+$ pwd
+~/work/active-task-summary
+$ cd ..
+$ sudo cp -rf active-task-summary /var/www/wsgi_apps/
+$ cd /var/www/wsgi_apps
+$ sudo chown -fR www-data:www-data active-task-summary
+$ cd active-task-summary
+$ cd toolproj/settings
+$ sudo ln -fs production.py __init__.py
+$ cd ../..
+$ cd ats/apps
+$ sudo ln -fs apps_production.py __init__.py
+
+</pre>
+
+
+### modify config
+
+<pre>
+
+$ sudo vi toolproj/settings/production.py
+$ sudo vi ats/apps/ats_production.py
+
+</pre>
+
+
+### create log and eggs directory
+
+<pre>
+
+$ sudo mkdir /var/log/ats
+$ sudo chown -fR www-data:www-data /var/log/ats
+$ sudo mkdir /var/www/eggs
+$ sudo chown -fR www-data:www-data /var/www/eggs
+
+</pre>
+
+
+### setup wsgi deamon used apache2.
+
+<pre>
+
+$ cd ~/work/active-task-summary
+$ cd conf
+$ sudo cp wsgi_apache2_ats.conf.debian9.sample /etc/apache2/conf-available/wsgi_ats.conf
+$ sudo /usr/sbin/a2enconf wsgi_ats.conf
+$ sudo service apache2 reload
+
+</pre>
+
+
+### link static file in webapplication.
+
+<pre>
+
+$ sudo mkdir /var/www/html/static
+$ cd /var/www/html/static
+$ sudo ln -sf /var/www/wsgi_apps/active-task-summary/ats/static ats
+
+</pre>
+
+- for use python-3.5
+
+<pre>
+
+$ sudo ln -sf /usr/local/lib/python3.5/dist-packages/django/contrib/admin/static/admin admin
+
+</pre>
+
+
+### create database schema for web application
+
+- for use python-3.5
+
+<pre>
+
+$ cd /var/www/wsgi_apps/active-task-summary
+$ sudo -u www-data python3.5 manage.py makemigrations ats
+$ sudo -u www-data python3.5 manage.py migrate
+$ sudo -u www-data python3.5 manage.py createsuperuser
+
+</pre>
+
+
+### check exec application
+
+<pre>
+
+$ ps ax | grep wsgi
+9907 ?        Sl     0:00 (wsgi:ats)        -k start
+
+</pre>
+
+### try login
+
+- curl -v http://localhost/toolproj/ats/login/
 
 ---
 
