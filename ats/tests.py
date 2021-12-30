@@ -231,7 +231,12 @@ class TestLib(TestCase):
                 'task__name': 'taskname1',
                 'user__first_name': 'user1_first',
                 'user__last_name': 'user1_last',
-                'tasktime': datetime.time(hour=1, minute=15)
+                'tasktime': datetime.time(hour=1, minute=15),
+                'task__userdata1': '111',
+                'task__userdata2': '222',
+                'task__userdata3': '333',
+                'task__userdata4': '444',
+                'task__userdata5': '555',
              },
         ]
 
@@ -254,6 +259,11 @@ class TestLib(TestCase):
         self.assertEqual(_cols_0[4], '"task"')
         self.assertEqual(_cols_0[5], '"user"')
         self.assertEqual(_cols_0[6], '"tasktime"')
+        self.assertEqual(_cols_0[7], '"task_userdata1"')
+        self.assertEqual(_cols_0[8], '"task_userdata2"')
+        self.assertEqual(_cols_0[9], '"task_userdata3"')
+        self.assertEqual(_cols_0[10], '"task_userdata4"')
+        self.assertEqual(_cols_0[11], '"task_userdata5"')
 
         _cols_1 = _rows[1].split(',')
         self.assertEqual(_cols_1[0], '"2015-04-05"')
@@ -263,6 +273,11 @@ class TestLib(TestCase):
         self.assertEqual(_cols_1[4], '"taskname1"')
         self.assertEqual(_cols_1[5], '"user1_first user1_last"')
         self.assertEqual(_cols_1[6], '"1:15"')
+        self.assertEqual(_cols_1[7], '"111"')
+        self.assertEqual(_cols_1[8], '"222"')
+        self.assertEqual(_cols_1[9], '"333"')
+        self.assertEqual(_cols_1[10], '"444"')
+        self.assertEqual(_cols_1[11], '"555"')
 
         #
         # if _add_header is False
@@ -283,6 +298,12 @@ class TestLib(TestCase):
         self.assertEqual(_cols_1[4], '"taskname1"')
         self.assertEqual(_cols_1[5], '"user1_first user1_last"')
         self.assertEqual(_cols_1[6], '"1:15"')
+        self.assertEqual(_cols_1[6], '"1:15"')
+        self.assertEqual(_cols_1[7], '"111"')
+        self.assertEqual(_cols_1[8], '"222"')
+        self.assertEqual(_cols_1[9], '"333"')
+        self.assertEqual(_cols_1[10], '"444"')
+        self.assertEqual(_cols_1[11], '"555"')
 
 
 class Ats404ViewTestCase(AtsViewTestCase):
