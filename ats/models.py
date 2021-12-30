@@ -54,6 +54,11 @@ class Task(models.Model):
     job = models.ForeignKey('Job', on_delete=models.PROTECT)
     sortkey = models.IntegerField(null=False)
     invalid = models.BooleanField(default=False)
+    userdata1 = models.CharField(max_length=128, blank=True, null=True)
+    userdata2 = models.CharField(max_length=128, blank=True, null=True)
+    userdata3 = models.CharField(max_length=128, blank=True, null=True)
+    userdata4 = models.CharField(max_length=128, blank=True, null=True)
+    userdata5 = models.CharField(max_length=128, blank=True, null=True)
 
     def __str__(self):
         if self.invalid:

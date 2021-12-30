@@ -67,7 +67,20 @@ def export_csv_task(datalist, add_header, new_line):
                 quotechar='"', quoting=csv.QUOTE_ALL)
 
             if add_header:
-                _header = ['date', 'project', 'code', 'job', 'task', 'user', 'tasktime']
+                _header = [
+                    'date',
+                    'project',
+                    'code',
+                    'job',
+                    'task',
+                    'user',
+                    'tasktime',
+                    'task_userdata1',
+                    'task_userdata2',
+                    'task_userdata3',
+                    'task_userdata4',
+                    'task_userdata5',
+                ]
                 _writer.writerow(_header)
 
             for d in datalist:
@@ -87,6 +100,11 @@ def export_csv_task(datalist, add_header, new_line):
                 _line.append(d['task__name'])
                 _line.append(get_user_realname(d['user__first_name'], d['user__last_name'], ats_settings.ATS_IS_LASTNAME_FRONT))
                 _line.append(format_time(d['tasktime']))
+                _line.append(d['task__userdata1'])
+                _line.append(d['task__userdata2'])
+                _line.append(d['task__userdata3'])
+                _line.append(d['task__userdata4'])
+                _line.append(d['task__userdata5'])
 
                 if six.PY2:
                     for i in range(len(_line)):

@@ -716,7 +716,12 @@ def summary_u(request):
                                              'task__name',
                                              'user__last_name',
                                              'user__first_name',
-                                             'tasktime')
+                                             'tasktime',
+                                             'task__userdata1',
+                                             'task__userdata2',
+                                             'task__userdata3',
+                                             'task__userdata4',
+                                             'task__userdata5')
 
             datedatalist = list(cursor_date)
 
