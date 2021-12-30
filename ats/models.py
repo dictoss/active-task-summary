@@ -97,6 +97,7 @@ class UsedTaskTime(models.Model):
     task = models.ForeignKey('Task', on_delete=models.PROTECT)
     taskdate = models.DateField(null=False)
     tasktime = models.TimeField(null=False)
+    comment = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return '%d : [%s - %s] %s - %s - %s' % (

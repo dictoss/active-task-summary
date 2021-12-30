@@ -807,6 +807,7 @@ class RegistViewTestCase(AtsViewTestCase):
                 'uttid': [],
                 'tasktime_hour': [],
                 'tasktime_min': [],
+                'comment': '',
             })
         self.assertEqual(_response.status_code, 200)
 
@@ -834,6 +835,7 @@ class RegistViewTestCase(AtsViewTestCase):
                     'uttid': 'p%s_t%s' % (pjw.project.id, t.id),
                     'tasktime_hour': 2,
                     'tasktime_min': 15,
+                    'comment': '123',
                 }
 
                 _datalist.append(_data)
@@ -848,6 +850,7 @@ class RegistViewTestCase(AtsViewTestCase):
                 'uttid': [o['uttid'] for o in _datalist],
                 'tasktime_hour': [o['tasktime_hour'] for o in _datalist],
                 'tasktime_min': [o['tasktime_min'] for o in _datalist],
+                'comment': [o['comment'] for o in _datalist],
             })
 
         # regist (update)
@@ -863,6 +866,7 @@ class RegistViewTestCase(AtsViewTestCase):
                 'uttid': [o['uttid'] for o in _datalist],
                 'tasktime_hour': [o['tasktime_hour'] for o in _datalist],
                 'tasktime_min': [o['tasktime_min'] for o in _datalist],
+                'comment': [o['comment'] for o in _datalist],
             })
 
         # regist (delete)
@@ -879,6 +883,7 @@ class RegistViewTestCase(AtsViewTestCase):
                 'uttid': [o['uttid'] for o in _datalist],
                 'tasktime_hour': [o['tasktime_hour'] for o in _datalist],
                 'tasktime_min': [o['tasktime_min'] for o in _datalist],
+                'comment': [o['comment'] for o in _datalist],
             })
 
         self.assertEqual(_response.status_code, 200)

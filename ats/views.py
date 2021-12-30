@@ -158,6 +158,7 @@ def regist(request):
                 uttid = request.POST.getlist('uttid')
                 tasktime_hour = request.POST.getlist('tasktime_hour')
                 tasktime_min = request.POST.getlist('tasktime_min')
+                comment = request.POST.getlist('comment')
 
                 targetindexlist = []
                 # get index from form data
@@ -186,6 +187,8 @@ def regist(request):
                         hour=int(tasktime_hour[i]),
                         minute=int(tasktime_min[i]))
 
+                    _o['comment'] = comment[i]
+
                     _inputdatas.append(_o)
 
                 with transaction.atomic():
@@ -205,9 +208,10 @@ def regist(request):
                                       project=Project.objects.get(pk=i['pid']),
                                       task=Task.objects.get(pk=i['tid']),
                                       taskdate=regist_date,
-                                      defaults={'tasktime': i['ud_ttime']})
+                                      defaults={'tasktime': i['ud_ttime'], 'comment': i['comment']})
                                 if not _created:
                                     uttinst.tasktime = i['ud_ttime']
+                                    uttinst.comment = i['comment']
                                     uttinst.save()
                     except Exception as e:
                         msg = "EXCEPT: fail save or delete. msg=%s,%s" % (
@@ -342,7 +346,8 @@ def regist(request):
                   'jobname': u.task.job.name,
                   'taskname': u.task.name,
                   'tasktime_hour': u.tasktime.hour,
-                  'tasktime_min': u.tasktime.minute}
+                  'tasktime_min': u.tasktime.minute,
+                  'comment': u.comment}
 
         existdatalist.append(uttobj)
 
@@ -365,12 +370,14 @@ def regist(request):
                    'task_id': t.id,
                    'task_name': t.name,
                    'tasktime_hour': 0,
-                   'tasktime_min': 0}
+                   'tasktime_min': 0,
+                   'comment': ''}
 
             for u in cursor_u:
                 if (pjw.project == u.project) and (t.id == u.task_id):
                     utt['tasktime_hour'] = u.tasktime.hour
                     utt['tasktime_min'] = u.tasktime.minute
+                    utt['comment'] = u.comment
                     break
 
             usedtasktimelist.append(utt)
