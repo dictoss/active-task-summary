@@ -49,7 +49,7 @@ empty data this day.
 </tr>
 {% for t in proj.usedtasktimelist %}
 <tr>
-<td><input type="hidden" name="uttid" value="p{{ proj.project_id }}_t{{ t.task_id }}"><input type="checkbox" name="registcheck" value="p{{ proj.project_id }}_t{{ t.task_id }}"></td>
+<td><input type="hidden" name="uttid" value="p{{ proj.project_id }}_t{{ t.task_id }}"><input type="checkbox" id="id_chk_p{{ proj.project_id }}_t{{ t.task_id }}" name="registcheck" value="p{{ proj.project_id }}_t{{ t.task_id }}"></td>
 <td><select name="tasktime_hour" onchange="enable_regist_checkbox('p{{ proj.project_id }}_t{{ t.task_id }}')">{% for hour in hourlist %}{% if hour == t.tasktime_hour %}<option value="{{ hour }}" selected>{{ hour }}</option>{% else %}<option value="{{ hour }}">{{ hour }}</option>{% endif %}{% endfor %}</select> hour <select name="tasktime_min" onchange="enable_regist_checkbox('p{{ proj.project_id }}_t{{ t.task_id }}')">{% for min in minutelist %}{% if min == t.tasktime_min %}<option value="{{ min }}" selected>{{ min }}</option>{% else %}<option value="{{ min }}">{{ min }}</option>{% endif %}{% endfor %}</select> min </td>
 <td>{{ proj.project_name }}</td><td>{{ t.job_name }}</td><td>{{ t.task_name }}</td>
 </tr>
