@@ -1,13 +1,20 @@
 # changelog
 
-- [version 3.0.x](#version-30x)
-- [version 2.0.x](#version-20x)
-- [version 1.0.x](#version-10x)
+- [version 3.x](#version-3x)
+- [version 2.x](#version-2x)
+- [version 1.x](#version-1x)
 - [version 0.8.x](#version-08x)
 - [version 0.6.x](#version-06x)
 - [old version](#old-version)
 
-## version 3.0.x
+## version 3.x
+
+### version 3.1.0
+
+- enhancement
+  - #44 add user-defined columns on Task Table.
+  - #45 write comment on the regist screen.
+  - #46 improved performance on checkbox event in javascript.
 
 ### version 3.0.0
 
@@ -23,7 +30,7 @@
 - drop support operation system.
   - debian-9
 
-## version 2.0.x
+## version 2.x
 
 ### version 2.0.1
 
@@ -50,7 +57,14 @@
 - bugfix
   - fix #36 (add @login_required decorator)
 
-## version 1.0.x
+## version 1.x
+
+### version 1.1.0
+
+- enhancement
+  - #44 add user-defined columns on Task Table.
+  - #45 write comment on the regist screen.
+  - #46 improved performance on checkbox event in javascript.
 
 ### version 1.0.1
 
