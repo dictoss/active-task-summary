@@ -80,6 +80,7 @@ def export_csv_task(datalist, add_header, new_line):
                     'task_userdata3',
                     'task_userdata4',
                     'task_userdata5',
+                    'comment',
                 ]
                 _writer.writerow(_header)
 
@@ -105,6 +106,7 @@ def export_csv_task(datalist, add_header, new_line):
                 _line.append(d['task__userdata3'])
                 _line.append(d['task__userdata4'])
                 _line.append(d['task__userdata5'])
+                _line.append(d['comment'])
 
                 if six.PY2:
                     for i in range(len(_line)):

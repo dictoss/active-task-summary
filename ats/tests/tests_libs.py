@@ -103,6 +103,7 @@ class TestLib(TestCase):
                 'task__userdata3': '333',
                 'task__userdata4': '444',
                 'task__userdata5': '555',
+                'comment': 'this is comment.',
              },
         ]
 
@@ -130,6 +131,7 @@ class TestLib(TestCase):
         self.assertEqual(_cols_0[9], '"task_userdata3"')
         self.assertEqual(_cols_0[10], '"task_userdata4"')
         self.assertEqual(_cols_0[11], '"task_userdata5"')
+        self.assertEqual(_cols_0[12], '"comment"')
 
         _cols_1 = _rows[1].split(',')
         self.assertEqual(_cols_1[0], '"2015-04-05"')
@@ -144,6 +146,7 @@ class TestLib(TestCase):
         self.assertEqual(_cols_1[9], '"333"')
         self.assertEqual(_cols_1[10], '"444"')
         self.assertEqual(_cols_1[11], '"555"')
+        self.assertEqual(_cols_1[12], '"this is comment."')
 
         #
         # if _add_header is False
@@ -170,3 +173,4 @@ class TestLib(TestCase):
         self.assertEqual(_cols_1[9], '"333"')
         self.assertEqual(_cols_1[10], '"444"')
         self.assertEqual(_cols_1[11], '"555"')
+        self.assertEqual(_cols_1[12], '"this is comment."')
