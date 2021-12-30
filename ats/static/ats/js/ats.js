@@ -13,12 +13,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 function enable_regist_checkbox(v)
 {
-    var chks = document.regist.registcheck;
+    var chk_id = "id_chk_" + v;
+    var chk = document.getElementById(chk_id);
 
-    for(i = 0; i < chks.length; i ++){
-        if(chks[i].value === v){
-            chks[i].checked = true;
-            break;
+    if(chk !== null){
+        if(chk.value === v){
+            chk.checked = true;
         }
     }
 }
