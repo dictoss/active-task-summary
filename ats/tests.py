@@ -237,6 +237,7 @@ class TestLib(TestCase):
                 'task__userdata3': '333',
                 'task__userdata4': '444',
                 'task__userdata5': '555',
+                'comment': 'this is comment.',
              },
         ]
 
@@ -264,6 +265,7 @@ class TestLib(TestCase):
         self.assertEqual(_cols_0[9], '"task_userdata3"')
         self.assertEqual(_cols_0[10], '"task_userdata4"')
         self.assertEqual(_cols_0[11], '"task_userdata5"')
+        self.assertEqual(_cols_0[12], '"comment"')
 
         _cols_1 = _rows[1].split(',')
         self.assertEqual(_cols_1[0], '"2015-04-05"')
@@ -278,6 +280,7 @@ class TestLib(TestCase):
         self.assertEqual(_cols_1[9], '"333"')
         self.assertEqual(_cols_1[10], '"444"')
         self.assertEqual(_cols_1[11], '"555"')
+        self.assertEqual(_cols_1[12], '"this is comment."')
 
         #
         # if _add_header is False
@@ -304,6 +307,7 @@ class TestLib(TestCase):
         self.assertEqual(_cols_1[9], '"333"')
         self.assertEqual(_cols_1[10], '"444"')
         self.assertEqual(_cols_1[11], '"555"')
+        self.assertEqual(_cols_1[12], '"this is comment."')
 
 
 class Ats404ViewTestCase(AtsViewTestCase):
@@ -1067,6 +1071,7 @@ class RegistViewTestCase(AtsViewTestCase):
                 'uttid': [],
                 'tasktime_hour': [],
                 'tasktime_min': [],
+                'comment': '',
             })
         self.assertEqual(_response.status_code, 200)
 
@@ -1094,6 +1099,7 @@ class RegistViewTestCase(AtsViewTestCase):
                     'uttid': 'p%s_t%s' % (pjw.project.id, t.id),
                     'tasktime_hour': 2,
                     'tasktime_min': 15,
+                    'comment': '123',
                 }
 
                 _datalist.append(_data)
@@ -1108,6 +1114,7 @@ class RegistViewTestCase(AtsViewTestCase):
                 'uttid': [o['uttid'] for o in _datalist],
                 'tasktime_hour': [o['tasktime_hour'] for o in _datalist],
                 'tasktime_min': [o['tasktime_min'] for o in _datalist],
+                'comment': [o['comment'] for o in _datalist],
             })
 
         # regist (update)
@@ -1123,6 +1130,7 @@ class RegistViewTestCase(AtsViewTestCase):
                 'uttid': [o['uttid'] for o in _datalist],
                 'tasktime_hour': [o['tasktime_hour'] for o in _datalist],
                 'tasktime_min': [o['tasktime_min'] for o in _datalist],
+                'comment': [o['comment'] for o in _datalist],
             })
 
         # regist (delete)
@@ -1139,6 +1147,7 @@ class RegistViewTestCase(AtsViewTestCase):
                 'uttid': [o['uttid'] for o in _datalist],
                 'tasktime_hour': [o['tasktime_hour'] for o in _datalist],
                 'tasktime_min': [o['tasktime_min'] for o in _datalist],
+                'comment': [o['comment'] for o in _datalist],
             })
 
         self.assertEqual(_response.status_code, 200)

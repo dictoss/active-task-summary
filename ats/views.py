@@ -157,6 +157,7 @@ def regist(request):
                 uttid = request.POST.getlist('uttid')
                 tasktime_hour = request.POST.getlist('tasktime_hour')
                 tasktime_min = request.POST.getlist('tasktime_min')
+                comment = request.POST.getlist('comment')
 
                 targetindexlist = []
                 # get index from form data
@@ -185,6 +186,8 @@ def regist(request):
                         hour=int(tasktime_hour[i]),
                         minute=int(tasktime_min[i]))
 
+                    _o['comment'] = comment[i]
+
                     _inputdatas.append(_o)
 
                 with transaction.atomic():
@@ -204,9 +207,10 @@ def regist(request):
                                       project=Project.objects.get(pk=i['pid']),
                                       task=Task.objects.get(pk=i['tid']),
                                       taskdate=regist_date,
-                                      defaults={'tasktime': i['ud_ttime']})
+                                      defaults={'tasktime': i['ud_ttime'], 'comment': i['comment']})
                                 if not _created:
                                     uttinst.tasktime = i['ud_ttime']
+                                    uttinst.comment = i['comment']
                                     uttinst.save()
                     except Exception as e:
                         msg = "EXCEPT: fail save or delete. msg=%s,%s" % (
@@ -341,7 +345,8 @@ def regist(request):
                   'jobname': u.task.job.name,
                   'taskname': u.task.name,
                   'tasktime_hour': u.tasktime.hour,
-                  'tasktime_min': u.tasktime.minute}
+                  'tasktime_min': u.tasktime.minute,
+                  'comment': u.comment}
 
         existdatalist.append(uttobj)
 
@@ -364,12 +369,14 @@ def regist(request):
                    'task_id': t.id,
                    'task_name': t.name,
                    'tasktime_hour': 0,
-                   'tasktime_min': 0}
+                   'tasktime_min': 0,
+                   'comment': ''}
 
             for u in cursor_u:
                 if (pjw.project == u.project) and (t.id == u.task_id):
                     utt['tasktime_hour'] = u.tasktime.hour
                     utt['tasktime_min'] = u.tasktime.minute
+                    utt['comment'] = u.comment
                     break
 
             usedtasktimelist.append(utt)
@@ -720,7 +727,8 @@ def summary_u(request):
                                              'task__userdata2',
                                              'task__userdata3',
                                              'task__userdata4',
-                                             'task__userdata5')
+                                             'task__userdata5',
+                                             'comment')
 
             datedatalist = list(cursor_date)
 
@@ -878,6 +886,7 @@ def export_csv_task(datalist, add_header, new_line):
                     'task_userdata3',
                     'task_userdata4',
                     'task_userdata5',
+                    'comment',
                 ]
                 _writer.writerow(_header)
 
@@ -903,10 +912,14 @@ def export_csv_task(datalist, add_header, new_line):
                 _line.append(d['task__userdata3'])
                 _line.append(d['task__userdata4'])
                 _line.append(d['task__userdata5'])
+                _line.append(d['comment'])
 
                 if six.PY2:
                     for i in range(len(_line)):
-                        _line[i] = _line[i].encode('utf8')
+                        if _line[i]:
+                            _line[i] = _line[i].encode('utf8')
+                        else:
+                            _line[i] = ''
 
                 _writer.writerow(_line)
 

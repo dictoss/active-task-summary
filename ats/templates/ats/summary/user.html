@@ -140,6 +140,7 @@
   <th>task</th>
   <th>user</th>
   <th>task time</th>
+  <th>comment</th>
  </tr>
 {% for r in datedetaildata %}
  <tr>
@@ -154,6 +155,7 @@
   <td>{{ r.user__first_name }} {{ r.user__last_name }}</td>
   {% endif %}
   <td class="num">{{ r.tasktime|time:"H:i" }}</td>
+  <td>{{ r.comment }}</td>
  </tr>
 {% endfor %}
 </table>
