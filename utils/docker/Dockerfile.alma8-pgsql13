@@ -1,0 +1,50 @@
+#
+# Dockerfile for python web application. (use postgresql-13 on almalinux-8 for unittest)
+#
+FROM almalinux:8
+
+# set locale
+RUN sed -i -e '/override_install_langs/s/$/,ja_JP.utf8/g' /etc/yum.conf
+RUN (dnf check-update || true) \
+    && dnf install -y glibc-locale-source glibc-langpack-ja \
+    && localedef -f UTF-8 -i ja_JP ja_JP.UTF-8 \
+    && dnf clean all
+ENV LANG="ja_JP.UTF-8" \
+    LANGUAGE="ja_JP:ja" \
+    LC_ALL="ja_JP.UTF-8"
+RUN locale -a
+
+# for web application.
+RUN dnf install -y \
+    python39 python39-devel python39-setuptools python39-pip \
+    gcc \
+    make \
+    git \
+    sudo \
+    && dnf clean all
+# RUN yum install -y httpd
+
+# install postgresql-13 for pgdg.
+RUN dnf -qy module disable postgresql
+RUN dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+RUN (dnf check-update || true) && dnf install -y --enablerepo=pgdg13 \
+    postgresql13 \
+    postgresql13-libs \
+    postgresql13-devel \
+    postgresql13-server \
+    && dnf clean all
+
+# setup user account for unittest.
+USER postgres
+ENV PATH $PATH:/usr/pgsql-13/bin
+ENV PGDATA /var/lib/pgsql/13/data
+RUN rm -fr /var/lib/pgsql/13/data
+RUN /usr/pgsql-13/bin/initdb --encoding=UTF8 --locale=ja_JP.UTF-8
+RUN pg_ctl -D /var/lib/pgsql/13/data start && sleep 3s && \
+    psql --command="CREATE USER webapp WITH SUPERUSER PASSWORD 'password'" && \
+    createdb --encoding=UTF8 --owner=webapp ats && \
+    pg_ctl -D/var/lib/pgsql/13/data stop
+USER root
+
+# execute postgresql-server on start docker image.
+# CMD ["/usr/pgsql-13/bin/pg_ctl", "-D", "/var/lib/pgsql/13/data"]
