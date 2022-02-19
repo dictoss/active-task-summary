@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t dictoss/ats:debian10 - < Dockerfile.debian10
+docker build -t dictoss/ats:debian11 - < Dockerfile.debian11
