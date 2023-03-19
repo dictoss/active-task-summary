@@ -6,6 +6,23 @@ BIN_PYTHON=python3
 BIN_PIP=pip3
 APP_ENV=test
 
+function has_pip_break_system_packages {
+    if [ ! -e "/etc/debian_version" ]; then
+        return 0
+    fi
+
+    # for debian/ubuntu.  ex) Python 3.11.2
+    python3_ver=`/usr/bin/python3 --version | sed -e 's/Python //g'`
+    ver_list=(${python3_ver//./ })
+    python3_ver_minor=${ver_list[1]}
+
+    if [ ${python3_ver_minor} -lt 11 ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 if [ $# -gt 0 ]; then
     TEST_MODE=$1
 fi
@@ -26,8 +43,18 @@ elif  [ "${TEST_MODE}" = "jenkins-docker" ]; then
     ${BIN_PYTHON} -V
 
     # install libraries.
-    ${BIN_PIP} install -U -r requirements.txt
-    ${BIN_PIP} install -U -r requirements_dev.txt
+    has_pip_break_system_packages
+    func_ret=$?
+
+    if [ ${func_ret} -eq 0 ]; then
+        ${BIN_PIP} install -U -r requirements.txt
+        ${BIN_PIP} install -U -r requirements_dev.txt
+    else
+        PIP_OPT_PEP668="--break-system-packages"
+
+        ${BIN_PIP} install -U -r requirements.txt ${PIP_OPT_PEP668}
+        ${BIN_PIP} install -U -r requirements_dev.txt ${PIP_OPT_PEP668}
+    fi
 
     # create diretory.
     mkdir -p ~/log
