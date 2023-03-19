@@ -74,7 +74,7 @@ elif  [ "${TEST_MODE}" = "jenkins-docker" ]; then
 fi
 
 # execute unittest
-coverage run --source='.' manage.py test -v2 ${APP_NAME}
+PYTHONWARNINGS=default coverage run --source='.' manage.py test -v2 ${APP_NAME}
 RET=$?
 echo "unittest result code: ${RET}"
 coverage report
