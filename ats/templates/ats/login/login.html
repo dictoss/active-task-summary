@@ -1,6 +1,6 @@
-{% extends "ats/base.html" %}
+{% extends "ats/base.html" %}{% load i18n %}
 
-{% block title %}Login{% endblock %}
+{% block title %}{% trans "Login" %}{% endblock %}
 
 {% block boxsubnavi %}
 {% endblock %}
@@ -13,6 +13,6 @@
 <input type="submit" value="Login">
 </form>
 {% if 0 < error_reason %}
-<p><b>fail login.</b></p>
+<p><b>{% trans "fail login." %}</b></p>
 {% endif %}
 {% endblock %}

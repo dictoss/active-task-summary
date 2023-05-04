@@ -1,13 +1,13 @@
-{% extends "ats/base.html" %}
+{% extends "ats/base.html" %}{% load i18n %}
 
-{% block title %}TOP{% endblock %}
+{% block title %}{% trans "Summary - job" %}{% endblock %}
 
 {% block boxsubnavi %}
   {% include "summary/subnavi_index.html" %}
 {% endblock %}
 
 {% block boxmain %}
-<h3>Choice Summary Rule (job)</h3>
+<h3>{% trans "Choice Summary Rule (job)" %}</h3>
 <form action="#" method="POST">
 {% csrf_token %}
 {{ form.as_p }}
@@ -16,13 +16,13 @@
 </form>
 <hr>
 
-<h3>Job Summary</h3>
+<h3>{% trans "Job Summary" %}</h3>
 {% if jobdata %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>project</th>
-  <th>job</th>
-  <th>task time</th>
+  <th>{% trans "project" %}</th>
+  <th>{% trans "job" %}</th>
+  <th>{% trans "task time" %}</th>
  </tr>
 {% for r in jobdata %}
  <tr>
@@ -33,17 +33,17 @@
 {% endfor %}
 </table>
 {% else %}
-<p>no data.</p>
+<p>{% trans "no data." %}</p>
 {% endif %}
 
-<h3>Month Summary(job)</h3>
+<h3>{% trans "Month Summary (job)" %}</h3>
 {% if j_monthlist %}
 <table class="usedtasktime" border="1">
   <tr>
-    <th>job</th>
-    <th>year</th>
-    <th>month</th>
-    <th>task time</th>
+    <th>{% trans "job" %}</th>
+    <th>{% trans "year" %}</th>
+    <th>{% trans "month" %}</th>
+    <th>{% trans "task time" %}</th>
   </tr>
   {% for data in j_monthlist %}
   <tr>
@@ -58,18 +58,18 @@
 <div id="chart_month" style="height:300px; width:600px;"></div>
 -->
 {% else %}
-<p>no data.</p>
+<p>{% trans "no data." %}</p>
 {% endif %}
 
-<h3>Month Summary(project,job)</h3>
+<h3>{% trans "Month Summary (project, job)" %}</h3>
 {% if pj_monthlist %}
 <table class="usedtasktime" border="1">
   <tr>
-    <th>project</th>
-    <th>job</th>
-    <th>year</th>
-    <th>month</th>
-    <th>task time</th>
+    <th>{% trans "project" %}</th>
+    <th>{% trans "job" %}</th>
+    <th>{% trans "year" %}</th>
+    <th>{% trans "month" %}</th>
+    <th>{% trans "task time" %}</th>
   </tr>
   {% for data in pj_monthlist %}
   <tr>
@@ -85,17 +85,17 @@
 <div id="chart_month" style="height:300px; width:600px;"></div>
 -->
 {% else %}
-<p>no data.</p>
+<p>{% trans "no data." %}</p>
 {% endif %}
 
-<h3>Task Detail</h3>
+<h3>{% trans "Task Detail" %}</h3>
 {% if taskdata %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>project</th>
-  <th>job</th>
-  <th>task</th>
-  <th>task time</th>
+  <th>{% trans "project" %}</th>
+  <th>{% trans "job" %}</th>
+  <th>{% trans "}task" %</th>
+  <th>{% trans "task time" %}</th>
  </tr>
 {% for r in taskdata %}
  <tr>

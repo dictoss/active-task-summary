@@ -1,6 +1,6 @@
-{% extends "ats/base.html" %}
+{% extends "ats/base.html" %}{% load i18n %}
 
-{% block title %}TOP{% endblock %}
+{% block title %}{% trans "change password" %}{% endblock %}
 
 {% block boxsubnavi %}
   {% include "top/subnavi_index.html" %}
@@ -9,7 +9,7 @@
 {% block boxmain %}
 <form method="POST" action="#">
 {% if form.errors %}
-<b><p>Your username and password didn't match. Please try again.</p></b>
+<b><p>{% trans "Your username and password didn't match. Please try again." %}</p></b>
 {% else %}
 <b>{{ message }}</b>
 {% endif %}

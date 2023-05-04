@@ -1,13 +1,13 @@
-{% extends "ats/base.html" %}
+{% extends "ats/base.html" %}{% load i18n %}
 
-{% block title %}TOP{% endblock %}
+{% block title %}{% trans "Summay - user" %}{% endblock %}
 
 {% block boxsubnavi %}
   {% include "summary/subnavi_index.html" %}
 {% endblock %}
 
 {% block boxmain %}
-<h3>Choice Summary Rule (user)</h3>
+<h3>{% trans "Choice Summary Rule (user)" %}</h3>
 <form action="#" method="POST">
 {% csrf_token %}
 {{ form.as_p }}
@@ -22,15 +22,15 @@
 
 <hr>
 
-<h3>Project Summary</h3>
+<h3>{% trans "Project Summary" %}</h3>
 {% if userdata %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>project</th>
-  <th>code</th>
-  <th>job</th>
-  <th>user</th>
-  <th>task time</th>
+  <th>{% trans "project" %}</th>
+  <th>{% trans "code" %}</th>
+  <th>{% trans "job" %}</th>
+  <th>{% trans "user" %}</th>
+  <th>{% trans "task time" %}</th>
  </tr>
 {% for r in userdata %}
  <tr>
@@ -47,17 +47,17 @@
 {% endfor %}
 </table>
 {% else %}
-<p>no data.</p>
+<p>{% trans "no data." %}</p>
 {% endif %}
 
-<h3>Month Summary</h3>
+<h3>{% trans "Month Summary" %}</h3>
 {% if monthlist %}
 <table class="usedtasktime" border="1">
   <tr>
-    <th>username</th>
-    <th>year</th>
-    <th>month</th>
-    <th>task time</th>
+    <th>{% trans "username" %}</th>
+    <th>{% trans "year" %}</th>
+    <th>{% trans "month" %}</th>
+    <th>{% trans "task time" %}</th>
   </tr>
   {% for data in monthlist %}
   <tr>
@@ -72,16 +72,16 @@
 <div id="chart_month" style="height:300px; width:600px;"></div>
 -->
 {% else %}
-<p>no data.</p>
+<p>{% trans "no data." %}</p>
 {% endif %}
 
-<h3>Date Summray</h3>
+<h3>{% trans "Date Summray" %}</h3>
 {% if datesummarydata %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>date</th>
-  <th>user</th>
-  <th>task time</th>
+  <th>{% trans "date" %}</th>
+  <th>{% trans "user" %}</th>
+  <th>{% trans "task time" %}</th>
  </tr>
 {% for r in datesummarydata %}
  <tr>
@@ -96,19 +96,19 @@
 {% endfor %}
 </table>
 {% else %}
-<p>no data.</p>
+<p>{% trans "no data." %}</p>
 {% endif %}
 
-<h3>Task Summary</h3>
+<h3>{% trans "Task Summary" %}</h3>
 {% if taskdata %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>project</th>
-  <th>code</th>
-  <th>job</th>
-  <th>task</th>
-  <th>user</th>
-  <th>task time</th>
+  <th>{% trans "project" %}</th>
+  <th>{% trans "code" %}</th>
+  <th>{% trans "job" %}</th>
+  <th>{% trans "task" %}</th>
+  <th>{% trans "user" %}</th>
+  <th>{% trans "task time" %}</th>
  </tr>
 {% for r in taskdata %}
  <tr>
@@ -126,21 +126,21 @@
 {% endfor %}
 </table>
 {% else %}
-<p>no data.</p>
+<p>{% trans "no data." %}</p>
 {% endif %}
 
-<h3>Task Detail</h3>
+<h3>{% trans "Task Detail" %}</h3>
 {% if datedetaildata %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>date</th>
-  <th>project</th>
-  <th>code</th>
-  <th>job</th>
-  <th>task</th>
-  <th>user</th>
-  <th>task time</th>
-  <th>comment</th>
+  <th>{% trans "date" %}</th>
+  <th>{% trans "project" %}</th>
+  <th>{% trans "code" %}</th>
+  <th>{% trans "job" %}</th>
+  <th>{% trans "task" %}</th>
+  <th>{% trans "user" %}</th>
+  <th>{% trans "task time" %}</th>
+  <th>{% trans "comment" %}</th>
  </tr>
 {% for r in datedetaildata %}
  <tr>
@@ -160,6 +160,6 @@
 {% endfor %}
 </table>
 {% else %}
-<p>no data.</p>
+<p>{% trans "no data." %}</p>
 {% endif %}
 {% endblock %}

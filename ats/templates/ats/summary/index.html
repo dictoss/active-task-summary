@@ -1,13 +1,13 @@
-{% extends "ats/base.html" %}
+{% extends "ats/base.html" %}{% load i18n %}
 
-{% block title %}TOP{% endblock %}
+{% block title %}{% trans "Summary" %}{% endblock %}
 
 {% block boxsubnavi %}
   {% include "summary/subnavi_index.html" %}
 {% endblock %}
 
 {% block boxmain %}
-<h3>Choice Summary Rule</h3>
+<h3>{% trans "Choice Summary Rule" %}</h3>
 <form action="#" method="POST">
 {% csrf_token %}
 {{ form.as_p }}
@@ -19,11 +19,11 @@
 {% if datalist %}
 <table class="usedtasktime" border=1>
  <tr>
-  <th>project</th>
-  <th>date</th>
-  <th>username</th>
-  <th>task</th>
-  <th>task time</th>
+  <th>{% trans "project" %}</th>
+  <th>{% trans "date" %}</th>
+  <th>{% trans "username" %}</th>
+  <th>{% trans "task" %}</th>
+  <th>{% trans "task time" %}</th>
  </tr>
 {% for data in datalist %}
  <tr>

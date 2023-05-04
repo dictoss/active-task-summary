@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %}{% load i18n %}
 
 <!DOCTYPE HTML>
 <html lang="ja">
@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="pragma" content="no-cache" />
   <meta http-equiv="cache-control" content="no-cache" />
-  <title>{% block title %}{% endblock %} | Active Task Summary</title>
+  <title>{% block title %}{% endblock %} | {% trans "Active Task Summary" %}</title>
   <link rel="stylesheet" type="text/css" href="{% static 'ats/css/atsstyle.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'ats/css/jquery.jqplot.min.css' %}">
 </head>
@@ -24,14 +24,14 @@
 <div class="all">
 <div class="boxheader">
 <div class="boxkeyvisual">
-  <a href="{% url 'ats:top' %}">Active Task Summary</a>
+  <a href="{% url 'ats:top' %}">{% trans "Active Task Summary" %}</a>
 </div>
 <div class="boxnotice">
 {% if user.is_authenticated %}
   {% if is_lastname_front %}
-<p class="userstatus">login as : {{ user }} ({{ user.last_name }} {{ user.first_name }}) : <a href="{% url 'ats:logout_view' %}">logout</a></p>
+<p class="userstatus">{% trans "login as" %} : {{ user }} ({{ user.last_name }} {{ user.first_name }}) : <a href="{% url 'ats:logout_view' %}">{% trans "logout" %}</a></p>
   {% else %}
-<p class="userstatus">login as : {{ user }} ({{ user.first_name }} {{ user.last_name }}) : <a href="{% url 'ats:logout_view' %}">logout</a></p>
+<p class="userstatus">{% trans "login as" %} : {{ user }} ({{ user.first_name }} {{ user.last_name }}) : <a href="{% url 'ats:logout_view' %}">{% trans "logout" %}</a></p>
   {% endif %}
 {% endif %}
 </div>
@@ -42,15 +42,15 @@
 <div class="boxsubnavi">
   {% if user.is_authenticated %}
   <ul id="subnavilist">
-    <li><u><a href="{% url 'ats:top' %}">TOP</a></u></li>
-    <li><u><a href="{% url 'ats:regist' %}">regist</a></u></li>
-    <li>summary</li>
+    <li><u><a href="{% url 'ats:top' %}">{% trans "Top" %}</a></u></li>
+    <li><u><a href="{% url 'ats:regist' %}">{% trans "Regist" %}</a></u></li>
+    <li>{% trans "Summary" %}</li>
     <ul>
-      <li><u><a href="{% url 'ats:summary_p' %}">project</a></u></li>
-      <li><u><a href="{% url 'ats:summary_j' %}">job</a></u></li>
-      <li><u><a href="{% url 'ats:summary_u' %}">user</a></u></li>
+      <li><u><a href="{% url 'ats:summary_p' %}">{% trans "project" %}</a></u></li>
+      <li><u><a href="{% url 'ats:summary_j' %}">{% trans "job" %}</a></u></li>
+      <li><u><a href="{% url 'ats:summary_u' %}">{% trans "user" %}</a></u></li>
     </ul>
-    <li><u><a href="{% url 'ats:manage' %}">manage</a></u></li>
+    <li><u><a href="{% url 'ats:manage' %}">{% trans "Manage" %}</a></u></li>
   </ul>
   {% endif %}
 </div>

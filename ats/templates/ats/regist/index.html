@@ -1,11 +1,11 @@
-{% extends "ats/base.html" %}
+{% extends "ats/base.html" %}{% load i18n %}
 
-{% block title %}TOP{% endblock %}
+{% block title %}{% trans "Regist" %}{% endblock %}
 
 {% block boxsubnavi %}
   {% include "top/subnavi_index.html" %}
 {% endblock %}
 
 {% block boxmain %}
-<p>this is regist</p>
+<p>{% trans "this is regist." %}</p>
 {% endblock %}

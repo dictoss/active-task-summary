@@ -1,13 +1,13 @@
-{% extends "ats/base.html" %}
+{% extends "ats/base.html" %}{% load i18n %}
 
-{% block title %}TOP{% endblock %}
+{% block title %}{% trans "Summary - project" %}{% endblock %}
 
 {% block boxsubnavi %}
   {% include "summary/subnavi_index.html" %}
 {% endblock %}
 
 {% block boxmain %}
-<h3>Choice Summary Rule (Project)</h3>
+<h3>{% trans "Choice Summary Rule (Project)" %}</h3>
 <form action="#" method="POST">
 {% csrf_token %}
 {{ form.as_p }}
@@ -16,13 +16,13 @@
 </form>
 <hr>
 
-<h3>Total Summary</h3>
+<h3>{% trans "Total Summary" %}</h3>
 {% if totallist %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>project</th>
-  <th>code</th>
-  <th>task time</th>
+  <th>{% trans "project" %}</th>
+  <th>{% trans "code" %}</th>
+  <th>{% trans "task time" %}</th>
  </tr>
 {% for data in totallist %}
  <tr>
@@ -33,18 +33,18 @@
 {% endfor %}
 </table>
 {% else %}
-<p>no data.</p>
+<p>{% trans "no data." %}</p>
 {% endif %}
 
-<h3>Month Summary(project)</h3>
+<h3>{% trans "Month Summary (project)" %}</h3>
 {% if p_monthlist %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>project</th>
-  <th>code</th>
-  <th>year</th>
-  <th>month</th>
-  <th>task time</th>
+  <th>{% trans "project" %}</th>
+  <th>{% trans "code" %}</th>
+  <th>{% trans "year" %}</th>
+  <th>{% trans "month" %}</th>
+  <th>{% trans "task time" %}</th>
  </tr>
 {% for data in p_monthlist %}
  <tr>
@@ -58,19 +58,19 @@
 </table>
 <div id="chart_month" style="height:300px; width:600px;"></div>
 {% else %}
-<p>no data.</p>
+<p>{% trans "no data." %}</p>
 {% endif %}
 
-<h3>Month Summary(project,job)</h3>
+<h3>{% trans "Month Summary (project, job)" %}</h3>
 {% if pj_monthlist %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>project</th>
-  <th>code</th>
-  <th>job</th>
-  <th>year</th>
-  <th>month</th>
-  <th>task time</th>
+  <th>{% trans "project" %}</th>
+  <th>{% trans "code" %}</th>
+  <th>{% trans "job" %}</th>
+  <th>{% trans "}year" %</th>
+  <th>{% trans "month" %}</th>
+  <th>{% trans "task time" %}</th>
  </tr>
 {% for data in pj_monthlist %}
  <tr>
@@ -85,17 +85,17 @@
 </table>
 <!-- <div id="chart_month" style="height:300px; width:600px;"></div> -->
 {% else %}
-<p>no data.</p>
+<p>{% trans "no data." %}</p>
 {% endif %}
 
-<h3>Date Summary</h3>
+<h3>{% trans "Date Summary" %}</h3>
 {% if datelist %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>date</th>
-  <th>project</th>
-  <th>code</th>
-  <th>task time</th>
+  <th>{% trans "date" %}</th>
+  <th>{% trans "project" %}</th>
+  <th>{% trans "code" %}</th>
+  <th>{% trans "task time" %}</th>
  </tr>
 {% for data in datelist %}
  <tr>
@@ -107,20 +107,20 @@
 {% endfor %}
 </table>
 {% else %}
-<p>no data.</p>
+<p>{% trans "no data." %}</p>
 {% endif %}
 
-<h3>Task Detail</h3>
+<h3>{% trans "Task Detail" %}</h3>
 {% if is_show_taskdetail %}
 {% if tasklist %}
 <table class="usedtasktime" border="1">
  <tr>
-  <th>date</th>
-  <th>project</th>
-  <th>code</th>
-  <th>job</th>
-  <th>task</th>
-  <th>task time</th>
+  <th>{% trans "date" %}</th>
+  <th>{% trans "project" %}</th>
+  <th>{% trans "code" %}</th>
+  <th>{% trans "job" %}</th>
+  <th>{% trans "task" %}</th>
+  <th>{% trans "task time" %}</th>
  </tr>
 {% for data in tasklist %}
  <tr>
@@ -137,7 +137,7 @@
 <p>no data.</p>
 {% endif %}
 {% else %}
-<p>no show.</p>
+<p>{% trans "no show." %}</p>
 {% endif %}
 
 {# create graph #}
