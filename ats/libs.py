@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 import os
 import sys
@@ -6,7 +6,7 @@ import time
 import datetime
 import logging
 import csv
-import six
+import io
 from datetime import date
 
 from django.apps import apps
@@ -55,10 +55,7 @@ def get_thismonth_1st():
 
 def export_csv_task(datalist, add_header, new_line):
     _s = ''
-    if six.PY2:
-        bufffer = six.BytesIO()
-    else:
-        bufffer = six.StringIO()
+    bufffer = io.StringIO()
 
     try:
         if True:
@@ -108,17 +105,12 @@ def export_csv_task(datalist, add_header, new_line):
                 _line.append(d['task__userdata5'])
                 _line.append(d['comment'])
 
-                if six.PY2:
-                    for i in range(len(_line)):
-                        _line[i] = _line[i].encode('utf8')
-
                 _writer.writerow(_line)
 
             _s = bufffer.getvalue()
             bufffer.close()
 
-            if six.PY3:
-                _s = _s.encode('utf8')
+            _s = _s.encode('utf8')
     except Exception as e:
         logger.error('fail export_csv_task().')
         logger.error('EXCEPT: export_csv_task(). e=%s, msg1=%s,msg2=%s',
