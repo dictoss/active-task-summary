@@ -4,15 +4,15 @@ a web application of input and summary task time by team member.
 
 # Current Stable Version
 
-- 3.1.0 (use django-3.2, require python3.6+)
+- 4.0.0 (use django-4.2, require python3.8+)
 - 1.1.0 (use django-1.11, require python2.7)
 
 # Develop Environment
 
-## for 3.x series
+## for 4.x series
 
 - Debian GNU/Linux 11 (bullseye) amd64
-- Django 3.2 series
+- Django 4.2 series
 - python 3.9.2
 - apache 2.4
 - python3-psycopg2 2.8.6
