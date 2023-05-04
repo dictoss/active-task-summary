@@ -6,8 +6,6 @@ from django.db import IntegrityError
 import datetime
 from datetime import timedelta
 
-import pytz
-
 from ..models import (
     Job,
     Task,
@@ -48,7 +46,7 @@ class TestModel(TestCase):
         self.assertEqual(_s, '102 : taskname2 (jobname) [invalid]')
 
     def test_project(self):
-        _tzgmt = pytz.timezone('Etc/GMT')
+        _tzgmt = datetime.timezone.utc
         _delta = datetime.timedelta(days=1)
         _now = datetime.datetime.now(tz=_tzgmt)
         _at_s = datetime.date(year=2000, month=1, day=1)

@@ -6,8 +6,6 @@ from django.db import IntegrityError
 import datetime
 from datetime import timedelta
 
-import pytz
-
 from ..views import (
     format_totaltime,
     format_hours_float,
