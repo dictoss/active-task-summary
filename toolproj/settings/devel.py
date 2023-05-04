@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import psycopg2.extensions
+from django.utils.translation import gettext_lazy as _
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 APP_MOUNTDIR = ''
@@ -41,6 +43,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE = (
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -102,7 +105,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.11/topics/i18n/
+# https://docs.djangoproject.com/en/4.2/topics/i18n/
+# https://docs.djangoproject.com/en/4.2/ref/settings/
+
+LANGUAGES = [
+    # ("ja", _("Japanese")),
+    ("en", _("English")),
+]
 
 LANGUAGE_CODE = 'en-us'
 
