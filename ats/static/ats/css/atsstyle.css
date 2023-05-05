@@ -176,7 +176,7 @@ div.boxgnavi
 div.boxsubnavi
 {
 	float: left;
-	width : 100px;
+	width : 130px;
 	background-color: #ffffff;
 	margin: 5px 0px 0px 0px;
 	padding: 5px 0px 0px 0px;
@@ -188,7 +188,12 @@ div.boxsubnavi
 	margin-bottom: 10px;
 	padding-left: 0;
 	list-style-type: none;
-	width:  175px;
+	width:  130px;
+}
+
+#subnavilist ul
+{
+	padding-left:		20px;
 }
 
 #subnavilist li
@@ -228,8 +233,8 @@ div.boxmain
 {
 	float : left;
 	background-color: #ffffff;
-	margin: 10px 0px 0px 10px;
-	padding: 10px 10px 10px 10px;
+	margin: 5px 0px 0px 5px;
+	padding: 5px 5px 5px 5px;
 	line-height : 130%;
 }
 
