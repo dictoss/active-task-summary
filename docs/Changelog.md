@@ -1,11 +1,33 @@
 # changelog
 
+- [version 4.x](#version-4x)
 - [version 3.x](#version-3x)
 - [version 2.x](#version-2x)
 - [version 1.x](#version-1x)
 - [version 0.8.x](#version-08x)
 - [version 0.6.x](#version-06x)
 - [old version](#old-version)
+
+## version 4.x
+
+### version 4.0.0
+
+- major release.
+  - The verion 4.0 series is the successor to 3.x.
+  - require python-3.8 or higher, and Django-4.2.
+  - require postgresql-12 or higher. (nessesary for Django-4.2)
+- enhancement
+  - support translation views. It now, include English and Japanase only.
+- supports the following operating systems.
+  - debian-11
+  - AlmaLinux-8
+- drop support operation system.
+  - debian-10
+  - CentOS-7.7+
+- misc
+  - not nessesary depend libraries six and pytz.
+  - more CI. add Dockerfile and run unittest code.
+  - preparing Debian-12 and AlmaLinux-9.
 
 ## version 3.x
 
