@@ -10,7 +10,7 @@
 {% csrf_token %}
 {{ form.as_p }}
 <br>
-<input type="submit" value="Login">
+<input type="submit" value="{% trans "Login" %}">
 </form>
 {% if 0 < error_reason %}
 <p><b>{% trans "fail login." %}</b></p>

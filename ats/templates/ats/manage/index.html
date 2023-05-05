@@ -8,7 +8,7 @@
 
 {% block boxmain %}
 <ul>
-  <li><a href="{% url 'ats:manage_chpasswd' %}">{% trans "change password " %}</a></li>
+  <li><a href="{% url 'ats:manage_chpasswd' %}">{% trans "change password" %}</a></li>
   {% if user.is_superuser %}
   <li><a href="{% url 'admin:index' %}">{% trans "manage database" %}</a></li>
   {% endif %}

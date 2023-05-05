@@ -12,8 +12,8 @@
 {% csrf_token %}
 {{ form.as_p }}
 <br>
-<input name="submit_type" type="submit" value="view">
-<input name="submit_type" type="submit" value="export">
+<input name="submit_type" type="submit" value="{% trans "view" %}">
+<input name="submit_type" type="submit" value="{% trans "export" %}">
 </form>
 
 <div class="notice_msg">

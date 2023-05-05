@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block boxmain %}
-<h3>{% trans "Choice data input date" %}</h3>
+<h3>{% trans "Select a date for data entry." %}</h3>
 <form name="dateselect" action="#" method="GET">
 {{ form.as_p }}
 <br>
@@ -15,7 +15,7 @@
 <br><br>
 {% if existdatalist %}
 <table class="usedtasktime" border="1">
-<caption>{% trans "exist data this day" %} ({% trans "total" %} : {{ oneday_total_hour }} {% trans "hour" %} {{ oneday_total_min }} {% trans "min" %})</caption>
+<caption>{% trans "registered data the day" %} ({% trans "total" %} : {{ oneday_total_hour }} {% trans "hour" %} {{ oneday_total_min }} {% trans "min" %})</caption>
 <tr>
 <th>{% trans "task time" %}</th><th>{% trans "project" %}</th><th>{% trans "job" %}</th><th>{% trans "task" %}</th><th>{% trans "comment" %}</th>
 </tr>
@@ -30,13 +30,13 @@
 {% endfor %}
 </table>
 {% else%}
-{% trans "empty data this day." %}
+{% trans "no data the day." %}
 {% endif %}
 </form>
 <hr>
 
 {% if datalist %}
-<h3>{% trans "date" %} : {{ regist_date|date:"Y-m-d" }}</h3>
+<h3>{% trans "target date" %} : {{ regist_date|date:"Y-m-d" }}</h3>
 <u>{% trans "please input tasktime." %}</u>
 <br>
 <br>
@@ -51,7 +51,7 @@
 {% for t in proj.usedtasktimelist %}
 <tr>
 <td><input type="hidden" name="uttid" value="p{{ proj.project_id }}_t{{ t.task_id }}"><input type="checkbox" id="id_chk_p{{ proj.project_id }}_t{{ t.task_id }}" name="registcheck" value="p{{ proj.project_id }}_t{{ t.task_id }}"></td>
-<td><select name="tasktime_hour" onchange="enable_regist_checkbox('p{{ proj.project_id }}_t{{ t.task_id }}')">{% for hour in hourlist %}{% if hour == t.tasktime_hour %}<option value="{{ hour }}" selected>{{ hour }}</option>{% else %}<option value="{{ hour }}">{{ hour }}</option>{% endif %}{% endfor %}</select> hour <select name="tasktime_min" onchange="enable_regist_checkbox('p{{ proj.project_id }}_t{{ t.task_id }}')">{% for min in minutelist %}{% if min == t.tasktime_min %}<option value="{{ min }}" selected>{{ min }}</option>{% else %}<option value="{{ min }}">{{ min }}</option>{% endif %}{% endfor %}</select> min </td>
+<td><select name="tasktime_hour" onchange="enable_regist_checkbox('p{{ proj.project_id }}_t{{ t.task_id }}')">{% for hour in hourlist %}{% if hour == t.tasktime_hour %}<option value="{{ hour }}" selected>{{ hour }}</option>{% else %}<option value="{{ hour }}">{{ hour }}</option>{% endif %}{% endfor %}</select> {% trans "hour" %} <select name="tasktime_min" onchange="enable_regist_checkbox('p{{ proj.project_id }}_t{{ t.task_id }}')">{% for min in minutelist %}{% if min == t.tasktime_min %}<option value="{{ min }}" selected>{{ min }}</option>{% else %}<option value="{{ min }}">{{ min }}</option>{% endif %}{% endfor %}</select> {% trans "min" %} </td>
 <td>{{ proj.project_name }}</td><td>{{ t.job_name }}</td><td>{{ t.task_name }}</td>
 <td><input type="text" name="comment" value="{{ t.comment }}" size="50" maxlength="255" placeholder="{% trans "more comment." %}" onkeyup="enable_regist_checkbox('p{{ proj.project_id }}_t{{ t.task_id }}')"></td>
 </tr>
@@ -62,6 +62,6 @@
 {% else %}
 <p>{% trans "no data." %}</p>
 {% endif %}
-<input type="submit" value="regist">
+<input type="submit" value="{% trans "regist" %}">
 </form>
 {% endblock %}

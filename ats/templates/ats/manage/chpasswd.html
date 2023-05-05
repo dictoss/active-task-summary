@@ -9,7 +9,7 @@
 {% block boxmain %}
 <form method="POST" action="#">
 {% if form.errors %}
-<b><p>{% trans "Your username and password didn't match. Please try again." %}</p></b>
+<b><p>{% trans "Your username or password didn't match. Please try again." %}</p></b>
 {% else %}
 <b>{{ message }}</b>
 {% endif %}
@@ -18,7 +18,7 @@
 {% csrf_token %}
 {{ form.as_p }}
 <br>
-<input type="submit" name="chpasswd" value="change password">
+<input type="submit" name="chpasswd" value="{% trans "change password" %}">
 <hr>
 </form>
 {% endblock %}

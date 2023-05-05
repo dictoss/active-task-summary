@@ -29,7 +29,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.forms import ModelForm
 from django.db.models import Sum, Q
 from django.db import transaction
-from django.utils import timezone
+from django.utils import (timezone, translation)
 from django.apps import apps
 from ats.models import *
 
@@ -875,7 +875,7 @@ def manage_chpasswd(request):
         # it is same to password1 and password2.
         if form.is_valid():
             form.save()
-            message = 'success change password.'
+            message = translation.gettext('success change password.')
             logger.info('success change password. user_id=%s', request.user.id)
         else:
             logger.warning('fail vaild to change password. continue... user_id=%s', request.user.id)
@@ -893,7 +893,7 @@ class RegistSelectForm(forms.Form):
         label='regist_date', required=True,
         initial=lambda: get_localtime(),
         widget=forms.DateInput(attrs={"type": "date"}))
-    projectlist = forms.ChoiceField(label='Project',
+    projectlist = forms.ChoiceField(label='project',
                                     choices=[('-1', '------')])
     submit_type = forms.CharField(initial='dateselect',
                                   widget=forms.HiddenInput())
@@ -948,7 +948,7 @@ class SummaryProjectForm(forms.Form):
                               initial=lambda: get_localtime(),
                               widget=forms.DateInput(attrs={"type": "date"}))
     projectlist = forms.ModelChoiceField(
-        label='Project',
+        label='project',
         queryset=Project.objects.all().order_by('sortkey'))
     is_show_taskdetail = forms.BooleanField(label="show Task Detail",
                                             required=False)
