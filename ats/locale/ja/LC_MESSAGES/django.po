@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 4.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-05 11:09+0900\n"
+"POT-Creation-Date: 2023-05-05 11:15+0900\n"
 "PO-Revision-Date: 2023-05-04 16:11+0900\n"
 "Last-Translator: Norimitsu SUGIMOTO <dictoss@live.jp>\n"
 "Language-Team: Norimitsu SUGIMOTO <dictoss@live.jp>\n"
@@ -351,12 +351,12 @@ msgid "Task Summary"
 msgstr "作業の集計"
 
 #: ats/templates/ats/top/index.html:3
-msgid "Top - Welcome to Active Tack Summary"
-msgstr "トップ - Active Tack Summary へようこそ"
+msgid "Top - Welcome to Active Task Summary"
+msgstr "トップ - Active Task Summary へようこそ"
 
 #: ats/templates/ats/top/index.html:10
-msgid "Welcome to Active Tack Summary."
-msgstr "Active Tack Summary へようこそ。"
+msgid "Welcome to Active Task Summary."
+msgstr "Active Task Summary へようこそ。"
 
 #: ats/views.py:879
 msgid "success change password."
