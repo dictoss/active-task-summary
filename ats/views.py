@@ -29,7 +29,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.forms import ModelForm
 from django.db.models import Sum, Q
 from django.db import transaction
-from django.utils import (timezone, translation)
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django.apps import apps
 from ats.models import *
 
@@ -875,7 +876,7 @@ def manage_chpasswd(request):
         # it is same to password1 and password2.
         if form.is_valid():
             form.save()
-            message = translation.gettext('success change password.')
+            message = _('success change password.')
             logger.info('success change password. user_id=%s', request.user.id)
         else:
             logger.warning('fail vaild to change password. continue... user_id=%s', request.user.id)
@@ -890,10 +891,10 @@ def manage_chpasswd(request):
 
 class RegistSelectForm(forms.Form):
     regist_date = forms.DateField(
-        label='regist_date', required=True,
+        label=_('regist_date'), required=True,
         initial=lambda: get_localtime(),
         widget=forms.DateInput(attrs={"type": "date"}))
-    projectlist = forms.ChoiceField(label='project',
+    projectlist = forms.ChoiceField(label=_('project'),
                                     choices=[('-1', '------')])
     submit_type = forms.CharField(initial='dateselect',
                                   widget=forms.HiddenInput())
@@ -941,28 +942,28 @@ class RegistForm(forms.Form):
 
 
 class SummaryProjectForm(forms.Form):
-    from_date = forms.DateField(label='from date', required=False,
+    from_date = forms.DateField(label=_('from date'), required=False,
                                 initial=lambda: get_thismonth_1st(),
                                 widget=forms.DateInput(attrs={"type": "date"}))
-    to_date = forms.DateField(label='to date', required=False,
+    to_date = forms.DateField(label=_('to date'), required=False,
                               initial=lambda: get_localtime(),
                               widget=forms.DateInput(attrs={"type": "date"}))
     projectlist = forms.ModelChoiceField(
-        label='project',
+        label=_('project'),
         queryset=Project.objects.all().order_by('sortkey'))
-    is_show_taskdetail = forms.BooleanField(label="show Task Detail",
+    is_show_taskdetail = forms.BooleanField(label=_('show Task Detail'),
                                             required=False)
 
 
 class SummaryJobForm(forms.Form):
-    from_date = forms.DateField(label='from date', required=False,
+    from_date = forms.DateField(label=_('from date'), required=False,
                                 initial=lambda: get_thismonth_1st(),
                                 widget=forms.DateInput(attrs={"type": "date"}))
-    to_date = forms.DateField(label='to date', required=False,
+    to_date = forms.DateField(label=_('to date'), required=False,
                               initial=lambda: get_localtime(),
                               widget=forms.DateInput(attrs={"type": "date"}))
     joblist = forms.ModelMultipleChoiceField(
-        label='job',
+        label=_('job'),
         required=True,
         queryset=Job.objects.all().order_by('sortkey'))
 
@@ -978,24 +979,24 @@ class MyUserModelMultipleChoiceField(forms.ModelMultipleChoiceField):
 
 
 class SummaryUserForm(forms.Form):
-    from_date = forms.DateField(label='from date', required=False,
+    from_date = forms.DateField(label=_('from date'), required=False,
                                 initial=lambda: get_thismonth_1st(),
                                 widget=forms.DateInput(attrs={"type": "date"}))
-    to_date = forms.DateField(label='to date', required=False,
+    to_date = forms.DateField(label=_('to date'), required=False,
                               initial=lambda: get_localtime(),
                               widget=forms.DateInput(attrs={"type": "date"}))
     userlist = MyUserModelMultipleChoiceField(
-        label='user',
+        label=_('user'),
         required=True,
         queryset=User.objects.filter(is_active=True).exclude(
             username=ats_settings.HIDDEN_DEFAULT_SUPERUSER).order_by('id'))
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label='username',
+    username = forms.CharField(label=_('username'),
                                max_length=256,
                                required=True)
-    password = forms.CharField(label='password',
+    password = forms.CharField(label=_('password'),
                                max_length=256,
                                widget=forms.PasswordInput(),
                                required=True)

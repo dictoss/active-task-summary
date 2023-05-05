@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 4.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-05 10:33+0900\n"
+"POT-Creation-Date: 2023-05-05 11:09+0900\n"
 "PO-Revision-Date: 2023-05-04 16:11+0900\n"
 "Last-Translator: Norimitsu SUGIMOTO <dictoss@live.jp>\n"
 "Language-Team: Norimitsu SUGIMOTO <dictoss@live.jp>\n"
@@ -63,7 +63,7 @@ msgstr "集計"
 #: ats/templates/ats/summary/project.html:119
 #: ats/templates/ats/summary/user.html:29
 #: ats/templates/ats/summary/user.html:106
-#: ats/templates/ats/summary/user.html:137
+#: ats/templates/ats/summary/user.html:137 ats/views.py:897 ats/views.py:952
 msgid "project"
 msgstr "プロジェクト"
 
@@ -75,14 +75,14 @@ msgstr "プロジェクト"
 #: ats/templates/ats/summary/project.html:121
 #: ats/templates/ats/summary/user.html:31
 #: ats/templates/ats/summary/user.html:108
-#: ats/templates/ats/summary/user.html:139
+#: ats/templates/ats/summary/user.html:139 ats/views.py:966
 msgid "job"
 msgstr "ジョブ"
 
 #: ats/templates/ats/base.html:51 ats/templates/ats/summary/user.html:32
 #: ats/templates/ats/summary/user.html:83
 #: ats/templates/ats/summary/user.html:110
-#: ats/templates/ats/summary/user.html:141
+#: ats/templates/ats/summary/user.html:141 ats/views.py:989
 msgid "user"
 msgstr "ユーザー"
 
@@ -234,7 +234,7 @@ msgid "date"
 msgstr "日"
 
 #: ats/templates/ats/summary/index.html:24
-#: ats/templates/ats/summary/user.html:57
+#: ats/templates/ats/summary/user.html:57 ats/views.py:996
 msgid "username"
 msgstr "ユーザー"
 
@@ -358,6 +358,26 @@ msgstr "トップ - Active Tack Summary へようこそ"
 msgid "Welcome to Active Tack Summary."
 msgstr "Active Tack Summary へようこそ。"
 
-#: ats/views.py:878
+#: ats/views.py:879
 msgid "success change password."
 msgstr "パスワードの変更に成功しました。"
+
+#: ats/views.py:894
+msgid "regist_date"
+msgstr "登録日"
+
+#: ats/views.py:945 ats/views.py:959 ats/views.py:982
+msgid "from date"
+msgstr "開始日"
+
+#: ats/views.py:948 ats/views.py:962 ats/views.py:985
+msgid "to date"
+msgstr "終了日"
+
+#: ats/views.py:954
+msgid "show Task Detail"
+msgstr "作業詳細を表示"
+
+#: ats/views.py:999
+msgid "password"
+msgstr "パスワード"
