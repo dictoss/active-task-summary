@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/
 
 LANGUAGES = [
-    # ("ja", _("Japanese")),
+    ("ja", _("Japanese")),
     ("en", _("English")),
 ]
 

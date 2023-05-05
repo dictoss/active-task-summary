@@ -1,4 +1,4 @@
-# How to install for ver 3.0.0
+# How to install for ver 4.0.0
 
 ## require application
 
@@ -143,6 +143,14 @@ $ sudo -u www-data python3 manage.py createsuperuser
 
 </pre>
 
+
+### compile message catalogs
+
+<pre>
+
+$ sudo -u www-data python3 manage.py compilemessages
+
+</pre>
 
 ### check exec application
 
@@ -332,6 +340,13 @@ $ sudo -u apache python3.9 manage.py createsuperuser
 
 </pre>
 
+### compile message catalogs
+
+<pre>
+
+$ sudo -u apache python3.9 manage.py compilemessages
+
+</pre>
 
 ### check exec application
 
