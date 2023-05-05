@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 4.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-04 16:50+0900\n"
+"POT-Creation-Date: 2023-05-05 10:16+0900\n"
 "PO-Revision-Date: 2023-05-04 16:11+0900\n"
 "Last-Translator: Norimitsu SUGIMOTO <dictoss@live.jp>\n"
 "Language-Team: Norimitsu SUGIMOTO <dictoss@live.jp>\n"
@@ -18,10 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: toolproj/settings/__init__.py:112 toolproj/settings/devel.py:112
+msgid "Japanese"
+msgstr "日本語"
+
 #: toolproj/settings/__init__.py:113 toolproj/settings/devel.py:113
 #: toolproj/settings/production.py:113 toolproj/settings/test.py:113
 msgid "English"
 msgstr "English"
-
-#~ msgid "Japanese"
-#~ msgstr "日本語"

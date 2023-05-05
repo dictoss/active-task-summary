@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 4.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-04 16:50+0900\n"
+"POT-Creation-Date: 2023-05-05 10:33+0900\n"
 "PO-Revision-Date: 2023-05-04 16:11+0900\n"
 "Last-Translator: Norimitsu SUGIMOTO <dictoss@live.jp>\n"
 "Language-Team: Norimitsu SUGIMOTO <dictoss@live.jp>\n"
@@ -19,18 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ats/templates/ats/404.html:3 ats/templates/ats/404.html:9
-msgid "404 NOT FOUND"
-msgstr ""
+msgid "404 PAGE NOT FOUND"
+msgstr "404 ページが見つかりません"
 
 #: ats/templates/ats/500.html:3 ats/templates/ats/500.html:9
 msgid "500 INTERNAL ERROR"
-msgstr ""
+msgstr "500 予期せぬサーバーエラーが発生しました"
 
 #: ats/templates/ats/base.html:11 ats/templates/ats/base.html:27
-#, fuzzy
-#| msgid "Welcome to active tack summary."
 msgid "Active Task Summary"
-msgstr "active tack summary へようこそ"
+msgstr "Active Task Summary"
 
 #: ats/templates/ats/base.html:32 ats/templates/ats/base.html:34
 msgid "login as"
@@ -42,18 +40,14 @@ msgstr "ログアウト"
 
 #: ats/templates/ats/base.html:45
 msgid "Top"
-msgstr ""
+msgstr "トップ"
 
 #: ats/templates/ats/base.html:46 ats/templates/ats/regist/index.html:3
 #: ats/templates/ats/regist/regist.html:3
-#, fuzzy
-#| msgid "regist"
 msgid "Regist"
 msgstr "登録"
 
 #: ats/templates/ats/base.html:47 ats/templates/ats/summary/index.html:3
-#, fuzzy
-#| msgid "summary"
 msgid "Summary"
 msgstr "集計"
 
@@ -93,62 +87,55 @@ msgid "user"
 msgstr "ユーザー"
 
 #: ats/templates/ats/base.html:53 ats/templates/ats/manage/index.html:3
-#, fuzzy
-#| msgid "manage"
 msgid "Manage"
 msgstr "管理"
 
-#: ats/templates/ats/login/login.html:3
-#, fuzzy
-#| msgid "login as"
+#: ats/templates/ats/login/login.html:3 ats/templates/ats/login/login.html:13
 msgid "Login"
-msgstr "ログイン中"
+msgstr "ログイン"
 
 #: ats/templates/ats/login/login.html:16
 msgid "fail login."
-msgstr ""
+msgstr "ログインに失敗しました。"
 
 #: ats/templates/ats/manage/chpasswd.html:3
+#: ats/templates/ats/manage/chpasswd.html:21
+#: ats/templates/ats/manage/index.html:11
 msgid "change password"
-msgstr ""
+msgstr "パスワード変更"
 
 #: ats/templates/ats/manage/chpasswd.html:12
-msgid "Your username and password didn't match. Please try again."
+msgid "Your username or password didn't match. Please try again."
 msgstr ""
-
-#: ats/templates/ats/manage/index.html:11
-msgid "change password "
-msgstr ""
+"あなたのユーザー名またはパスワードが一致しません。もう一度試してください。"
 
 #: ats/templates/ats/manage/index.html:13
 msgid "manage database"
-msgstr ""
+msgstr "データベース管理"
 
 #: ats/templates/ats/query/index.html:3
 msgid "Query"
-msgstr ""
+msgstr "クエリー"
 
 #: ats/templates/ats/query/index.html:10
 msgid "this is query."
-msgstr ""
+msgstr "これはクエリーです。"
 
 #: ats/templates/ats/regist/index.html:10
 msgid "this is regist."
-msgstr ""
+msgstr "これは登録です。"
 
 #: ats/templates/ats/regist/regist.html:10
-msgid "Choice data input date"
-msgstr "入力する日付を選択してください"
+msgid "Select a date for data entry."
+msgstr "データ入力する日付を選択してください。"
 
 #: ats/templates/ats/regist/regist.html:14
 msgid "dateselect"
 msgstr "日付を設定"
 
 #: ats/templates/ats/regist/regist.html:18
-#, fuzzy
-#| msgid "empty data this day."
-msgid "exist data this day"
-msgstr "この日のデータはありません。"
+msgid "registered data the day"
+msgstr "この日の登録済データ"
 
 #: ats/templates/ats/regist/regist.html:18
 msgid "total"
@@ -156,13 +143,15 @@ msgstr "合計"
 
 #: ats/templates/ats/regist/regist.html:18
 #: ats/templates/ats/regist/regist.html:24
+#: ats/templates/ats/regist/regist.html:54
 msgid "hour"
-msgstr ""
+msgstr "時間"
 
 #: ats/templates/ats/regist/regist.html:18
 #: ats/templates/ats/regist/regist.html:24
+#: ats/templates/ats/regist/regist.html:54
 msgid "min"
-msgstr ""
+msgstr "分"
 
 #: ats/templates/ats/regist/regist.html:20
 #: ats/templates/ats/regist/regist.html:49
@@ -180,7 +169,7 @@ msgstr ""
 #: ats/templates/ats/summary/user.html:111
 #: ats/templates/ats/summary/user.html:142
 msgid "task time"
-msgstr ""
+msgstr "作業時間"
 
 #: ats/templates/ats/regist/regist.html:20
 #: ats/templates/ats/regist/regist.html:49
@@ -189,38 +178,33 @@ msgstr ""
 #: ats/templates/ats/summary/user.html:109
 #: ats/templates/ats/summary/user.html:140
 msgid "task"
-msgstr ""
+msgstr "作業"
 
 #: ats/templates/ats/regist/regist.html:20
 #: ats/templates/ats/regist/regist.html:49
 #: ats/templates/ats/summary/user.html:143
 msgid "comment"
-msgstr ""
+msgstr "備考"
 
 #: ats/templates/ats/regist/regist.html:33
-msgid "empty data this day."
+msgid "no data the day."
 msgstr "この日のデータはありません。"
 
 #: ats/templates/ats/regist/regist.html:39
-#: ats/templates/ats/summary/index.html:23
-#: ats/templates/ats/summary/project.html:95
-#: ats/templates/ats/summary/project.html:118
-#: ats/templates/ats/summary/user.html:82
-#: ats/templates/ats/summary/user.html:136
-msgid "date"
-msgstr ""
+msgid "target date"
+msgstr "対象日"
 
 #: ats/templates/ats/regist/regist.html:40
 msgid "please input tasktime."
-msgstr ""
+msgstr "作業時間を入力してください。"
 
 #: ats/templates/ats/regist/regist.html:56
 msgid "more comment."
-msgstr ""
+msgstr "備考を入力してください"
 
 #: ats/templates/ats/regist/regist.html:63
 #: ats/templates/ats/summary/job.html:36 ats/templates/ats/summary/job.html:61
-#: ats/templates/ats/summary/job.html:88
+#: ats/templates/ats/summary/job.html:88 ats/templates/ats/summary/job.html:110
 #: ats/templates/ats/summary/project.html:36
 #: ats/templates/ats/summary/project.html:61
 #: ats/templates/ats/summary/project.html:88
@@ -231,76 +215,85 @@ msgstr ""
 #: ats/templates/ats/summary/user.html:129
 #: ats/templates/ats/summary/user.html:163
 msgid "no data."
-msgstr "データはありません。"
+msgstr "データがありません。"
+
+#: ats/templates/ats/regist/regist.html:65
+msgid "regist"
+msgstr "登録"
 
 #: ats/templates/ats/summary/index.html:10
 msgid "Choice Summary Rule"
-msgstr ""
+msgstr "集計ルールの選択"
+
+#: ats/templates/ats/summary/index.html:23
+#: ats/templates/ats/summary/project.html:95
+#: ats/templates/ats/summary/project.html:118
+#: ats/templates/ats/summary/user.html:82
+#: ats/templates/ats/summary/user.html:136
+msgid "date"
+msgstr "日"
 
 #: ats/templates/ats/summary/index.html:24
 #: ats/templates/ats/summary/user.html:57
-#, fuzzy
-#| msgid "user"
 msgid "username"
 msgstr "ユーザー"
 
 #: ats/templates/ats/summary/job.html:3
-#, fuzzy
-#| msgid "summary"
 msgid "Summary - job"
-msgstr "集計"
+msgstr "集計 - ジョブ"
 
 #: ats/templates/ats/summary/job.html:10
 msgid "Choice Summary Rule (job)"
-msgstr ""
+msgstr "集計ルールの選択 (ジョブ)"
+
+#: ats/templates/ats/summary/job.html:15
+#: ats/templates/ats/summary/project.html:15
+msgid "Submit"
+msgstr "送信"
 
 #: ats/templates/ats/summary/job.html:19
-#, fuzzy
-#| msgid "summary"
 msgid "Job Summary"
-msgstr "集計"
+msgstr "ジョブの集計"
 
 #: ats/templates/ats/summary/job.html:39
 msgid "Month Summary (job)"
-msgstr ""
+msgstr "月の修正 (ジョブ)"
 
 #: ats/templates/ats/summary/job.html:44 ats/templates/ats/summary/job.html:70
 #: ats/templates/ats/summary/project.html:45
 #: ats/templates/ats/summary/user.html:58
 msgid "year"
-msgstr ""
+msgstr "年"
 
 #: ats/templates/ats/summary/job.html:45 ats/templates/ats/summary/job.html:71
 #: ats/templates/ats/summary/project.html:46
 #: ats/templates/ats/summary/project.html:72
 #: ats/templates/ats/summary/user.html:59
 msgid "month"
-msgstr ""
+msgstr "月"
 
 #: ats/templates/ats/summary/job.html:64
 #: ats/templates/ats/summary/project.html:64
 msgid "Month Summary (project, job)"
-msgstr ""
+msgstr "月の集計 (プロジェクト、ジョブ)"
 
 #: ats/templates/ats/summary/job.html:91
 #: ats/templates/ats/summary/project.html:113
 #: ats/templates/ats/summary/user.html:132
 msgid "Task Detail"
-msgstr ""
+msgstr "作業詳細"
 
 #: ats/templates/ats/summary/project.html:3
 msgid "Summary - project"
-msgstr ""
+msgstr "集計 - プロジェクト"
 
 #: ats/templates/ats/summary/project.html:10
-msgid "Choice Summary Rule (Project)"
-msgstr ""
+msgid "Choice Summary Rule (project)"
+msgstr "集計ルールの選択 (プロジェクト)"
 
 #: ats/templates/ats/summary/project.html:19
-#, fuzzy
-#| msgid "Welcome to active tack summary."
 msgid "Total Summary"
-msgstr "active tack summary へようこそ"
+msgstr "全体集計"
 
 #: ats/templates/ats/summary/project.html:24
 #: ats/templates/ats/summary/project.html:44
@@ -311,62 +304,60 @@ msgstr "active tack summary へようこそ"
 #: ats/templates/ats/summary/user.html:107
 #: ats/templates/ats/summary/user.html:138
 msgid "code"
-msgstr ""
+msgstr "コード"
 
 #: ats/templates/ats/summary/project.html:39
 msgid "Month Summary (project)"
-msgstr ""
+msgstr "月の集計 (プロジェクト)"
 
 #: ats/templates/ats/summary/project.html:91
-#, fuzzy
-#| msgid "Welcome to active tack summary."
 msgid "Date Summary"
-msgstr "active tack summary へようこそ"
+msgstr "日の集計"
 
 #: ats/templates/ats/summary/project.html:140
 msgid "no show."
-msgstr ""
+msgstr "表示なし。"
 
 #: ats/templates/ats/summary/user.html:3
 msgid "Summay - user"
-msgstr ""
+msgstr "集計 - ユーザ"
 
 #: ats/templates/ats/summary/user.html:10
 msgid "Choice Summary Rule (user)"
-msgstr ""
+msgstr "集計ルールの選択 (ユーザ)"
+
+#: ats/templates/ats/summary/user.html:15
+msgid "view"
+msgstr "表示"
+
+#: ats/templates/ats/summary/user.html:16
+msgid "export"
+msgstr "出力"
 
 #: ats/templates/ats/summary/user.html:25
-#, fuzzy
-#| msgid "Project"
 msgid "Project Summary"
-msgstr "プロジェクト"
+msgstr "プロジェクトの集計"
 
 #: ats/templates/ats/summary/user.html:53
-#, fuzzy
-#| msgid "summary"
 msgid "Month Summary"
-msgstr "集計"
+msgstr "月の集計"
 
 #: ats/templates/ats/summary/user.html:78
 msgid "Date Summray"
-msgstr ""
+msgstr "日の集計"
 
 #: ats/templates/ats/summary/user.html:102
-#, fuzzy
-#| msgid "Welcome to active tack summary."
 msgid "Task Summary"
-msgstr "active tack summary へようこそ"
+msgstr "作業の集計"
 
 #: ats/templates/ats/top/index.html:3
-msgid "Top - welcome to active tack summary."
-msgstr ""
+msgid "Top - Welcome to Active Tack Summary"
+msgstr "トップ - Active Tack Summary へようこそ"
 
-#, fuzzy
-#~| msgid "project"
-#~ msgid "roject"
-#~ msgstr "プロジェクト"
+#: ats/templates/ats/top/index.html:10
+msgid "Welcome to Active Tack Summary."
+msgstr "Active Tack Summary へようこそ。"
 
-#, fuzzy
-#~| msgid "regist_date"
-#~ msgid "select regist date"
-#~ msgstr "登録日"
+#: ats/views.py:878
+msgid "success change password."
+msgstr "パスワードの変更に成功しました。"
