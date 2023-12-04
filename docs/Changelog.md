@@ -10,6 +10,12 @@
 
 ## version 4.x
 
+### version 4.1.0
+
+- security fix release.
+  - update djangpo-4.2.8
+- switch psycopg2-binary from psycopg2.
+
 ### version 4.0.0
 
 - major release.
