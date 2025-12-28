@@ -9,6 +9,15 @@ a web application of input and summary task time by team member.
 
 # Develop Environment
 
+## for 5.x series
+
+- Debian GNU/Linux 12 (bookworm) amd64
+- Django 5.2 series
+- python 3.11.2
+- apache 2.4
+- python3-psycopg2 2.9.5
+- postgresql-15
+
 ## for 4.x series
 
 - Debian GNU/Linux 11 (bullseye) amd64
